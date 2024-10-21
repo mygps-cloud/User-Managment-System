@@ -2,14 +2,14 @@ namespace ipstatuschecker;
 
 public class IpCheckViewModel
 {
-    public string? UserIpAddress { get; set; }
-    public string? UserName { get; set; } 
-    public List<IpStatus>? IpAddresses { get; set; }
+    public string? UserIpAddress { get; set; }=null;
+    public string? UserName { get; set; } =null;
+    public List<IpStatus>? IpAddresses { get; set; } = null;
 }
 
 public class IpStatus
 {
-    public string? IpAddress { get; set; }
-    public string? Status { get; set; }
+    public string? IpAddress { get; set; }=null;
+    public string? Status { get; set; }=null;
 }
 

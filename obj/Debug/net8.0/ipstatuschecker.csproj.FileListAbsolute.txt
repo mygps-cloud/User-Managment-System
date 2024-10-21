@@ -28,3 +28,4 @@
 /home/neo/Desktop/C#/ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.pdb
 /home/neo/Desktop/C#/ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.genruntimeconfig.cache
 /home/neo/Desktop/C#/ipstatuschecker/obj/Debug/net8.0/ref/ipstatuschecker.dll
+/home/neo/Desktop/C#/ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.sourcelink.json

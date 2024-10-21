@@ -11,24 +11,43 @@ namespace ipstatuschecker.Controllers
     public class HomeController : Controller
     {
 
- private readonly PingBackgroundService _pingBackgroundService;
+ private readonly PingService _pingBackgroundService;
 
-    public HomeController(PingBackgroundService pingBackgroundService)
+    public HomeController(PingService pingBackgroundService)
     {
         _pingBackgroundService = pingBackgroundService;
     }
 
     public IActionResult Index()
     {
-        var model = _pingBackgroundService.GetIpStatuses(); // IP სტატუსების მიღება
-        return View(model);
+      
+        return View();
     }
        
             public async Task<IActionResult> Privacy()
             {
-               
-                return View("Privacy"); 
+                
+           var ipList = new List<IpStatus>
+            {
+                new IpStatus { IpAddress = "192.168.100.2", Status = "Unknown" },
+                new IpStatus { IpAddress = "192.168.1.3", Status = "Unknown" },
+                new IpStatus { IpAddress = "192.168.100.4", Status = "Unknown" }
+            };
+
+                 var model = new IpCheckViewModel
+            {
+                UserIpAddress = "Your IP Address Here", 
+                IpAddresses = ipList,
+                UserName = "Your User Name"
+            };
+                return View("Privacy",model); 
             }
+                [HttpGet]
+                public async Task<IActionResult> PingIp2(string ipAddress)
+                {
+                    var status = await _pingBackgroundService.PingIp(ipAddress);
+                    return Json(new { status = status ? "Online" : "Offline" });
+                }
 
 
              [HttpGet]
