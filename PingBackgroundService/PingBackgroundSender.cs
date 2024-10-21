@@ -1,4 +1,5 @@
 using ipstatuschecker;
+using Ipstatuschecker.interfaces;
 using System.Net.NetworkInformation;
 
 
@@ -10,8 +11,9 @@ public class PingBackgroundService : BackgroundService
 {
     private readonly ILogger<PingBackgroundService> _logger;
     private readonly List<IpStatus> _ipList;
+    private readonly Iservices<IpStatus> iservices;
 
-    public PingBackgroundService(ILogger<PingBackgroundService> logger)
+    public PingBackgroundService(ILogger<PingBackgroundService> logger,Iservices<IpStatus> iservices)
     {
         _logger = logger;
 

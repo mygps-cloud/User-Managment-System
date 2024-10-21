@@ -1,6 +1,10 @@
 
-
-using ipstatuschecker;
+using ipstatuschecker.PingServices;
+using Ipstatuschecker.DomainEntity;
+using Ipstatuschecker.Dto;
+using Ipstatuschecker.interfaces;
+using Ipstatuschecker.Interfaces;
+using Ipstatuschecker.Services;
 using PingBackgroundServic;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHostedService<PingBackgroundService>();
 builder.Services.AddScoped<PingService>();
+builder.Services.AddScoped<IQueryIpStatusRepository<User>>();
+builder.Services.AddScoped<ICommandIpStatusRepository<User>>();
+
+builder.Services.AddScoped<Iservices<UserDto>, ServiceIpStatus>();
+
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
