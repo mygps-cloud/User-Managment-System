@@ -11,46 +11,34 @@ namespace ipstatuschecker.Controllers
     public class HomeController : Controller
     {
 
- private readonly PingService _pingBackgroundService;
 
-    public HomeController(PingService pingBackgroundService)
-    {
-        _pingBackgroundService = pingBackgroundService;
-    }
+ private readonly PingService PingService;
 
-    public IActionResult Index()
+    public HomeController(PingService PingService)
     {
-      
-        return View();
+      this.PingService = PingService;
     }
+public async Task<IActionResult> Index()
+{
+    var model = await Dai(); 
+    return View(model);
+}
+
+
        
-            public async Task<IActionResult> Privacy()
-            {
-                
-           var ipList = new List<IpStatus>
-            {
-                new IpStatus { IpAddress = "192.168.100.2", Status = "Unknown" },
-                new IpStatus { IpAddress = "192.168.1.3", Status = "Unknown" },
-                new IpStatus { IpAddress = "192.168.100.4", Status = "Unknown" }
-            };
+    
+        [HttpGet]
+  public async Task<IActionResult> PingIp2(string ipAddress)
+      {
+     //database
+        
+     var status = await PingService.PingIp(ipAddress);
+     
+    return Json(new { status = status ? "Online" : "Offline" });
+  
+     }
 
-                 var model = new IpCheckViewModel
-            {
-                UserIpAddress = "Your IP Address Here", 
-                IpAddresses = ipList,
-                UserName = "Your User Name"
-            };
-                return View("Privacy",model); 
-            }
-                [HttpGet]
-                public async Task<IActionResult> PingIp2(string ipAddress)
-                {
-                    var status = await _pingBackgroundService.PingIp(ipAddress);
-                    return Json(new { status = status ? "Online" : "Offline" });
-                }
-
-
-             [HttpGet]
+    [HttpGet]
             public async Task<IActionResult> GetIpStatus()
             {
                 var model = await Dai(); 
@@ -60,9 +48,10 @@ namespace ipstatuschecker.Controllers
 
         private async Task<IpCheckViewModel> Dai()
         {
+              //database
             var ipList = new List<IpStatus>
             {
-                new IpStatus { IpAddress = "192.168.100.2", Status = "Unknown" },
+                new IpStatus { IpAddress = "192.168.1.94", Status = "Unknown" },
                 new IpStatus { IpAddress = "192.168.1.3", Status = "Unknown" },
                 new IpStatus { IpAddress = "192.168.100.4", Status = "Unknown" }
             };
@@ -84,6 +73,7 @@ namespace ipstatuschecker.Controllers
             };
 
             return model; 
+            
         }
 
         private async Task<bool> PingIp(string ipAddress)

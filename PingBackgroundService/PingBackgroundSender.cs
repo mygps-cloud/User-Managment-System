@@ -1,5 +1,4 @@
 using ipstatuschecker;
-using Microsoft.Extensions.Hosting;
 using System.Net.NetworkInformation;
 
 

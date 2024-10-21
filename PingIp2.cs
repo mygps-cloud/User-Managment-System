@@ -18,7 +18,7 @@ namespace ipstatuschecker
             }
             catch (Exception ex)
             {
-                // აქ შეგიძლიათ შეცდომის ლოგირება ან გამოტანა
+              
                 Console.WriteLine($"Ping error for {ipAddress}: {ex.Message}");
                 return false;
             }

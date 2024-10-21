@@ -1,8 +1,137 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+        }
+        .ip-box {
+            padding: 20px;
+            border: 2px solid #ddd;
+            display: inline-block;
+            background-color: #f5f5f5;
+            margin-top: 20px;
+        }
+        .ip-address {
+            font-size: 24px;
+            color: #333;
+        }
+        .ip-list {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .ip-item {
+            display: flex; 
+            justify-content: space-between; 
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .online {
+            color: green;
+        }
+        .offline {
+            color: red;
+        }
+        .ip-label {
+            flex: 1; 
+        }
+        .status-label {
+            flex: 1; 
+            text-align: right;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        async function fetchIpStatus() 
+        {
+            const loadingIndicator = document.getElementById('loading');
+            loadingIndicator.style.display = 'block'; 
+
+            try {
+                const response = await fetch('/Home/GetIpStatus'); 
+                const data = await response.json();
+
+                const ipListDiv = document.querySelector('.ip-list');
+                ipListDiv.innerHTML = ''; 
+
+                data.ipAddresses.forEach(ip => {
+                    const item = document.createElement('div');
+                    item.className = 'ip-item';
+                    item.innerHTML = `
+                        <p class="ip-label"><strong>IP Address:</strong> ${ip.ipAddress}</p>
+                        <p class="status-label">Status: <span class="${ip.status.toLowerCase()}">${ip.status}</span></p>
+                        <button onclick="pingIp('${ip.ipAddress}')">Ping IP</button>
+                    `;
+                    ipListDiv.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error('Error fetching IP status:', error);
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+       
+         async function pingIp(ipAddress) {
+            try {
+                const response = await fetch(`/Home/PingIp2?ipAddress=${ipAddress}`);
+                const data = await response.json();
+                alert(`Ping result for ${ipAddress}: ${data.status}`);
+            } catch (error) {
+                console.error('Error pinging IP:', error);
+            }
+        }
+
+        
+        setInterval(fetchIpStatus, 9000);
+
+        window.onload = fetchIpStatus;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Your IP Address</h2>
+        <div class="ip-box">
+            <p>Your IP address is:</p>
+            <p class="ip-address">@Model.UserIpAddress</p>
+        </div>
+
+        <div id="loading" style="display: none;">Loading IP addresses...</div>
+
+        <div class="ip-list">
+            <h2>Colleagues' IP Addresses</h2>
+            @foreach (var ip in Model.IpAddresses)
+            {
+                <div class="ip-item">
+                    <p class="ip-label"><strong>IP Address:</strong> @ip.IpAddress</p>
+                    <p class="status-label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
+                    <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
