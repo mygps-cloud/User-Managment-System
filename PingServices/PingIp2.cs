@@ -2,7 +2,7 @@ using System;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
-namespace ipstatuschecker
+namespace ipstatuschecker.PingServices
 {
     public class PingService
     {
