@@ -9,7 +9,9 @@ public class IpCheckViewModel
 
 public class IpStatus
 {
+     public int? Id { get; set; }
     public string? IpAddress { get; set; }=null;
     public string? Status { get; set; }=null;
+     public string? UserName { get; set; } =null;
 }
 

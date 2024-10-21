@@ -25,9 +25,8 @@ public async Task<IActionResult> Index()
 }
 
 
-       
     
-        [HttpGet]
+[HttpGet]
   public async Task<IActionResult> PingIp2(string ipAddress)
       {
      //database
@@ -52,8 +51,9 @@ public async Task<IActionResult> Index()
             var ipList = new List<IpStatus>
             {
                 new IpStatus { IpAddress = "192.168.1.94", Status = "Unknown" },
-                new IpStatus { IpAddress = "192.168.1.3", Status = "Unknown" },
-                new IpStatus { IpAddress = "192.168.100.4", Status = "Unknown" }
+                new IpStatus { IpAddress = "192.168.1.106", Status = "Unknown" },
+                new IpStatus { IpAddress = "192.168.1.75", Status = "Unknown" },
+                 new IpStatus { IpAddress = "192.168.1.123", Status = "Unknown" }
             };
 
            
