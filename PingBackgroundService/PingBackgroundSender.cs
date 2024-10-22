@@ -13,7 +13,7 @@ public class PingBackgroundService : BackgroundService
     private readonly List<IpStatus> _ipList;
     private readonly Iservices<IpStatus> iservices;
 
-    public PingBackgroundService(ILogger<PingBackgroundService> logger,Iservices<IpStatus> iservices)
+    public PingBackgroundService(ILogger<PingBackgroundService> logger)
     {
         _logger = logger;
 

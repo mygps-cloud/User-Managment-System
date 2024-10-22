@@ -4,6 +4,6 @@ namespace Ipstatuschecker.Interfaces
     {
         Task<T> GetByIdAsync(int id);
         Task<T> GetByNameAsync(string name); 
-          Task<List<T>> GetAll(); 
+        Task<List<T>> GetAll(); 
     }
 }

@@ -12,12 +12,16 @@ namespace ipstatuschecker.Controllers
     {
 
 
+
 //  private readonly PingService PingService;
 
 //     public HomeController(PingService PingService)
 //     {
 //       this.PingService = PingService;
 //     }
+
+
+
 public async Task<IActionResult> Index()
 {
     var model = await Dai(); 
