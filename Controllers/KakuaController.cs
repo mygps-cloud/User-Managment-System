@@ -11,12 +11,27 @@ namespace Controllers
     {
 
 
-        
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [HttpGet("users")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var result = await iservices.GetAllUsers();
+                Console.WriteLine(result);
+                
+                if (result == null || !result.Any())
+                {
+                    return NotFound("No users found.");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
@@ -26,8 +41,11 @@ namespace Controllers
 
 
 [HttpPost]
-public async Task<IActionResult> Create([FromBody] UserDto userDto)
+[Route("Create")]
+public async Task<IActionResult> Create([FromForm] UserDto userDto)
+
 {
+
     if (userDto == null)
     {
         return BadRequest("User data is null.");
@@ -39,14 +57,15 @@ public async Task<IActionResult> Create([FromBody] UserDto userDto)
         return StatusCode(500, "Internal server error while creating the user.");
     }
 
-    
-    return Ok(userDto); // ან შეგიძლიათ დაბრუნოთ RedirectToAction("Index");
+  
+    return CreatedAtAction(nameof(Create), new { id = userDto.Id }, userDto);
 }
 
 
 
+
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromForm] string value)
         {
         }
 
@@ -54,5 +73,13 @@ public async Task<IActionResult> Create([FromBody] UserDto userDto)
         public void Delete(int id)
         {
         }
+
+
+//=================================================================//
+        public async Task<IActionResult> robika()
+            {
+                
+                return View();
+            }
     }
 }

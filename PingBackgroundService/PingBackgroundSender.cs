@@ -23,6 +23,7 @@ public class PingBackgroundService : BackgroundService
             new IpStatus { IpAddress = "192.168.100.2", Status = "Unknown" },
             new IpStatus { IpAddress = "192.168.1.3", Status = "Unknown" },
             new IpStatus { IpAddress = "192.168.100.4", Status = "Unknown" }
+            , new IpStatus { IpAddress = "192.168.1.71", Status = "Unknown" }
         };
     }
 

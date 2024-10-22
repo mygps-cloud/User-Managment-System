@@ -29,11 +29,11 @@ public async Task<IActionResult> Index()
 }
 
 
-public async Task<IActionResult> robika()
-{
+// public async Task<IActionResult> robika()
+// {
      
-    return View();
-}
+//     return View();
+// }
     
 // [HttpGet]
 //   public async Task<IActionResult> PingIp2(string ipAddress)
@@ -46,7 +46,7 @@ public async Task<IActionResult> robika()
   
 //      }
 
-    [HttpGet]
+ 
             public async Task<IActionResult> GetIpStatus()
             {
                 var model = await Dai(); 
@@ -62,7 +62,8 @@ public async Task<IActionResult> robika()
                 new IpStatus { IpAddress = "192.168.1.94", Status = "Unknown" },
                 new IpStatus { IpAddress = "192.168.1.106", Status = "Unknown" },
                 new IpStatus { IpAddress = "192.168.1.75", Status = "Unknown" },
-                 new IpStatus { IpAddress = "192.168.1.123", Status = "Unknown" }
+                 new IpStatus { IpAddress = "192.168.1.123", Status = "Unknown" },
+                  new IpStatus { IpAddress = "192.168.1.71", Status = "Unknown" }
             };
 
            
