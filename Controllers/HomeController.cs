@@ -2,13 +2,15 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Net.NetworkInformation;
+using Ipstatuschecker.interfaces;
+using Ipstatuschecker.Dto;
 
 
 namespace ipstatuschecker.Controllers
 {
   
 
-    public class HomeController : Controller
+    public class HomeController(Iservices<UserDto> iservices) : Controller
     {
 
 
@@ -54,37 +56,57 @@ public async Task<IActionResult> Index()
             }
 
 
-        private async Task<IpCheckViewModel> Dai()
+     private async Task<IEnumerable<UserDto>> Dai()
+{
+    var users = await iservices.GetAllUsers();
+    
+    Console.WriteLine(users);
+    var userDtos = new List<UserDto>();
+
+    var tasks = users.Select(async user =>
+    {
+        var userDto = new UserDto
         {
-              //database
-            var ipList = new List<IpStatus>
-            {
-                new IpStatus { IpAddress = "192.168.1.94", Status = "Unknown" },
-                new IpStatus { IpAddress = "192.168.1.106", Status = "Unknown" },
-                new IpStatus { IpAddress = "192.168.1.75", Status = "Unknown" },
-                 new IpStatus { IpAddress = "192.168.1.123", Status = "Unknown" },
-                  new IpStatus { IpAddress = "192.168.1.71", Status = "Unknown" }
-            };
+            Id = user.Id,
+            Name = user.Name,
+            IpStatuses = new List<IpStatusDto>(),
+            Devices = new List<DeviceDto>()
+        };
+
+        foreach (var ipStatus in user.IpStatuses)
+        {
+            string ipAddress = ipStatus.IpAddress;
 
            
-            var tasks = ipList.Select(async ip =>
-            {
-                ip.Status = await PingIp(ip.IpAddress) ? "Online" : "Offline";
-                return ip; 
+            string status = await PingIp(ipAddress) ? "Online" : "Offline";
+
+            userDto.IpStatuses.Add(new IpStatusDto 
+            { 
+                IpAddress = ipAddress, 
+                Status = status 
             });
-
-            await Task.WhenAll(tasks); 
-
-            var model = new IpCheckViewModel
-            {
-                UserIpAddress = "Your IP Address Here", 
-                IpAddresses = ipList,
-                UserName = "Your User Name"
-            };
-
-            return model; 
-            
         }
+
+       
+        foreach (var device in user.Devices)
+        {
+            userDto.Devices.Add(new DeviceDto
+            {
+                DeviceNames = device.DeviceNames 
+            });
+        }
+
+        userDtos.Add(userDto);
+    });
+
+  
+    await Task.WhenAll(tasks);
+
+    return userDtos; 
+}
+       
+          
+
 
         private async Task<bool> PingIp(string ipAddress)
         {
