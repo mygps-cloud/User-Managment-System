@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ipstatuschecker.PingServices
 {
-    public class PingService
+    public class PingIp2
     {
         public async Task<bool> PingIp(string ipAddress)
         {

@@ -11,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHostedService<PingBackgroundService>();
-builder.Services.AddScoped<PingService>();
+// builder.Services.AddHostedService<PingBackgroundService>();
+// builder.Services.AddScoped<PingService>();
 builder.Services.AddScoped<IQueryIpStatusRepository<User>>();
 builder.Services.AddScoped<ICommandIpStatusRepository<User>>();
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj": {}
+    "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj": {}
   },
   "projects": {
-    "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj": {
+    "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj",
+        "projectUniqueName": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
         "projectName": "ipstatuschecker",
-        "projectPath": "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj",
+        "projectPath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
         "packagesPath": "/home/neo/.nuget/packages/",
-        "outputPath": "/home/neo/Desktop/C#/ipstatuschecker/obj/",
+        "outputPath": "/home/neo/Desktop/C#/Ipstatuschecker/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/neo/.nuget/NuGet/NuGet.Config"

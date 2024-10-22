@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9bFvS0KgPxY=",
+  "dgSpecHash": "1XUCbYoudLM=",
   "success": true,
-  "projectFilePath": "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj",
+  "projectFilePath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
   "expectedPackageFiles": [
     "/home/neo/.nuget/packages/microsoft.data.sqlite/8.0.10/microsoft.data.sqlite.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.data.sqlite.core/8.0.10/microsoft.data.sqlite.core.8.0.10.nupkg.sha512",

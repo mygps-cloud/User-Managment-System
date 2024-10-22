@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using ipstatuschecker.Models;
+
 using System.Net.NetworkInformation;
-using PingBackgroundServic;
+
 
 namespace ipstatuschecker.Controllers
 {
@@ -12,12 +12,12 @@ namespace ipstatuschecker.Controllers
     {
 
 
- private readonly PingService PingService;
+//  private readonly PingService PingService;
 
-    public HomeController(PingService PingService)
-    {
-      this.PingService = PingService;
-    }
+//     public HomeController(PingService PingService)
+//     {
+//       this.PingService = PingService;
+//     }
 public async Task<IActionResult> Index()
 {
     var model = await Dai(); 
@@ -25,17 +25,22 @@ public async Task<IActionResult> Index()
 }
 
 
-    
-[HttpGet]
-  public async Task<IActionResult> PingIp2(string ipAddress)
-      {
-     //database
-        
-     var status = await PingService.PingIp(ipAddress);
+public async Task<IActionResult> robika()
+{
      
-    return Json(new { status = status ? "Online" : "Offline" });
+    return View();
+}
+    
+// [HttpGet]
+//   public async Task<IActionResult> PingIp2(string ipAddress)
+//       {
+//      //database
+        
+//      var status = await PingService.PingIp(ipAddress);
+     
+//     return Json(new { status = status ? "Online" : "Offline" });
   
-     }
+//      }
 
     [HttpGet]
             public async Task<IActionResult> GetIpStatus()
