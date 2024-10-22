@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj": {}
+    "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj": {}
   },
   "projects": {
-    "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj": {
+    "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj",
+        "projectUniqueName": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
         "projectName": "ipstatuschecker",
-        "projectPath": "/home/neo/Desktop/C#/ipstatuschecker/ipstatuschecker.csproj",
+        "projectPath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
         "packagesPath": "/home/neo/.nuget/packages/",
-        "outputPath": "/home/neo/Desktop/C#/ipstatuschecker/obj/",
+        "outputPath": "/home/neo/Desktop/C#/Ipstatuschecker/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/neo/.nuget/NuGet/NuGet.Config"
@@ -32,16 +32,31 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

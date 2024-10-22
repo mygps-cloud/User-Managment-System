@@ -9,39 +9,47 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ipstatuschecker
 build_property.RootNamespace = ipstatuschecker
-build_property.ProjectDir = /home/neo/Desktop/C#/ipstatuschecker/
+build_property.ProjectDir = /home/neo/Desktop/C#/Ipstatuschecker/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/neo/Desktop/C#/ipstatuschecker
+build_property.MSBuildProjectDirectory = /home/neo/Desktop/C#/Ipstatuschecker
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/Home/Index.cshtml]
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Home/robika.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9yb2Jpa2EuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/Shared/Error.cshtml]
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Kakua/allusers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvS2FrdWEvYWxsdXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Kakua/robika.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvS2FrdWEvcm9iaWthLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/Shared/_ValidationScriptsPartial.cshtml]
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/_ViewImports.cshtml]
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/_ViewStart.cshtml]
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/ipstatuschecker/Views/Shared/_Layout.cshtml]
+[/home/neo/Desktop/C\#/Ipstatuschecker/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-p22t6q6ae6

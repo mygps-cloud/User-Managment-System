@@ -1,0 +1,59 @@
+﻿@model List<Ipstatuschecker.Dto.UserDto>
+
+@{
+    ViewBag.Title = "მომხმარებლების სიები";
+}
+
+<h2>მომხმარებლების სიები</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>მომხმარებლის ID</th>
+            <th>მომხმარებლის სახელი</th>
+            <th>მოწყობილობები</th>
+            <th>IP მისამართები</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Name</td>
+                <td>
+                    @if (user.Devices != null && user.Devices.Any())
+                    {
+                        <ul>
+                            @foreach (var device in user.Devices)
+                            {
+                                <li>@device.DeviceNames</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>არ არის მოწყობილობები</span>
+                    }
+                </td>
+                <td>
+                    @if (user.IpStatuses != null && user.IpStatuses.Any())
+                    {
+                        <ul>
+                            @foreach (var ipStatus in user.IpStatuses)
+                            {
+                                <li>@ipStatus.IpAddress - @ipStatus.Status</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>არ არის IP მისამართები</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

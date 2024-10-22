@@ -1,0 +1,65 @@
+@model Ipstatuschecker.Dto.UserDto
+
+
+
+<form asp-controller="Kakua" asp-action="Create" method="post">
+ <div class="form-group">
+ <label for="Name">User Name</label>
+ <input type="text" class="form-control" id="Name" name="Name" required />
+ </div>
+
+
+ <div id="devices-container">
+ <div class="device-pair">
+ <div class="form-group">
+ <label for="Devices[0].DeviceNames">Device Name</label>
+ <input type="text" class="form-control" name="Devices[0].DeviceNames" required />
+ </div>
+ <div class="form-group">
+ <label for="IpStatuses[0].IpAddress">IP Address</label>
+ <input type="text" class="form-control" name="IpStatuses[0].IpAddress" required />
+ </div>
+ <div class="form-group">
+ <label for="IpStatuses[0].Status">Status</label>
+ <select class="form-control" name="IpStatuses[0].Status">
+ <option value="Offline">Offline</option>
+ </select>
+ </div>
+ </div>
+ </div>
+
+ <button type="button" class="btn btn-secondary" id="add-device">Add New Device</button>
+
+ <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+@section Scripts {
+ <script>
+ let deviceCount = 1;
+ document.getElementById('add-device').addEventListener('click', function () {
+ deviceCount++;
+
+ const deviceContainer = document.createElement('div');
+ deviceContainer.classList.add('device-pair');
+ deviceContainer.innerHTML = `
+ <div class="form-group">
+ <label for="Devices[${deviceCount - 1}].DeviceNames">Device ${deviceCount}</label>
+ <input type="text" class="form-control" name="Devices[${deviceCount - 1}].DeviceNames" required />
+ </div>
+ <div class="form-group">
+ <label for="IpStatuses[${deviceCount - 1}].IpAddress">IP address</label>
+ <input type="text" class="form-control" name="IpStatuses[${deviceCount - 1}].IpAddress" required />
+ </div>
+ <div class="form-group">
+ <label for="IpStatuses[${deviceCount - 1}].Status">Status</label>
+ <select class="form-control" name="IpStatuses[${deviceCount - 1}].Status">
+ <option value="Online">Active</option>
+ <option value="Offline">Inactive</option>
+ </select>
+ </div>
+ `;
+
+ document.getElementById('devices-container').appendChild(deviceContainer);
+ });
+ </script>
+}

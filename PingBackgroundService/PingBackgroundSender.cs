@@ -1,5 +1,5 @@
 using ipstatuschecker;
-using Microsoft.Extensions.Hosting;
+using Ipstatuschecker.interfaces;
 using System.Net.NetworkInformation;
 
 
@@ -11,6 +11,7 @@ public class PingBackgroundService : BackgroundService
 {
     private readonly ILogger<PingBackgroundService> _logger;
     private readonly List<IpStatus> _ipList;
+    private readonly Iservices<IpStatus> iservices;
 
     public PingBackgroundService(ILogger<PingBackgroundService> logger)
     {
@@ -22,6 +23,7 @@ public class PingBackgroundService : BackgroundService
             new IpStatus { IpAddress = "192.168.100.2", Status = "Unknown" },
             new IpStatus { IpAddress = "192.168.1.3", Status = "Unknown" },
             new IpStatus { IpAddress = "192.168.100.4", Status = "Unknown" }
+            , new IpStatus { IpAddress = "192.168.1.71", Status = "Unknown" }
         };
     }
 
