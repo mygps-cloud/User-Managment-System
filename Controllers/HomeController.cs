@@ -80,7 +80,7 @@ public async Task<IActionResult> Index()
 {
     var users = await iservices.GetAllUsers();
     
-    Console.WriteLine(users);
+    // Console.WriteLine(users);
     var userDtos = new List<UserDto>();
 
     var tasks = users.Select(async user =>

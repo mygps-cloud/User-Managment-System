@@ -128,9 +128,9 @@
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/ipstatuschecker.styles.css
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/ipstatuschecker.bundle.scp.css
-/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.csproj.CopyComplete
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.dll
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/refint/ipstatuschecker.dll
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.pdb
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.genruntimeconfig.cache
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ref/ipstatuschecker.dll
+/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatus.CA3CD244.Up2Date

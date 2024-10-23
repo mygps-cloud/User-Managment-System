@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -91,70 +91,32 @@
                     
                     <p class="user-name">@user.Name</p>
                 </div>
-@foreach (var ip in user.IpStatuses)
-{
-    <div class="item">
-        <div>
-            <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
-
-            @{
-                var devices = user.Devices as IEnumerable<Ipstatuschecker.Dto.DeviceDto>;
-                var filteredDevices = devices?
-                    .Where(d => d.IpStatusId == ip.Id) 
-                    .ToList();
-
-                if (filteredDevices != null && filteredDevices.Any())
-                {
-                    foreach (var device in filteredDevices)
-                    {
-                        <p class="label"><strong>Device:</strong> @device.DeviceNames</p>
-                    }
-                }
-                else
-                {
-                    <span>No devices available.</span>
-                }
-            }
-        </div>
-
-        <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
-        <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
-    </div>
-}
-
-
-
-                    @* @foreach (var ip in user.IpStatuses)
+                    @foreach (var ip in user.IpStatuses)
                     {
                         <div class="item">
                             <div>
                                 <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
-
-
-                        @{
-                     var devices = user.Devices as IEnumerable<Ipstatuschecker.Dto.DeviceDto>;
-                     var filteredDevice = devices?
-                    .FirstOrDefault(d => d.Id == ip.Id);
-
-                            
-                            if (filteredDevice != null)
-                            {
-                                <p class="label"><strong>Device:</strong> @filteredDevice.DeviceNames</p>
-                            }
-                            else
-                            {
-                                <span>No devices available.</span>
-                            }
-                        }
-
-
-                                
+                                   <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
+                           
+                                <p class="label"><strong>Devices:</strong>
+                                    @{
+                                        var devices = user.Devices as List<Ipstatuschecker.Dto.DeviceDto>;
+                                    }
+                                    @if (devices != null && devices.Any())
+                                    {
+                                        @string.Join(", ", devices.Select(d => d.DeviceNames))
+                                    }
+                                    else
+                                    {
+                                        <span>No devices available.</span>
+                                    }
+                                     <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
+                                </p>
                             </div>
 
-                            <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
-                            <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
+                         
                         </div>
-                    } *@
+                    }
                 </div>
 
                
