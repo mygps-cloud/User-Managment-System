@@ -17,12 +17,12 @@ namespace Ipstatuschecker.Persistence
              throw new Exception("User is empty");
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int Id)
         {
             return await context.Users.
             Include(param=>param.Devices).
             Include(param=>param.IpStatuses).
-            AsNoTracking().FirstOrDefaultAsync(X=>id==id)??
+            AsNoTracking().FirstOrDefaultAsync(X=>Id==Id)??
             throw new Exception("User Id not found");
         }
 

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+@using Ipstatuschecker.Dto
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,90 +9,92 @@
     <title>IP Checker</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
         }
 
         .container {
-            width:100%;
-            margin: auto;
+        width:100%;
+        margin: auto;
         }
 
         .user-name-wrapper {
-           display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: initial;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: initial;
         }
 
         .user-box {
 
-            padding: 10px;
-            border: 2px solid #ddd;
-            background-color: #f5f5f5;
-            margin-top: 20px;
+        padding: 10px;
+        border: 2px solid #ddd;
+        background-color: #f5f5f5;
+        margin-top: 20px;
         }
 
         .user-name {
-            font-size: 24px;
-            color: #333;
+        font-size: 24px;
+        color: #333;
         }
 
         .ip-list,
         .device-list {
-            margin-top: 30px;
-            text-align: left;
+        margin-top: 30px;
+        text-align: left;
         }
 
         .item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
         }
 
         .online {
-            color: green;
+        color: green;
         }
 
         .offline {
-            color: red;
+        color: red;
         }
 
         .label {
-            flex: 1;
+        flex: 1;
         }
 
         button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
         }
 
         button:hover {
-            background-color: #0056b3;
+        background-color: #0056b3;
         }
     </style>
 </head>
 
 <body>
+
+
     <div class="container">
- 
+
 
         @foreach (var user in Model)
         {
             <div class="user-box">
-              
+
                 <div class="ip-list">
-                  <div class="user-name-wrapper">
-                    
-                    <p class="user-name">@user.Name</p>
-                </div>
+                    <div class="user-name-wrapper">
+
+                        <p class="user-name">@user.Name</p>
+                    </div>
                     @foreach (var ip in user.IpStatuses)
                     {
                         <div class="item">
@@ -98,11 +102,16 @@
                                 <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
                                 <p class="label"><strong>Devices:</strong>
                                     @{
-                                        var devices = user.Devices as List<Ipstatuschecker.Dto.DeviceDto>;
+                                    
+                                        var Ip = user.IpStatus as List<IpStatusDto>;
                                     }
-                                    @if (devices != null && devices.Any())
+                                    @if (Ip != null && Ip.Any())
                                     {
-                                        @string.Join(", ", devices.Select(d => d.DeviceNames))
+                                        
+                                        @string.Join(", ", Ip.Select(d => d.DeviceDto.DeviceNames))
+                                     
+                                         
+                                        
                                     }
                                     else
                                     {
@@ -120,7 +129,10 @@
                
             </div>
         }
-    </div>
+    </div> 
 </body>
 
 </html>
+
+
+

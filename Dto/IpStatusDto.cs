@@ -8,11 +8,14 @@ namespace Ipstatuschecker.Dto
 
         [Required(ErrorMessage = "IP Address is required.")]
         [RegularExpression(@"^(\d{1,3}\.){3}\d{1,3}$", ErrorMessage = "Invalid IP Address format.")]
-        public string? IpAddress { get; set; }
-
-        public string? Status { get; set; }
-
        
-        public int? UserId { get; set; }
+    public string? IpAddress { get; set; }
+    public string? Status { get; set; }
+    
+    public int? DeviceId { get; set; }
+    public DeviceDto? Device { get; set; } 
+   
+    
+   
     }
 }

@@ -16,7 +16,7 @@ namespace Ipstatuschecker.DbContextSql
 {
     modelBuilder.Entity<User>()
         .HasMany(u => u.IpStatuses)
-        .WithOne(i => i.User)
+        .WithOne(i => i._User)
         .HasForeignKey(i => i.UserId)
         .OnDelete(DeleteBehavior.Cascade);
 
@@ -25,6 +25,13 @@ namespace Ipstatuschecker.DbContextSql
         .WithOne(d => d.User)
         .HasForeignKey(d => d.UserId)
         .OnDelete(DeleteBehavior.Cascade);
+
+   modelBuilder.Entity<IpStatus>()
+    .HasOne(u => u._Device) 
+    .WithOne(d => d.IpStatus) 
+    .HasForeignKey<Device>(d => d.IpStatusId) 
+    .OnDelete(DeleteBehavior.Cascade);
+
 }
 
 }

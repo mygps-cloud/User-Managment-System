@@ -5,8 +5,12 @@ namespace Ipstatuschecker.DomainEntity
     public int? Id { get; set; }
     public string? IpAddress { get; set; }
     public string? Status { get; set; }
-    public int? UserId { get; set; }
-    public User? User { get; set; } 
+    
+   
+    public Device? _Device { get; set; } 
+
+     public int? UserId { get; set; }
+    public User? _User { get; set; } 
 }
 
 }
