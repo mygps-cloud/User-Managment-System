@@ -5,7 +5,7 @@
 namespace ipstatuschecker.Migrations
 {
     /// <inheritdoc />
-    public partial class KakuaRobika : Migration
+    public partial class Pk13 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

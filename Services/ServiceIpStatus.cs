@@ -42,7 +42,7 @@ namespace Ipstatuschecker.Services
     public async Task<UserDto> UpdateNewUser(UserDto entity)
 {
    
-    var existingUser = await qeuryIpStatusRepository.GetByIdAsync(entity.Id ?? 0);
+    var existingUser = await qeuryIpStatusRepository.GetByIdAsync(entity.Id );
     
     if (existingUser == null)
     {

@@ -1,4 +1,4 @@
-﻿@* 
+﻿
 @using Ipstatuschecker.Dto
 <!DOCTYPE html>
 <html lang="en">
@@ -82,57 +82,37 @@
 
 <body>
 
-
-    <div class="container">
-
-
-        @foreach (var user in Model)
-        {
-            <div class="user-box">
-
-                <div class="ip-list">
-                    <div class="user-name-wrapper">
-
-                        <p class="user-name">@user.Name</p>
-                    </div>
-                    @foreach (var ip in user.IpStatuses)
-                    {
-                        <div class="item">
-                            <div>
-                                <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
-                                <p class="label"><strong>Devices:</strong>
-                                    @{
-                                    
-                                        var Ip = user.IpStatus as List<IpStatusDto>;
-                                    }
-                                    @if (Ip != null && Ip.Any())
-                                    {
-                                        
-                                        @string.Join(", ", Ip.Select(d => d.DeviceDto.DeviceNames))
-                                     
-                                         
-                                        
-                                    }
-                                    else
-                                    {
-                                        <span>No devices available.</span>
-                                    }
-                                </p>
-                            </div>
-
-                            <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
-                            <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
-                        </div>
-                    }
-                </div>
-
-               
+@foreach (var user in Model)
+{
+    <div class="user-box">
+        <div class="ip-list">
+            <div class="user-name-wrapper">
+                <p class="user-name">@user.Name</p>
             </div>
-        }
-    </div> 
+            @foreach (var ip in user.IpStatuses)
+            {
+                var deviceNames = ip._DeviceDto != null && ip._DeviceDto.DeviceNames.Any() 
+                    ? string.Join(", ", ip._DeviceDto.DeviceNames) 
+                    : "No device info";
+
+                <div class="item">
+                    <div>
+                        <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
+                        <p class="label"><strong>Devices:</strong> @deviceNames</p>
+                        <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
+                    </div>
+                    <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+
 </body>
 
 </html>
 
 
- *@
+

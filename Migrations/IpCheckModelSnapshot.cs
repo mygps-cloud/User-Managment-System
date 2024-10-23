@@ -66,7 +66,7 @@ namespace ipstatuschecker.Migrations
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.User", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 

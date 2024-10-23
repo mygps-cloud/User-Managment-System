@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(IpCheck))]
-    [Migration("20241023074506_KakuaRobika")]
-    partial class KakuaRobika
+    [Migration("20241023084608_Pk13")]
+    partial class Pk13
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,7 +69,7 @@ namespace ipstatuschecker.Migrations
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.User", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
