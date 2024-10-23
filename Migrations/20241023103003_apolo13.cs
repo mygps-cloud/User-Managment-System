@@ -5,7 +5,7 @@
 namespace ipstatuschecker.Migrations
 {
     /// <inheritdoc />
-    public partial class Pk13 : Migration
+    public partial class apolo13 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,8 +51,8 @@ namespace ipstatuschecker.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DeviceNames = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
-                    IpStatusId = table.Column<int>(type: "INTEGER", nullable: true)
+                    IpStatusId = table.Column<int>(type: "INTEGER", nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,12 +1,9 @@
-
-
-
 using Ipstatuschecker.DomainEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.DbContextSql
 {
-    public class IpCheck : Microsoft.EntityFrameworkCore.DbContext
+    public class IpCheck :Microsoft.EntityFrameworkCore. DbContext
     {
         public IpCheck(DbContextOptions<IpCheck> options) : base(options) { }
 
@@ -18,20 +15,18 @@ namespace Ipstatuschecker.DbContextSql
         {
             modelBuilder.Entity<User>()
                 .HasMany(u => u.IpStatuses)
-                .WithOne(i => i._User)
-                .HasForeignKey(i => i.UserId)
+                .WithOne() 
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Devices)
-                .WithOne(d => d.User)
-                .HasForeignKey(d => d.UserId)
+                .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<IpStatus>()
-                .HasOne(u => u._Device) 
-                .WithOne(d => d.IpStatus) 
-                .HasForeignKey<Device>(d => d.IpStatusId) 
+            modelBuilder.Entity<Device>()
+                .HasOne(i => i.IpStatus)
+                .WithOne()
+                .HasForeignKey<Device>(d => d.IpStatusId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

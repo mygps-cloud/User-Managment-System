@@ -19,13 +19,13 @@ namespace Ipstatuschecker.Services
             Id = ip.Id,
             IpAddress = ip.IpAddress,
             Status = ip.Status,
-            UserId = userDto.Id
+        
         }).ToList(),
         Devices = userDto.Devices?.Select(device => new Device
         {
             Id = device.Id,
             DeviceNames = device.DeviceNames,
-            UserId = userDto.Id
+    
         }).ToList()
     };
 
@@ -62,7 +62,7 @@ namespace Ipstatuschecker.Services
             Id = ip.Id,
             IpAddress = ip.IpAddress,
             Status = ip.Status,
-            UserId = existingUser.Id 
+          
         }));
     }
 
@@ -73,7 +73,7 @@ namespace Ipstatuschecker.Services
         {
             Id = device.Id,
             DeviceNames = device.DeviceNames,
-            UserId = existingUser.Id 
+         
         }));
     }
 
@@ -116,11 +116,15 @@ namespace Ipstatuschecker.Services
     }
 }
 
+
+
+
+
     public async Task<List<UserDto>> GetAllUsers()
 {
     var users = await qeuryIpStatusRepository.GetAll();
 
-    // Map User to UserDto
+   
     var userDtos = users.Select(user => new UserDto
     {
         Id = user.Id,
@@ -137,9 +141,15 @@ namespace Ipstatuschecker.Services
             DeviceNames = device.DeviceNames
         }).ToList()
     }).ToList();
+    
+    
 
     return userDtos; 
 }
+
+
+
+
     public async Task<UserDto> GetByUserIdAsync(int id)
 {
    
@@ -202,5 +212,6 @@ namespace Ipstatuschecker.Services
     return userDto; 
         }
 
+       
     }
 }

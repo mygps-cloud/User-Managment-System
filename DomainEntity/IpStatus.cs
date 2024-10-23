@@ -7,10 +7,8 @@ namespace Ipstatuschecker.DomainEntity
     public string? Status { get; set; }
     
    
-    public Device? _Device { get; set; } 
 
-     public int? UserId { get; set; }
-    public User? _User { get; set; } 
+    
 }
 
 }

@@ -81,33 +81,24 @@ namespace ipstatuschecker.Migrations
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.Device", b =>
                 {
                     b.HasOne("Ipstatuschecker.DomainEntity.IpStatus", "IpStatus")
-                        .WithOne("_Device")
+                        .WithOne()
                         .HasForeignKey("Ipstatuschecker.DomainEntity.Device", "IpStatusId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
+                    b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("Devices")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("IpStatus");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.IpStatus", b =>
                 {
-                    b.HasOne("Ipstatuschecker.DomainEntity.User", "_User")
+                    b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("IpStatuses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("_User");
-                });
-
-            modelBuilder.Entity("Ipstatuschecker.DomainEntity.IpStatus", b =>
-                {
-                    b.Navigation("_Device");
                 });
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.User", b =>
