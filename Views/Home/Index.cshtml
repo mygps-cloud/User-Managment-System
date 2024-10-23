@@ -79,50 +79,34 @@
 </head>
 
 <body>
-    <div class="container">
- 
-
-        @foreach (var user in Model)
-        {
-            <div class="user-box">
-              
-                <div class="ip-list">
-                  <div class="user-name-wrapper">
-                    
+<div class="container">
+    @foreach (var user in Model)
+    {
+        <div class="user-box">
+            <div class="ip-list">
+                <div class="user-name-wrapper">
                     <p class="user-name">@user.Name</p>
                 </div>
-                    @foreach (var ip in user.IpStatuses)
+                @foreach (var ip in user.IpStatuses)
+                {
+                    @foreach (var device in user.Devices)
                     {
                         <div class="item">
                             <div>
                                 <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
-                                   <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
-                           
-                                <p class="label"><strong>Devices:</strong>
-                                    @{
-                                        var devices = user.Devices as List<Ipstatuschecker.Dto.DeviceDto>;
-                                    }
-                                    @if (devices != null && devices.Any())
-                                    {
-                                        @string.Join(", ", devices.Select(d => d.DeviceNames))
-                                    }
-                                    else
-                                    {
-                                        <span>No devices available.</span>
-                                    }
-                                     <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
-                                </p>
+                                <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
+                                <p class="label"><strong>Devices:</strong> @device.DeviceNames</p> 
+                                <button onclick="pingIp('@ip.IpAddress')">Ping IP</button>
                             </div>
-
-                         
                         </div>
                     }
-                </div>
-
-               
+                }
             </div>
-        }
-    </div>
+        </div>
+    }
+</div>
+
+
 </body>
 
 </html>
