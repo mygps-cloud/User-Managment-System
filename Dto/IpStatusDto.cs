@@ -12,8 +12,7 @@ namespace Ipstatuschecker.Dto
     public string? IpAddress { get; set; }
     public string? Status { get; set; }
     
-    public int? DeviceId { get; set; }
-    public DeviceDto? Device { get; set; } 
+    public DeviceDto? _DeviceDto { get; set; } 
    
     
    

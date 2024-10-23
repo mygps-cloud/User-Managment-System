@@ -6,8 +6,8 @@ namespace Ipstatuschecker.DomainEntity
     public string? DeviceNames { get; set; }
     public int? UserId { get; set; }
     public User? User { get; set; } 
-    public int? IpStatusId { get; set; } // Foreign key for IpStatus
-    public IpStatus? IpStatus { get; set; } // N
+    public int? IpStatusId { get; set; } 
+    public IpStatus? IpStatus { get; set; } 
 
 }
 }

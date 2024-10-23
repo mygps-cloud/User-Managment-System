@@ -10,6 +10,8 @@ namespace Ipstatuschecker.Dto
         [StringLength(10, ErrorMessage = "Device name cannot be longer than 100 characters.")]
         public string? DeviceNames { get; set; }
         
+         public int? IpStatusId { get; set; } 
+    public IpStatusDto? _IpStatusDto { get; set; } 
         
     }
 }

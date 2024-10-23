@@ -151,7 +151,7 @@ namespace Ipstatuschecker.Services
         throw new Exception("User not found."); 
     }
 
-    // Map User to UserDto
+   
     var userDto = new UserDto
     {
         Id = user.Id,
@@ -181,7 +181,7 @@ namespace Ipstatuschecker.Services
         throw new Exception("User not found."); 
     }
 
-    // Map User to UserDto
+    
     var userDto = new UserDto
     {
         Id = user.Id,
