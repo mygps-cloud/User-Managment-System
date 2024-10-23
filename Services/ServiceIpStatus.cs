@@ -120,31 +120,57 @@ namespace Ipstatuschecker.Services
 
 
 
-    public async Task<List<UserDto>> GetAllUsers()
+ public async Task<List<UserDto>> GetAllUsers()
 {
-    var users = await qeuryIpStatusRepository.GetAll();
-
-   
-    var userDtos = users.Select(user => new UserDto
+    try
     {
-        Id = user.Id,
-        Name = user.Name,
-        IpStatuses = user.IpStatuses?.Select(ip => new IpStatusDto
+        var users = await qeuryIpStatusRepository.GetAll();
+        
+        var userDtos = users.Select(user => new UserDto
         {
-            Id = ip.Id,
-            IpAddress = ip.IpAddress,
-            Status = ip.Status
-        }).ToList(),
-        Devices = user.Devices?.Select(device => new DeviceDto
-        {
-            Id = device.Id,
-            DeviceNames = device.DeviceNames
-        }).ToList()
-    }).ToList();
-    
-    
+            Id = user.Id,
+            Name = user.Name,
+            IpStatuses = user.IpStatuses?.Select(ip => new IpStatusDto
+            {
+                Id = ip.Id,
+                IpAddress = ip.IpAddress,
+                Status = ip.Status
+            }).ToList(),
+            Devices = user.Devices?.Select(device => new DeviceDto
+            {
+                Id = device.Id,
+                DeviceNames = device.DeviceNames
+            }).ToList()
+        }).ToList();
+        
 
-    return userDtos; 
+
+
+        //    foreach (var userDto in userDtos)
+        // {
+        //     Console.WriteLine($"Id: {userDto.Id}, Name: {userDto.Name}");
+        //     if (userDto.IpStatuses != null)
+        //     {
+        //         foreach (var ipStatus in userDto.IpStatuses)
+        //         {
+        //             Console.WriteLine($"  IP Status - Id: {ipStatus.Id}, IP Address: {ipStatus.IpAddress}, Status: {ipStatus.Status}");
+        //         }
+        //     }
+        //     if (userDto.Devices != null)
+        //     {
+        //         foreach (var device in userDto.Devices)
+        //         {
+        //             Console.WriteLine($"  Device - Id: {device.Id}, Names: {string.Join(", ", device.DeviceNames)}");
+        //         }
+        //     }
+        // }
+        return userDtos;
+    }
+    catch (Exception ex)
+    {
+        
+        throw new ApplicationException("An error occurred while retrieving users.", ex);
+    }
 }
 
 
