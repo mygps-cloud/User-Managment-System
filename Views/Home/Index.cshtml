@@ -1,137 +1,4 @@
-﻿﻿@* 
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Checker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .container {
-            width: 90%;
-            margin: auto;
-        }
-
-        .user-box {
-            padding: 10px;
-            border: 2px solid #ddd;
-            background-color: #f5f5f5;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .user-name {
-            font-size: 20px;
-            color: #333;
-            flex: 1;
-        }
-
-        .ip-list {
-            margin-top: 10px;
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .label {
-            flex: 1;
-        }
-
-        button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            flex: 1;
-            margin-left: 10px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        select {
-            margin-left: 10px;
-            flex: 1;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        @foreach (var user in Model)
-        {
-            <div class="user-box">
-                <div class="user-name">@user.Name</div>
-                <select id="deviceSelect_@user.Id">
-                    <option value="">Select a Device</option>
-                    @{
-                        var selectedDeviceNames = new HashSet<string>();
-                    }
-                    @foreach (var ip in user.IpStatuses)
-                    {
-                        var devices = user.Devices as List<Ipstatuschecker.Dto.DeviceDto>;
-                        if (devices != null && devices.Any())
-                        {
-                            foreach (var device in devices)
-                            {
-                                if (selectedDeviceNames.Add(device.DeviceNames))
-                                {
-                                    <option value="@device.DeviceNames">@device.DeviceNames</option>
-                                }
-                            }
-                        }
-                    }
-                </select>
-                @foreach (var ip in user.IpStatuses)
-                {
-                    <div class="item">
-                        <div>
-                            <p class="label"><strong>IP Address:</strong> @ip.IpAddress</p>
-                            <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
-                        </div>
-                    </div>
-                }
-                <button onclick="pingSelectedDevice('@user.Id')">Ping Selected Device</button>
-            </div>
-        }
-    </div>
-
-    <script>
-        function pingSelectedDevice(userId) {
-            const selectedDevice = document.getElementById(`deviceSelect_${userId}`).value;
-            if (selectedDevice) {
-                alert(`Pinging device: ${selectedDevice}`);
-            } else {
-                alert('Please select a device to ping.');
-            }
-        }
-    </script>
-</body>
-
-</html>
- *@
-
+﻿﻿
 
 
 
@@ -147,12 +14,16 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 20px;
+        
         }
-
-        .container {
-            width: 90%;
-            margin: auto;
-        }
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-content: flex-start; 
+    flex-wrap: wrap; 
+    width: 100%;
+    margin: auto;
+}
 
         .user-box {
             padding: 10px;
@@ -210,6 +81,14 @@
             margin-top: 10px;
             width: 100%;
         }
+        .status-online {
+    color: green;
+}
+
+.status-offline {
+    color: red;
+}
+
     </style>
 </head>
 
@@ -239,12 +118,15 @@
                         }
                     }
                 </select>
+                
                 <div class="ip-list">
                     @foreach (var ip in user.IpStatuses)
                     {
                         <div class="item" id="ipItem_@ip.IpAddress">
                             <p class="label"><strong>IP Address:</strong> <span class="ip-address">@ip.IpAddress</span></p>
-                            <p class="label">Status: <span class="@ip.Status.ToLower()">@ip.Status</span></p>
+                            <p class="label">Status:
+                                 <span class="@ip.Status.ToLower()" style="color: red;">@ip.Status</span>
+                                 </p>
                         </div>
                     }
                 </div>
@@ -254,26 +136,29 @@
     </div>
 
     <script>
-        function highlightIp(userId) {
+        function highlightIp(userId) 
+        {
             const selectedDevice = document.getElementById(`deviceSelect_${userId}`).value;
             const ipItems = document.querySelectorAll(`.item`);
 
-            // Reset highlighting
+          
             ipItems.forEach(item => {
                 item.querySelector('.ip-address').classList.remove('highlight');
             });
 
-            // Highlight the corresponding IP address
-            if (selectedDevice) {
+            if (selectedDevice) 
+            {
                 const deviceIp = getDeviceIp(userId, selectedDevice);
                 const ipElement = document.getElementById(`ipItem_${deviceIp}`);
-                if (ipElement) {
+                if (ipElement) 
+                {
                     ipElement.querySelector('.ip-address').classList.add('highlight');
                 }
             }
         }
 
-        function getDeviceIp(userId, deviceName) {
+        function getDeviceIp(userId, deviceName) 
+        {
             
         }
 
