@@ -30,6 +30,9 @@ builder.Services.AddScoped<DbPingBackgroundService>();
 builder.Services.AddScoped<IPstatusIQueryPingDbRepository>();
 
 
+builder.Services.AddScoped<PingLogService>();
+builder.Services.AddScoped<PingLogCommandIRepository>();
+
 
 
 

@@ -81,15 +81,19 @@ public class PingBackgroundService : BackgroundService
             using (var scope = serviceProvider.CreateScope())
             {
                var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
+                var PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+            
 
                 var tasksUsers = await ipStatusService.GetAllUsers();
 
                 var tasks = tasksUsers.Select(async ip =>
                 {
-                    ip.Status = await PingIp(ip.IpAddress) ? "Online" : "Offline";
-                    logger.LogInformation($"IP: {ip.IpAddress} is {ip.Status}");
+                  var Response=  ip.Status = await PingIp(ip.IpAddress) ?  "Online" : "Offline";
+                if(Response.Contains("Online"))Console.WriteLine("write data");
+                else Console.WriteLine("write data");
+                    // logger.LogInformation($"IP: {ip.IpAddress} is {ip.Status}");
                 });
-
+                
                 await Task.WhenAll(tasks);
             }
 
