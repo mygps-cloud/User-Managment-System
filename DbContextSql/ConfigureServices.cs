@@ -32,7 +32,7 @@ namespace Ipstatuschecker.DbContext
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IpCheck>(options =>
+            services.AddDbContext<DbIpCheck>(options =>
                 options.UseSqlite(dbconnect)); 
             // რეგისტრირება სხვა სერვისებისთვის
             // services.AddScoped<IProductService, ProductService>();

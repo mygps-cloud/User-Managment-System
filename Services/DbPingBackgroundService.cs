@@ -1,39 +1,54 @@
-
-
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.interfaces;
-using Ipstatuschecker.Interfaces;
 
-namespace ipstatuschecker.Services
+
+namespace Ipstatuschecker.Services
 {
-    public class DbPingBackgroundService (IQueryIpStatusRepository<IpStatus> queryIpStatusRepository): Iservices<IpStatusDto>
+    public class DbPingBackgroundService : Iservices<IpStatusDto>
     {
-        public Task<bool> AddNewUser(IpStatusDto entety)
+        private readonly IPstatusIQueryPingDbRepository pstatusIQueryPingDbRepository;
+
+        public DbPingBackgroundService(IPstatusIQueryPingDbRepository pstatusIQueryPingDbRepository)
+        {
+            this.pstatusIQueryPingDbRepository = pstatusIQueryPingDbRepository;
+        }
+
+        public async Task<bool> AddNewUser(IpStatusDto entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DelteUserById(int entetyId)
+        public async Task<bool> DelteUserById(int entityId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<IpStatusDto>> GetAllUsers()
+        public async Task<List<IpStatusDto>> GetAllUsers()
+        {
+            var all_Ip = await pstatusIQueryPingDbRepository.GetAll();
+
+            var UsersIp = all_Ip.Select(Ip => new IpStatusDto
+            {
+                Id = Ip.Id,
+                IpAddress = Ip.IpAddress,
+                Status = Ip.Status
+            }).ToList();
+
+
+            return UsersIp;
+        }
+
+        public async Task<IpStatusDto> GetByUserIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IpStatusDto> GetByUserIdAsync(int id)
+        public async Task<IpStatusDto> GetByUserNameAsync(string name)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IpStatusDto> GetByUserNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IpStatusDto> UpdateNewUser(IpStatusDto entety)
+        public async Task<IpStatusDto> UpdateNewUser(IpStatusDto entity)
         {
             throw new NotImplementedException();
         }

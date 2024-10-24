@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.DbContextSql
 {
-    public class IpCheck :Microsoft.EntityFrameworkCore. DbContext
+    public class DbIpCheck :Microsoft.EntityFrameworkCore. DbContext
     {
-        public IpCheck(DbContextOptions<IpCheck> options) : base(options) { }
+        public DbIpCheck(DbContextOptions<DbIpCheck> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<IpStatus> IpStatuses { get; set; }

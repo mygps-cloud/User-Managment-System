@@ -5,7 +5,7 @@ using Ipstatuschecker.Interfaces;
 
 namespace Ipstatuschecker.Services
 {
-    public class ServiceIpStatus(IQueryIpStatusRepository<User> qeuryIpStatusRepository,
+    public class ServiceUser(IQueryIpStatusRepository<User> qeuryIpStatusRepository,
     ICommandIpStatusRepository<User> commandIpStatusRepository) : Iservices<UserDto>
     {
         public async Task<bool> AddNewUser(UserDto userDto)
@@ -115,9 +115,6 @@ namespace Ipstatuschecker.Services
         throw new Exception("An error occurred while deleting the user.", ex);
     }
 }
-
-
-
 
 
  public async Task<List<UserDto>> GetAllUsers()

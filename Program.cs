@@ -8,23 +8,27 @@ using Ipstatuschecker.Interfaces;
 using Ipstatuschecker.Persistence;
 using Ipstatuschecker.Services;
 using Microsoft.EntityFrameworkCore;
-using PingBackgroundServic;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<IpCheck>(options =>
+builder.Services.AddDbContext<DbIpCheck>(options =>
     options.UseSqlite("Data Source=UserIpChecker.db"));
 
 
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHostedService<PingBackgroundService>();
-builder.Services.AddScoped<PingIp2>();
+
 builder.Services.AddScoped<IQueryIpStatusRepository<User>,UserQueryRepository>();
 builder.Services.AddScoped<ICommandIpStatusRepository<User>,UserCommandIRepository>();
 
-builder.Services.AddScoped<Iservices<UserDto>, ServiceIpStatus>();
+builder.Services.AddScoped<Iservices<UserDto>, ServiceUser>();
+
+builder.Services.AddScoped<DbPingBackgroundService>();
+builder.Services.AddScoped<IPstatusIQueryPingDbRepository>();
+
 
 
 
@@ -32,7 +36,7 @@ builder.Services.AddScoped<Iservices<UserDto>, ServiceIpStatus>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -40,7 +44,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

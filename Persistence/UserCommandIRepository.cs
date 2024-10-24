@@ -4,7 +4,7 @@ using Ipstatuschecker.interfaces;
 
 namespace Ipstatuschecker.Persistence
 {
-    public class UserCommandIRepository(IpCheck context) : ICommandIpStatusRepository<User>
+    public class UserCommandIRepository(DbIpCheck context) : ICommandIpStatusRepository<User>
     {
         public async Task<bool> CreateUser(User entity)
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.Persistence
 {
-    public class UserQueryRepository(IpCheck context) : IQueryIpStatusRepository<User>
+    public class UserQueryRepository(DbIpCheck context) : IQueryIpStatusRepository<User>
     {
           public async Task<List<User>> GetAll()
         {

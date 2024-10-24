@@ -4,11 +4,11 @@ using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-public class DbRepositoryIPstatusPing : IQueryIpStatusRepository<IpStatus>
+public class IPstatusIQueryPingDbRepository : IQueryIpStatusRepository<IpStatus>
 {
-    private readonly IpCheck _context;
+    private readonly DbIpCheck _context;
 
-    public DbRepositoryIPstatusPing(IpCheck context)
+    public IPstatusIQueryPingDbRepository(DbIpCheck context)
     {
         _context = context;
     }
