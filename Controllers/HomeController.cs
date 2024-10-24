@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Dto;
+using ipstatuschecker.PingServices;
 
 
 namespace ipstatuschecker.Controllers
@@ -51,22 +52,22 @@ public async Task<IActionResult> Index()
 }
 
 
-// public async Task<IActionResult> robika()
-// {
+public async Task<IActionResult> robika()
+{
      
-//     return View();
-// }
+    return View();
+}
     
-// [HttpGet]
-//   public async Task<IActionResult> PingIp2(string ipAddress)
-//       {
-//      //database
+[HttpGet]
+  public async Task<IActionResult> PingIp13(string ipAddress)
+      {
+     //database
         
-//      var status = await PingService.PingIp(ipAddress);
+     var status = await PingIp("192.168.1.94");
      
-//     return Json(new { status = status ? "Online" : "Offline" });
+    return Json(new { status = status ? "Online" : "Offline" });
   
-//      }
+     }
 
  
             public async Task<IActionResult> GetIpStatus()
@@ -128,7 +129,7 @@ public async Task<IActionResult> Index()
           
 
 
-        private async Task<bool> PingIp(string ipAddress)
+        public async Task<bool> PingIp(string ipAddress)
         {
             try
             {
