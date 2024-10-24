@@ -9,8 +9,8 @@ namespace Ipstatuschecker.DbContextSql
 
         public DbSet<User> Users { get; set; }
         public DbSet<IpStatus> IpStatuses { get; set; }
-        public DbSet<Device> Devices { get; set; }
-
+        public DbSet<Device> Devices { get; set; } 
+        public DbSet<PingLog> PingLog { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -26,8 +26,14 @@ namespace Ipstatuschecker.DbContextSql
             modelBuilder.Entity<Device>()
                 .HasOne(i => i.IpStatus)
                 .WithOne()
-                .HasForeignKey<Device>(d => d.IpStatusId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+           modelBuilder.Entity<PingLog>()
+                .HasOne(p => p.User)
+                .WithMany() 
+                .HasForeignKey(p => p.UserId) 
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }
