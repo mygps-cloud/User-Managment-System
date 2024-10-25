@@ -1,3 +1,4 @@
+using Ipstatuschecker.DbContextSql;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.interfaces;
@@ -5,18 +6,28 @@ using Ipstatuschecker.Persistence;
 
 namespace Ipstatuschecker.Services
 {
-    public class PingLogService(PingLogCommandIRepository pingLogCommandIRepository) : Iservices<PingLogDtoReqvest>
+    public class PingLogService(DbIpCheck _context) : Iservices<PingLogDtoReqvest>
     {
-     public async Task<bool> AddNewUser(PingLogDtoReqvest entety)
+   
+public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
 {
-    var Pinglog = new PingLog
-    {
-        Id = entety.Id,
-        OnlieTime = entety.OnlieTime,
-        OflineTime = entety.OflineTime
-    };
     
-    await pingLogCommandIRepository.CreateUser(Pinglog);
+    var relatedEntity = await _context.Users.FindAsync(entity.UserId);
+    if (relatedEntity == null)
+    {
+        throw new InvalidOperationException("Related user does not exist.");
+    }
+
+    var pingLog = new PingLog
+    {
+        Id = entity.Id,
+        OnlieTime = entity.OnlieTime,
+        OflineTime = entity.OflineTime,
+        UserId = relatedEntity.Id 
+    };
+
+    await _context.PingLog.AddAsync(pingLog);
+    await _context.SaveChangesAsync();
     return true;
 }
 

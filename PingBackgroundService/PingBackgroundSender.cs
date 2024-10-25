@@ -1,64 +1,8 @@
-// using ipstatuschecker;
-// using Ipstatuschecker.Dto;
-// using Ipstatuschecker.interfaces;
-// using System.Net.NetworkInformation;
 
-
-// namespace PingBackgroundServic
-// {
-//     public class PingBackgroundService : BackgroundService
-//     {
-//         private readonly ILogger<PingBackgroundService> logger;
-//         private readonly Iservices<IpStatusDto> ipStatusService;
-
-//         public PingBackgroundService(Iservices<IpStatusDto> ipStatusService, 
-//         ILogger<PingBackgroundService> logger)
-//         {
-//             this.ipStatusService = ipStatusService;
-//             this.logger = logger;
-//         }
-
-//         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-//         {
-//             while (!stoppingToken.IsCancellationRequested)
-//             {
-//                 logger.LogInformation("Starting Ping Task...");
-
-//                 var tasksUsers = await ipStatusService.GetAllUsers();
-//                 var tasks = tasksUsers.Select(async ip =>
-//                 {
-//                     ip.Status = await PingIp(ip.IpAddress) ? "Online" : "Offline";
-//                     logger.LogInformation($"IP: {ip.IpAddress} is {ip.Status}");
-//                 });
-
-//                 await Task.WhenAll(tasks);
-//                 logger.LogInformation("Ping Task Completed.");
-//                 await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
-//             }
-//         }
-
-//         public async Task<bool> PingIp(string ipAddress)
-//         {
-//             try
-//             {
-//                 using (var ping = new Ping())
-//                 {
-//                     var reply = await ping.SendPingAsync(ipAddress);
-//                     return reply.Status == IPStatus.Success;
-//                 }
-//             }
-//             catch (Exception ex)
-//             {
-//                 logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
-//                 return false;
-//             }
-//         }
-//     }
-// }
 
 
 using System.Net.NetworkInformation;
-
+using Ipstatuschecker.Dto;
 using Ipstatuschecker.Services;
 
 public class PingBackgroundService : BackgroundService
@@ -80,27 +24,85 @@ public class PingBackgroundService : BackgroundService
 
             using (var scope = serviceProvider.CreateScope())
             {
-               var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
-                var PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+               var _ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
+                 var _PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+
+                var DataTimeOfline=new List<DateTime>();
             
+                   
 
-                var tasksUsers = await ipStatusService.GetAllUsers();
-
-                var tasks = tasksUsers.Select(async ip =>
+           var tasksUsers = await _ipStatusService.GetAllUsers();
+                foreach (var task in tasksUsers)
                 {
-                  var Response=  ip.Status = await PingIp(ip.IpAddress) ?  "Online" : "Offline";
-                if(Response.Contains("Online"))Console.WriteLine("write data");
-                else Console.WriteLine("write data");
-                    // logger.LogInformation($"IP: {ip.IpAddress} is {ip.Status}");
-                });
-                
-                await Task.WhenAll(tasks);
+                 var Response= await PingIp( task.IpAddress);
+                 if(Response.Equals("Online"))
+                 { var pingLog = new PingLogDtoReqvest
+                        {
+                            Id = 1,
+                            OnlieTime = DateTime.Now,
+                            OflineTime =DataTimeOfline
+                            
+                        };
+                            _PingLogService.AddNewUser(pingLog);
+               }
+                            
+                else 
+                {
+                        DataTimeOfline.Add(DateTime.Now);
+                           var pingLog = new PingLogDtoReqvest
+                        {
+                            Id = 1,
+                            OnlieTime = DateTime.Now,
+                            OflineTime =DataTimeOfline
+                            
+                        };
+                            _PingLogService.AddNewUser(pingLog);
+                    Console.WriteLine("write data");
+
+                }
+         }
             }
+
+            //     var tasks = tasksUsers.Select(ip => Task.Run(async () =>
+            //     {
+            //         var _PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+            //       var Response=  ip.Status = await PingIp(ip.IpAddress) ?  "Online" : "Offline";
+            //     if(Response.Contains("Online"))
+            //    { 
+            //              var pingLog = new PingLogDtoReqvest
+            //             {
+            //                 Id = 1,
+            //                 OnlieTime = DateTime.Now,
+            //                 OflineTime =DataTimeOfline
+                            
+            //             };
+            //                 _PingLogService.AddNewUser(pingLog);
+            //    }
+                            
+            //     else 
+            //     {
+            //             DataTimeOfline.Add(DateTime.Now);
+            //                var pingLog = new PingLogDtoReqvest
+            //             {
+            //                 Id = 1,
+            //                 OnlieTime = DateTime.Now,
+            //                 OflineTime =DataTimeOfline
+                            
+            //             };
+            //                 _PingLogService.AddNewUser(pingLog);
+            //         Console.WriteLine("write data");
+            //      }
+            //         // logger.LogInformation($"IP: {ip.IpAddress} is {ip.Status}");
+            //     }));
+                
+            //     await Task.WhenAll(tasks);
+            // }
 
             logger.LogInformation("Ping Task Completed.");
             await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
         }
-    }
+            }
+    
 
     public async Task<bool> PingIp(string ipAddress)
     {
@@ -119,3 +121,5 @@ public class PingBackgroundService : BackgroundService
         }
     }
 }
+
+    
