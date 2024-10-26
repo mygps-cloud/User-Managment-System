@@ -76,7 +76,7 @@ namespace ipstatuschecker.Migrations
                     b.Property<DateTime>("OnlieTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -128,8 +128,7 @@ namespace ipstatuschecker.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });

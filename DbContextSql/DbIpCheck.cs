@@ -31,7 +31,6 @@ namespace Ipstatuschecker.DbContextSql
            modelBuilder.Entity<PingLog>()
                 .HasOne(p => p.User)
                 .WithMany() 
-                .HasForeignKey(p => p.UserId) 
                 .OnDelete(DeleteBehavior.Cascade);
 
         }

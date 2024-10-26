@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ipstatuschecker.Migrations
 {
     /// <inheritdoc />
-    public partial class Aplo13 : Migration
+    public partial class apolo13 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,7 @@ namespace ipstatuschecker.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     OnlieTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     OflineTime = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -9,7 +9,7 @@ namespace Ipstatuschecker.Persistence
         public async Task<bool> CreateUser(PingLog entety)
         {
             context.Add(entety);
-           await context.SaveChangesAsync();
+              await context.SaveChangesAsync();
            return true;
         }
 

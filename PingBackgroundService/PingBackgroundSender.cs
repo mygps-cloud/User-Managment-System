@@ -20,7 +20,7 @@ public class PingBackgroundService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            logger.LogInformation("Starting Ping Task...");
+            //logger.LogInformation("Starting Ping Task...");
 
             using (var scope = serviceProvider.CreateScope())
             {
@@ -45,31 +45,34 @@ public class PingBackgroundService : BackgroundService
 
                     var pingLog = new PingLogDtoReqvest
                     {
-                        Id = (int)ip.Id,
+                        // Id = (int)ip.Id,
                         OnlieTime = DateTime.Now,
                         OflineTime = DataTimeOfline
                     };
+                    pingLog.OflineTime.Add(DateTime.Now);
+                    Console.WriteLine(" xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",DateTime.Now);
 
                     _PingLogService.AddNewUser(pingLog);
                 }
              }));
                   
-        //  await Task.WhenAll(tasks);
+          await Task.WhenAll(tasks);
              }
      
 
-
+  
         //         foreach (var task in tasksUsers)
         //         {
         //          var Response= await PingIp( task.IpAddress);
         //          if(Response.Equals("Online"))
         //          { var pingLog = new PingLogDtoReqvest
         //                 {
-        //                     Id = 1,
+        //                     // Id = 1,
         //                     OnlieTime = DateTime.Now,
         //                     OflineTime =DataTimeOfline
                             
         //                 };
+        //                 pingLog.OflineTime.Add(DateTime.Now);
         //                     _PingLogService.AddNewUser(pingLog);
         //        }
                             
@@ -78,13 +81,15 @@ public class PingBackgroundService : BackgroundService
         //                 DataTimeOfline.Add(DateTime.Now);
         //                    var pingLog = new PingLogDtoReqvest
         //                 {
-        //                     Id = 1,
+        //                     // Id = 1,
         //                     OnlieTime = DateTime.Now,
         //                     OflineTime =DataTimeOfline
                             
         //                 };
+        //                    pingLog.OflineTime.Add(DateTime.Now);
         //                     _PingLogService.AddNewUser(pingLog);
-        //             Console.WriteLine("write data");
+        //            Console.WriteLine($"write data: {string.Join(", ", pingLog.OflineTime)}");
+
 
         //         }
         //  }
@@ -135,7 +140,7 @@ public class PingBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
+          //  logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
             return false;
         }
     }

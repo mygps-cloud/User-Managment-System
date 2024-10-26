@@ -12,23 +12,22 @@ namespace Ipstatuschecker.Services
 public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
 {
     
-    var relatedEntity = await _context.Users.FindAsync(entity.UserId);
-    if (relatedEntity == null)
+try
     {
-        throw new InvalidOperationException("Related user does not exist.");
+        var pingLog = new PingLog
+        {
+            OnlieTime = entity.OnlieTime,
+            OflineTime = entity.OflineTime,
+        };
+
+        await _context.PingLog.AddAsync(pingLog);
+        await _context.SaveChangesAsync();
+        return true;
     }
-
-    var pingLog = new PingLog
+    catch (Exception ex)
     {
-        Id = entity.Id,
-        OnlieTime = entity.OnlieTime,
-        OflineTime = entity.OflineTime,
-        UserId = relatedEntity.Id 
-    };
-
-    await _context.PingLog.AddAsync(pingLog);
-    await _context.SaveChangesAsync();
-    return true;
+        throw new Exception("data base erorsss ->>>", ex);
+    }
 }
 
 

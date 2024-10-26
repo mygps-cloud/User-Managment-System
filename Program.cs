@@ -19,7 +19,7 @@ builder.Services.AddDbContext<DbIpCheck>(options =>
 
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddHostedService<PingBackgroundService>();
+  builder.Services.AddHostedService<PingBackgroundService>();
 
 builder.Services.AddScoped<IQueryIpStatusRepository<User>,UserQueryRepository>();
 builder.Services.AddScoped<ICommandIpStatusRepository<User>,UserCommandIRepository>();
@@ -31,7 +31,7 @@ builder.Services.AddScoped<IPstatusIQueryPingDbRepository>();
 
 
 builder.Services.AddScoped<PingLogService>();
-builder.Services.AddScoped<PingLogCommandIRepository>();
+// builder.Services.AddScoped<PingLogCommandIRepository>();
 
 
 
