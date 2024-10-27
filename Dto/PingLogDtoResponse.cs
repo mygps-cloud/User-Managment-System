@@ -6,7 +6,7 @@ namespace Ipstatuschecker.Dto
     public int Id { get; set; }
     public DateTime OnlieTime { get; set; }
     public List< DateTime>? OflineTime { get; set; }
-    public UserDto? User { get;set;}
+    public UserDto? _UserDto { get;set;}
     }
 
 }
