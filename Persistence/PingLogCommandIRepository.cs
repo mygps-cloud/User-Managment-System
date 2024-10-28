@@ -1,5 +1,6 @@
 using Ipstatuschecker.DbContextSql;
 using Ipstatuschecker.DomainEntity;
+using Ipstatuschecker.Dto;
 using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -8,33 +9,50 @@ namespace Ipstatuschecker.Persistence
 {
     public class PingLogCommandIRepository (DbIpCheck context): ICommandIpStatusRepository<PingLog>,IQueryIpStatusRepository<PingLog>
     {
+public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
+{
+    if (entity == null)
+        throw new ArgumentNullException(nameof(entity));
 
-        public async Task<bool> CreateUser(PingLog entety)
-        {
-             try
+    if (entity.UserId <= 0) 
+        throw new ArgumentException("UserId must be a valid ID.", nameof(entity.UserId));
+
+    try
     {
-        
-        var userExists = await context.Users.FirstOrDefaultAsync(u => u.Id == entety.UserId);
-      if(userExists == null)    
-      {
+        var userExists = await context.Users.FindAsync(entity.UserId);
+        if (userExists == null)
+        {
+            throw new Exception($"User with ID {entity.UserId} does not exist.");
+        }
 
-        throw   new Exception($"user id -------------------------------- {userExists.Id}");    
-      }
         var pingLog = new PingLog
         {
-            OnlieTime = entety.OnlieTime,
-            OflineTime = entety.OflineTime,
-            UserId = entety.UserId
+            OnlieTime = entity.OnlieTime,
+            OflineTime = entity.OflineTime,
+            UserId = entity.UserId,
+            
         };
 
         await context.PingLog.AddAsync(pingLog);
         await context.SaveChangesAsync();
         return true;
     }
+    catch (DbUpdateException dbEx)
+    {
+        
+        throw new Exception("Database error ->>>", dbEx.InnerException);
+    }
     catch (Exception ex)
     {
+       
         throw new Exception("Database error ->>>", ex);
     }
+}
+
+
+        public Task<bool> CreateUser(PingLog entety)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<bool> DelteUser(int entetyId)

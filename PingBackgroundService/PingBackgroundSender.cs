@@ -7,7 +7,7 @@ public class PingBackgroundService : BackgroundService
 {
       private readonly ILogger<PingBackgroundService> logger;
        private readonly IServiceProvider serviceProvider;
-    //   private readonly List<DateTime> _DataTimeOfline = new List<DateTime>();
+
 
 
     public PingBackgroundService(IServiceProvider serviceProvider, ILogger<PingBackgroundService> logger)
@@ -24,82 +24,68 @@ public class PingBackgroundService : BackgroundService
                     await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
                 }
      }
-
-
-      private async Task CheckIpStatuses()
-      {
-           using (var scope = serviceProvider.CreateScope())
-              {
-       var _ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
-    var _PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
-   var DataTimeOfline=new List<DateTime>();
-   try
+private async Task CheckIpStatuses()
 {
-    var tasksUsers = await _ipStatusService.GetAllUsers();
-
-    if (tasksUsers.Count > 0)
+    using (var scope = serviceProvider.CreateScope())
     {
-        foreach (var task in tasksUsers)
-        {
-            var response = await PingIp(task.IpAddress);
-            var pingLog = new PingLogDtoReqvest
-            {
-                OnlieTime = DateTime.Now,
-                OflineTime = new List<DateTime>(),
-                UserId = task.Id.Value
-            };
+        var _ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
+        var _pingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
 
-            if (response.Equals("Online"))
+        try
+        {
+            var tasksUsers = await _ipStatusService.GetAllUsers();
+
+            if (tasksUsers.Count > 0)
             {
-                pingLog.OnlieTime = DateTime.Now;
+                foreach (var task in tasksUsers)
+                {
+                    var response = await PingIp(task.IpAddress);
+
+                    var pingLog = new PingLogDtoReqvest
+                    {
+                        UserId = task.Id.Value,
+                        OnlieTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>{},
+                        OflineTime = response ? new List<DateTime>{} : new List<DateTime> { DateTime.Now }
+                    };
+
+                 
+                        await _pingLogService.AddNewUser(pingLog);
+                    
+                }
             }
             else
             {
-                DataTimeOfline.Add(DateTime.Now);
-                pingLog.OflineTime = DataTimeOfline;
+                Console.WriteLine("No users found to ping.");
             }
-
-            await _PingLogService.AddNewUser(pingLog); 
-            DataTimeOfline.Clear();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
-    else
+}
+
+
+ private async Task<bool> PingIp(string ipAddress)
+{
+    try
     {
-        Console.WriteLine("No users found to ping.");
+        using (var ping = new Ping())
+        {
+            var reply = await ping.SendPingAsync(ipAddress);
+            Console.WriteLine($"Pinged {ipAddress}, Status: {reply.Status}, Roundtrip Time: {reply.RoundtripTime} ms");
+            
+                return reply.Status == IPStatus.Success? true :false;
+            
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
+        return false;
     }
 }
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
-}
 
-
-                             
-
-                    
-            
-            }
-                            
-    } 
-            
-    
-
-                private async Task<bool> PingIp(string ipAddress)
-                {
-                    try
-                    {
-                        using (var ping = new Ping())
-                        {
-                            var reply = await ping.SendPingAsync(ipAddress);
-                            return reply.Status == IPStatus.Success;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                    //  logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
-                        return false;
-                    }
-                }
 
 
  }

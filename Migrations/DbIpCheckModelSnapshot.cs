@@ -73,7 +73,8 @@ namespace ipstatuschecker.Migrations
                     b.Property<string>("OflineTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("OnlieTime")
+                    b.Property<string>("OnlieTime")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")

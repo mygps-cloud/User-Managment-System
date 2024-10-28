@@ -7,35 +7,54 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.Services
 {
-    public class PingLogService(DbIpCheck _context,PingLogCommandIRepository pingLogCommandIRepository) : Iservices<PingLogDtoReqvest>
+    public class PingLogService(DbIpCheck context,PingLogCommandIRepository pingLogCommandIRepository) : Iservices<PingLogDtoReqvest>
     {
-   public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
+  
+public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
 {
+    if (entity == null)
+        throw new ArgumentNullException(nameof(entity));
+
+    if (entity.UserId <= 0) 
+        throw new ArgumentException("UserId must be a valid ID.", nameof(entity.UserId));
+
     try
     {
-        
-        var userExists = await _context.Users.FirstOrDefaultAsync(u => u.Id == entity.UserId);
-      if(userExists == null)    
-      {
+   
+        var userExists = await context.Users
+            .AnyAsync(u => u.Id == entity.UserId);
 
-        throw   new Exception($"user id -------------------------------- {userExists.Id}");    
-      }
+        if (!userExists)
+        {
+            throw new Exception($"User with ID {entity.UserId} does not exist.");
+        }
+
+
         var pingLog = new PingLog
         {
+            UserId = entity.UserId,
             OnlieTime = entity.OnlieTime,
             OflineTime = entity.OflineTime,
-            UserId = entity.UserId
         };
 
-        await _context.PingLog.AddAsync(pingLog);
-        await _context.SaveChangesAsync();
+        // Add the new log and save changes
+        await context.PingLog.AddAsync(pingLog);
+        await context.SaveChangesAsync();
+
         return true;
+    }
+    catch (DbUpdateException dbEx)
+    {
+       
+        throw new Exception("Database error occurred while saving changes.", dbEx.InnerException ?? dbEx);
     }
     catch (Exception ex)
     {
-        throw new Exception("Database error ->>>", ex);
+       
+        throw new Exception("An error occurred while processing your request.", ex);
     }
 }
+
 
 
 

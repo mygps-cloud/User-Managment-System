@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ipstatuschecker.Migrations
 {
     /// <inheritdoc />
-    public partial class Apolo13 : Migration
+    public partial class Apoli13 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +50,7 @@ namespace ipstatuschecker.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    OnlieTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    OnlieTime = table.Column<string>(type: "TEXT", nullable: false),
                     OflineTime = table.Column<string>(type: "TEXT", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

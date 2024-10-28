@@ -14,8 +14,8 @@ namespace Ipstatuschecker.MinimalApiService
         bookGroup.MapGet("GetAll", GetAll).WithName(nameof(GetAll));
        bookGroup.MapGet("{id}", GetById).WithName(nameof(GetById));
 
-        bookGroup.MapGet("GetByName", GetByName).WithName(nameof(GetByName));
-        bookGroup.MapPost("AddNewTimeStatus", AddNewTimeStatus).WithName(nameof(AddNewTimeStatus));
+        bookGroup.MapGet("GetByName/{name}", GetByName).WithName(nameof(GetByName));
+        // bookGroup.MapPost("AddNewTimeStatus", AddNewTimeStatus).WithName(nameof(AddNewTimeStatus));
 
        }
 public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIRepository pingLogCommandIRepository)
@@ -77,17 +77,21 @@ public static async Task<List<PingLogDtoResponse>> GetByName(string name,PingLog
 {
  
  
-            var ById= await pingLogCommandIRepository.GetByNameAsync(name);
+            var ByName= await pingLogCommandIRepository.GetByNameAsync(name);
+             if (ByName == null)
+                {
+                    throw new Exception("User not found."); 
+                }
 
              var pingLogByName =  new PingLogDtoResponse
               {
-            Id = ById.Id,
-            OnlieTime = ById.OnlieTime, 
-            OflineTime = ById.OflineTime.ToList(), 
-            _UserDto = ById.User!= null ? new UserDto
+            Id = ByName.Id,
+            OnlieTime = ByName.OnlieTime, 
+            OflineTime = ByName.OflineTime.ToList(), 
+            _UserDto = ByName.User!= null ? new UserDto
             {
-                Id = ById.User.Id,
-                Name = ById.User.Name 
+                Id = ByName.User.Id,
+                Name = ByName.User.Name 
             } : null 
               };
     
@@ -95,7 +99,7 @@ public static async Task<List<PingLogDtoResponse>> GetByName(string name,PingLog
             return new List<PingLogDtoResponse> { pingLogByName };
 }
 
-
+/*
    public static async Task<bool> AddNewTimeStatus(PingLogDtoReqvest entity,PingLogCommandIRepository pingLogCommandIRepository)
 {
     try
@@ -117,7 +121,7 @@ public static async Task<List<PingLogDtoResponse>> GetByName(string name,PingLog
         throw new Exception("Database error ->>>", ex);
     }
 }
-
+*/
 
 
 
