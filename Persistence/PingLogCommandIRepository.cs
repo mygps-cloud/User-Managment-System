@@ -8,11 +8,33 @@ namespace Ipstatuschecker.Persistence
 {
     public class PingLogCommandIRepository (DbIpCheck context): ICommandIpStatusRepository<PingLog>,IQueryIpStatusRepository<PingLog>
     {
+
         public async Task<bool> CreateUser(PingLog entety)
         {
-              context.Add(entety);
-              await context.SaveChangesAsync();
-           return true;
+             try
+    {
+        
+        var userExists = await context.Users.FirstOrDefaultAsync(u => u.Id == entety.UserId);
+      if(userExists == null)    
+      {
+
+        throw   new Exception($"user id -------------------------------- {userExists.Id}");    
+      }
+        var pingLog = new PingLog
+        {
+            OnlieTime = entety.OnlieTime,
+            OflineTime = entety.OflineTime,
+            UserId = entety.UserId
+        };
+
+        await context.PingLog.AddAsync(pingLog);
+        await context.SaveChangesAsync();
+        return true;
+    }
+    catch (Exception ex)
+    {
+        throw new Exception("Database error ->>>", ex);
+    }
         }
 
         public Task<bool> DelteUser(int entetyId)
@@ -29,14 +51,22 @@ namespace Ipstatuschecker.Persistence
            return OflineUsers;
         }
 
-        public Task<PingLog> GetByIdAsync(int id)
+        public  async Task<PingLog> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var GetById= await context.PingLog. 
+            Include(p=>p.User)
+          .AsNoTracking().
+          FirstOrDefaultAsync(param=>param.Id==id);
+           return GetById;
         }
 
-        public Task<PingLog> GetByNameAsync(string name)
+        public async Task<PingLog> GetByNameAsync(string name)
         {
-            throw new NotImplementedException();
+             var GetByName= await context.PingLog. 
+            Include(p=>p.User)
+          .AsNoTracking().
+          FirstOrDefaultAsync(param=>param.User.Name==name);
+           return GetByName;
         }
 
         public Task<PingLog> UpdateUser(PingLog entety)

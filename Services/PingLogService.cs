@@ -54,7 +54,7 @@ namespace Ipstatuschecker.Services
         {
             Id = log.Id,
             OnlieTime = log.OnlieTime, 
-            OflineTime = log.OflineTime, 
+            OflineTime = log.OflineTime.ToList(), 
             _UserDto = log.User != null ? new UserDto
             {
                 Id = log.User.Id,

@@ -1,7 +1,4 @@
 
-
-
-using System.Data;
 using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Services;
@@ -10,7 +7,7 @@ public class PingBackgroundService : BackgroundService
 {
       private readonly ILogger<PingBackgroundService> logger;
        private readonly IServiceProvider serviceProvider;
-      private readonly List<DateTime> _DataTimeOfline = new List<DateTime>();
+    //   private readonly List<DateTime> _DataTimeOfline = new List<DateTime>();
 
 
     public PingBackgroundService(IServiceProvider serviceProvider, ILogger<PingBackgroundService> logger)
@@ -24,7 +21,7 @@ public class PingBackgroundService : BackgroundService
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     await CheckIpStatuses();
-                    await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+                    await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
                 }
      }
 
