@@ -13,7 +13,7 @@ namespace Ipstatuschecker.Services
 {
     try
     {
-        // Check if the user exists
+        
         var userExists = await _context.Users.FirstOrDefaultAsync(u => u.Id == entity.UserId);
       if(userExists == null)    
       {

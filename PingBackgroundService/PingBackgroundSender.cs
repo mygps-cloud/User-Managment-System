@@ -33,88 +33,49 @@ public class PingBackgroundService : BackgroundService
       {
            using (var scope = serviceProvider.CreateScope())
               {
-                    var _ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
-                        var _PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+       var _ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
+    var _PingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+   var DataTimeOfline=new List<DateTime>();
+   try
+{
+    var tasksUsers = await _ipStatusService.GetAllUsers();
 
-                        var DataTimeOfline=new List<DateTime>();
-                
-                        
-                            
-               
-                                                                
-                                                    try
-                                                    {
-                                                        var tasksUsers = await _ipStatusService.GetAllUsers();
-                                                        
-                                                        if (tasksUsers.Count > 0)
-                                                        {
-                                                            foreach (var task in tasksUsers)
-                                                            {
-                                                                var response = await PingIp(task.IpAddress);
-                                                                var pingLog = new PingLogDtoReqvest
-                                                                {
-                                                                    OnlieTime = DateTime.Now,
-                                                                    OflineTime = new List<DateTime>()
-                                                                };
+    if (tasksUsers.Count > 0)
+    {
+        foreach (var task in tasksUsers)
+        {
+            var response = await PingIp(task.IpAddress);
+            var pingLog = new PingLogDtoReqvest
+            {
+                OnlieTime = DateTime.Now,
+                OflineTime = new List<DateTime>(),
+                UserId = task.Id.Value
+            };
 
-                                                                if (response.Equals("Online"))
-                                                                {
-                                                                    pingLog.OnlieTime = DateTime.Now;
-                                                                }
-                                                                else
-                                                                {
-                                                                    DataTimeOfline.Add(DateTime.Now);
-                                                                    pingLog.OflineTime = DataTimeOfline;
-                                                                }
+            if (response.Equals("Online"))
+            {
+                pingLog.OnlieTime = DateTime.Now;
+            }
+            else
+            {
+                DataTimeOfline.Add(DateTime.Now);
+                pingLog.OflineTime = DataTimeOfline;
+            }
 
-                                                                _PingLogService.AddNewUser(pingLog);
-                                                                DataTimeOfline.Clear();
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            
-                                                            Console.WriteLine("No users found to ping.");
-                                                        }
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        
-                                                        Console.WriteLine($"An error occurred: {ex.Message}");
-                                                        
+            await _PingLogService.AddNewUser(pingLog); 
+            DataTimeOfline.Clear();
+        }
+    }
+    else
+    {
+        Console.WriteLine("No users found to ping.");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
+}
 
-
-
-                                //     var tasks = tasksUsers.Select(ip => Task.Run(async () =>
-                                // {
-                                //     using (var newScope = scope.ServiceProvider.CreateScope())
-                                //     {
-                                //         var _PingLogService = newScope.ServiceProvider.GetRequiredService<PingLogService>();
-                                //         var Response = ip.Status = await PingIp(ip.IpAddress) ? "Online" : "Offline";
-
-                                //         var pingLog = new PingLogDtoReqvest
-                                //         {
-                                          
-                                //             OnlieTime = DateTime.Now,
-                                //             OflineTime = DataTimeOfline
-                                //         };
-                                //         _DataTimeOfline.Add(DateTime.Now);
-
-                                //         pingLog.OflineTime.Add(DateTime.Now);
-                                //         Console.WriteLine(" xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",DateTime.Now);
-
-                                //         _PingLogService.AddNewUser(pingLog);
-                                //         DataTimeOfline.Clear();
-                                //     }
-                                // }
-                                // ));
-                                    
-                                //     await Task.WhenAll(tasks);
-
-
-
-                                    
-                             }
 
                              
 
