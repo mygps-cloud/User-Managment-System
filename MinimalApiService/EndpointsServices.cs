@@ -11,10 +11,11 @@ namespace Ipstatuschecker.MinimalApiService
        {
         var bookGroup = app.MapGroup("Pinglog");
         
-        bookGroup.MapGet("", GetAll).WithName(nameof(GetAll));
-        bookGroup.MapGet("id", GetById).WithName(nameof(GetById));
-        bookGroup.MapGet("GetByName", GetById).WithName(nameof(GetByName));
-        bookGroup.MapPost("", AddNewTimeStatus).WithName(nameof(AddNewTimeStatus));
+        bookGroup.MapGet("GetAll", GetAll).WithName(nameof(GetAll));
+       bookGroup.MapGet("{id}", GetById).WithName(nameof(GetById));
+
+        bookGroup.MapGet("GetByName", GetByName).WithName(nameof(GetByName));
+        bookGroup.MapPost("AddNewTimeStatus", AddNewTimeStatus).WithName(nameof(AddNewTimeStatus));
 
        }
 public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIRepository pingLogCommandIRepository)
@@ -49,6 +50,10 @@ public static async Task<List<PingLogDtoResponse>> GetById(int id,PingLogCommand
  
  
             var ById= await pingLogCommandIRepository.GetByIdAsync(id);
+              if (ById == null)
+                {
+                    throw new Exception("User not found."); 
+                }
 
              var pingLogById =  new PingLogDtoResponse
               {

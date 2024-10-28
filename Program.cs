@@ -5,13 +5,19 @@ using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Interfaces;
+using Ipstatuschecker.MinimalApiService;
 using Ipstatuschecker.Persistence;
 using Ipstatuschecker.Services;
 using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+ builder.Services.AddEndpointsApiExplorer();
 
+
+
+ builder.Services.AddHealthChecks();
+    
 
 builder.Services.AddDbContext<DbIpCheck>(options =>
     options.UseSqlite("Data Source=UserIpChecker.db"));
@@ -54,5 +60,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.PingLogEndpointsServices();
 
 app.Run();
