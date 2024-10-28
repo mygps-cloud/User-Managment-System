@@ -3,21 +3,28 @@ using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.Services
 {
     public class PingLogService(DbIpCheck _context,PingLogCommandIRepository pingLogCommandIRepository) : Iservices<PingLogDtoReqvest>
     {
-   
-public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
+   public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
 {
-    
-try
+    try
     {
+        // Check if the user exists
+        var userExists = await _context.Users.FirstOrDefaultAsync(u => u.Id == entity.UserId);
+      if(userExists == null)    
+      {
+
+        throw   new Exception($"user id -------------------------------- {userExists.Id}");    
+      }
         var pingLog = new PingLog
         {
             OnlieTime = entity.OnlieTime,
             OflineTime = entity.OflineTime,
+            UserId = entity.UserId
         };
 
         await _context.PingLog.AddAsync(pingLog);
@@ -26,9 +33,10 @@ try
     }
     catch (Exception ex)
     {
-        throw new Exception("data base erorsss ->>>", ex);
+        throw new Exception("Database error ->>>", ex);
     }
 }
+
 
 
         public Task<bool> DelteUserById(int entetyId)

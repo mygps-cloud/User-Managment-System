@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    [Migration("20241026130016_apolo13")]
-    partial class apolo13
+    [Migration("20241028032210_Apolo13")]
+    partial class Apolo13
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,12 +79,13 @@ namespace ipstatuschecker.Migrations
                     b.Property<DateTime>("OnlieTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("PingLog");
                 });
@@ -108,12 +109,12 @@ namespace ipstatuschecker.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.IpStatus", "IpStatus")
                         .WithOne()
                         .HasForeignKey("Ipstatuschecker.DomainEntity.Device", "IpStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("Devices")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("IpStatus");
                 });
@@ -129,9 +130,10 @@ namespace ipstatuschecker.Migrations
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.PingLog", b =>
                 {
                     b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithOne("PingLog")
+                        .HasForeignKey("Ipstatuschecker.DomainEntity.PingLog", "UserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -141,6 +143,8 @@ namespace ipstatuschecker.Migrations
                     b.Navigation("Devices");
 
                     b.Navigation("IpStatuses");
+
+                    b.Navigation("PingLog");
                 });
 #pragma warning restore 612, 618
         }

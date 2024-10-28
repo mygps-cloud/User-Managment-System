@@ -7,5 +7,7 @@ namespace Ipstatuschecker.DomainEntity
         
        public List<IpStatus>? IpStatuses { get; set; } = new ();
        public List<Device>? Devices { get; set; } = new ();
+       public PingLog? PingLog { get; set; }
+       
     }
 }

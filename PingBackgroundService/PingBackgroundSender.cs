@@ -40,48 +40,48 @@ public class PingBackgroundService : BackgroundService
                 
                         
                             
-                  var tasksUsers = await _ipStatusService.GetAllUsers();
-
- 
-                       if  (tasksUsers.Count > 0)
-                             {   
-
-                                            foreach (var task in tasksUsers)
-                                            {
-                                            var Response= await PingIp( task.IpAddress);
-                               if(Response.Equals("Online"))
-                                            { 
-                                                var pingLog = new PingLogDtoReqvest
+               
+                                                                
+                                                    try
                                                     {
-                                                        // Id = 1,
-                                                        OnlieTime = DateTime.Now,
-                                                        OflineTime =DataTimeOfline
+                                                        var tasksUsers = await _ipStatusService.GetAllUsers();
                                                         
-                                                    };
-                                                    pingLog.OflineTime.Add(DateTime.Now);
-                                                  _PingLogService.AddNewUser(pingLog);
-                                                   DataTimeOfline.Clear();
-                                        }
-                                                        
-                              else 
-                                            {
-                                                    DataTimeOfline.Add(DateTime.Now);
-                                                    var pingLog = new PingLogDtoReqvest
+                                                        if (tasksUsers.Count > 0)
+                                                        {
+                                                            foreach (var task in tasksUsers)
+                                                            {
+                                                                var response = await PingIp(task.IpAddress);
+                                                                var pingLog = new PingLogDtoReqvest
+                                                                {
+                                                                    OnlieTime = DateTime.Now,
+                                                                    OflineTime = new List<DateTime>()
+                                                                };
+
+                                                                if (response.Equals("Online"))
+                                                                {
+                                                                    pingLog.OnlieTime = DateTime.Now;
+                                                                }
+                                                                else
+                                                                {
+                                                                    DataTimeOfline.Add(DateTime.Now);
+                                                                    pingLog.OflineTime = DataTimeOfline;
+                                                                }
+
+                                                                _PingLogService.AddNewUser(pingLog);
+                                                                DataTimeOfline.Clear();
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            
+                                                            Console.WriteLine("No users found to ping.");
+                                                        }
+                                                    }
+                                                    catch (Exception ex)
                                                     {
-                                                        // Id = 1,
-                                                        OnlieTime = DateTime.Now,
-                                                        OflineTime =DataTimeOfline
                                                         
-                                                    };
-                                                    pingLog.OflineTime.Add(DateTime.Now);
-                                                   _PingLogService.AddNewUser(pingLog);
-                                                    DataTimeOfline.Clear();
-                                            //Console.WriteLine($"write data: {string.Join(", ", pingLog.OflineTime)}");
-
-
-                                            }
-                                    }
-                                        
+                                                        Console.WriteLine($"An error occurred: {ex.Message}");
+                                                        
 
 
 

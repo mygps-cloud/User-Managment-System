@@ -21,18 +21,18 @@ namespace Ipstatuschecker.DbContextSql
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Devices)
                 .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Device>()
                 .HasOne(i => i.IpStatus)
                 .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
-           modelBuilder.Entity<PingLog>()
-                .HasOne(p => p.User)
-                .WithMany() 
-                .OnDelete(DeleteBehavior.Cascade);
-
+            modelBuilder.Entity<PingLog>()
+                .HasOne(p => p.User) 
+                .WithOne(u => u.PingLog) 
+                .HasForeignKey<PingLog>(p => p.UserId) 
+                .OnDelete(DeleteBehavior.SetNull); 
         }
     }
 }

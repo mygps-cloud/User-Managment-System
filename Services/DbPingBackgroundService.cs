@@ -26,7 +26,7 @@ namespace Ipstatuschecker.Services
         public async Task<List<IpStatusDto>> GetAllUsers()
         {
             var all_Ip = await pstatusIQueryPingDbRepository.GetAll();
-
+             
             var UsersIp = all_Ip.Select(Ip => new IpStatusDto
             {
                 Id = Ip.Id,

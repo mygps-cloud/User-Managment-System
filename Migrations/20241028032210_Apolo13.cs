@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ipstatuschecker.Migrations
 {
     /// <inheritdoc />
-    public partial class apolo13 : Migration
+    public partial class Apolo13 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,7 @@ namespace ipstatuschecker.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     OnlieTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     OflineTime = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +63,7 @@ namespace ipstatuschecker.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,13 +84,13 @@ namespace ipstatuschecker.Migrations
                         column: x => x.IpStatusId,
                         principalTable: "IpStatuses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Devices_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
@@ -112,7 +112,8 @@ namespace ipstatuschecker.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PingLog_UserId",
                 table: "PingLog",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
