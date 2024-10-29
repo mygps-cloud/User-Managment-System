@@ -1,106 +1,61 @@
-
+using System.Net.NetworkInformation;
+using Ipstatuschecker.Dto;
+using Ipstatuschecker.Services;
 
 namespace Ipstatuschecker.PingBackgroundService.Services
 {
     public class CheckIpStatuses
     {
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<CheckIpStatuses> _logger;
+        private readonly  PingIpChecker _pingIpChecker;
 
-// public async Task StartCheckingIpStatuses()
-// {
-//     while (true)
-//     {
-//         await CheckIpStatuses();
-//         await Task.Delay(TimeSpan.FromSeconds(5));
-//     }
-// }
+        public CheckIpStatuses(IServiceProvider serviceProvider, ILogger<CheckIpStatuses> logger,PingIpChecker pingIpChecker)
+        {
+            _serviceProvider = serviceProvider;
+            _logger = logger;
+            _pingIpChecker=pingIpChecker;
+        }
 
-// private async Task CheckIpStatuses()
-// {
-//     var tasksUsers = await _ipStatusService.GetAllUsers();
-//     if (tasksUsers.Count > 0)
-//     {
-//         var tasks = tasksUsers.Select(ip => Task.Run(async () =>
-//         {
-//             using (var newScope = scope.ServiceProvider.CreateScope())
-//             {
-//                 var _PingLogService = newScope.ServiceProvider.GetRequiredService<PingLogService>();
+        public async Task CheckIpStatus()
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
+                var pingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
 
-//                 ip.Status = await PingIp(ip.IpAddress) ? "Online" : "Offline";
+                try
+                {
+                    var tasksUsers = await ipStatusService.GetAllUsers();
 
-//                 var pingLog = new PingLogDtoReqvest
-//                 {
-//                     OnlineTime = DateTime.Now,
-//                     OfflineTime = null
-//                 };
+                    if (tasksUsers.Count > 0)
+                    {
+                        foreach (var task in tasksUsers)
+                        {
+                            var response = await _pingIpChecker.PingIp(task.IpAddress);
 
-//                 if (ip.Status == "Offline")
-//                 {
-//                     pingLog.OfflineTime = DateTime.Now;
-//                     Console.WriteLine($"IP {ip.IpAddress} is offline at {DateTime.Now}");
-//                 }
-//                 else
-//                 {
-//                     Console.WriteLine($"IP {ip.IpAddress} is online at {DateTime.Now}");
-//                 }
+                            var pingLog = new PingLogDtoReqvest
+                            {
+                                UserId = task.Id.Value,
+                                OnlieTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
+                                OflineTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
+                            };
 
-//                 _PingLogService.AddNewUser(pingLog);
-//             }
-//         }));
+                            await pingLogService.AddNewUser(pingLog);
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogInformation("No users found to ping.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"An error occurred: {ex.Message}");
+                }
+            }
+        }
 
-//         await Task.WhenAll(tasks);
-//     }
-// }
-
-// private Timer _timer;
-
-// public void StartTimer()
-// {
-//     _timer = new Timer(async _ => await CheckIpStatuses(), null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-// }
-
-// private async Task CheckIpStatuses()
-// {
-//     var tasksUsers = await _ipStatusService.GetAllUsers();
-//     if (tasksUsers.Count > 0)
-//     {
-//         var tasks = tasksUsers.Select(ip => Task.Run(async () =>
-//         {
-//             using (var newScope = scope.ServiceProvider.CreateScope())
-//             {
-//                 var _PingLogService = newScope.ServiceProvider.GetRequiredService<PingLogService>();
-
-//                 ip.Status = await PingIp(ip.IpAddress) ? "Online" : "Offline";
-
-//                 var pingLog = new PingLogDtoReqvest
-//                 {
-//                     OnlineTime = DateTime.Now,
-//                     OfflineTime = null
-//                 };
-
-//                 if (ip.Status == "Offline")
-//                 {
-//                     pingLog.OfflineTime = DateTime.Now;
-//                     Console.WriteLine($"IP {ip.IpAddress} is offline at {DateTime.Now}");
-//                 }
-//                 else
-//                 {
-//                     Console.WriteLine($"IP {ip.IpAddress} is online at {DateTime.Now}");
-//                 }
-
-//                 _PingLogService.AddNewUser(pingLog);
-//             }
-//         }));
-
-//         await Task.WhenAll(tasks);
-//     }
-// }
-
-
-
-
-
+      
     }
 }
-
-
-

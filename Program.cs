@@ -24,7 +24,10 @@ builder.Services.AddDbContext<DbIpCheck>(options =>
 
 
 builder.Services.AddControllersWithViews();
-  builder.Services.AddHostedService<PingBackgroundService>();
+builder.Services.AddservicesPingBackground();
+
+
+  builder.Services.AddScoped<DbPingBackgroundService>();
 
 builder.Services.AddScoped<IQueryIpStatusRepository<User>,UserQueryRepository>();
 builder.Services.AddScoped<ICommandIpStatusRepository<User>,UserCommandIRepository>();
