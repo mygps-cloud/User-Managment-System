@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    [Migration("20241028111729_Apoli13")]
-    partial class Apoli13
+    [Migration("20241029054702_Apolo13")]
+    partial class Apolo13
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,7 +77,6 @@ namespace ipstatuschecker.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OnlieTime")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")

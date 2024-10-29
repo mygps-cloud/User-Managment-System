@@ -74,7 +74,6 @@ namespace ipstatuschecker.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OnlieTime")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")

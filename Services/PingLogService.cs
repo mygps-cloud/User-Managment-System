@@ -12,21 +12,8 @@ namespace Ipstatuschecker.Services
   
 public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
 {
-    if (entity == null)
-        throw new ArgumentNullException(nameof(entity));
+    if (entity == null)throw new ArgumentNullException(nameof(entity));
 
-    var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-    if (existingLog != null)
-    {
-       
-        existingLog.OnlieTime.Add(DateTime.UtcNow); 
-        existingLog.OflineTime.Add(DateTime.UtcNow);
-
-        await context.SaveChangesAsync();
-        return true; 
-    }
-    else
-    {
         try
         {
             var pingLog = new PingLog
@@ -35,10 +22,20 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
                 OnlieTime = entity.OnlieTime,
                 OflineTime = entity.OflineTime,
             };
+     var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+     if(existingLog!=null)
+     {
+         existingLog?.OnlieTime?.Add(DateTime.UtcNow); 
+        existingLog?.OflineTime?.Add(DateTime.UtcNow);
 
-            await context.PingLog.AddAsync(pingLog);
-            await context.SaveChangesAsync();
-            return true;
+        await context.SaveChangesAsync();
+        return true; 
+     } else{
+        await context.PingLog.AddAsync(pingLog);
+        await context.SaveChangesAsync();
+        return true;}
+
+            
         }
         catch (DbUpdateException dbEx)
         {
@@ -49,7 +46,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
             throw new Exception("An error occurred while processing your request.", ex);
         }
     }
-}
+
 
 
 
