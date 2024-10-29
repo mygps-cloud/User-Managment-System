@@ -17,7 +17,8 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 public async Task<IActionResult> Index()
 {
     var model = await Dai(); 
-    return View(model);
+    //return View(model);
+    return View();
 }
 
 
