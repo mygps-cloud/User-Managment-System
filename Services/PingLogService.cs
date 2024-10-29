@@ -25,15 +25,15 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
      var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
      if(existingLog!=null)
      {
-         existingLog?.OnlieTime?.Add(DateTime.UtcNow); 
-        existingLog?.OflineTime?.Add(DateTime.UtcNow);
-
+       var timeToAdd = entity?.OnlieTime?.Count > 0 ? existingLog?.OnlieTime : existingLog?.OflineTime;
+       timeToAdd?.Add(DateTime.UtcNow);
         await context.SaveChangesAsync();
         return true; 
      } else{
         await context.PingLog.AddAsync(pingLog);
         await context.SaveChangesAsync();
-        return true;}
+        return true;
+    }
 
             
         }
@@ -41,10 +41,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
         {
             throw new Exception("Database error occurred while saving changes.", dbEx.InnerException ?? dbEx);
         }
-        catch (Exception ex)
-        {
-            throw new Exception("An error occurred while processing your request.", ex);
-        }
+        
     }
 
 

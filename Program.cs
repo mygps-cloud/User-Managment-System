@@ -1,5 +1,4 @@
 
-using ipstatuschecker.PingServices;
 using Ipstatuschecker.DbContextSql;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
