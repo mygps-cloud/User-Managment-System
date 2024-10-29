@@ -1,9 +1,8 @@
 
-using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Persistence;
 
-namespace Ipstatuschecker.MinimalApiService
+namespace Ipstatuschecker.PingBackgroundService.MinimalApiService
 {
     public static class EndpointsServices
     {
@@ -12,10 +11,8 @@ namespace Ipstatuschecker.MinimalApiService
         var bookGroup = app.MapGroup("Pinglog");
         
         bookGroup.MapGet("GetAll", GetAll).WithName(nameof(GetAll));
-       bookGroup.MapGet("{id}", GetById).WithName(nameof(GetById));
-
+        bookGroup.MapGet("{id}", GetById).WithName(nameof(GetById));
         bookGroup.MapGet("GetByName/{name}", GetByName).WithName(nameof(GetByName));
-        // bookGroup.MapPost("AddNewTimeStatus", AddNewTimeStatus).WithName(nameof(AddNewTimeStatus));
 
        }
 public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIRepository pingLogCommandIRepository)
@@ -41,10 +38,6 @@ public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIReposit
     return pingLogDtoRequests; 
     
 }
-
-
-
-
 public static async Task<List<PingLogDtoResponse>> GetById(int id,PingLogCommandIRepository pingLogCommandIRepository)
 {
  
@@ -70,9 +63,6 @@ public static async Task<List<PingLogDtoResponse>> GetById(int id,PingLogCommand
 
             return new List<PingLogDtoResponse> { pingLogById };
 }
-
-
-
 public static async Task<List<PingLogDtoResponse>> GetByName(string name,PingLogCommandIRepository pingLogCommandIRepository)
 {
  

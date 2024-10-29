@@ -4,8 +4,8 @@ using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Interfaces;
-using Ipstatuschecker.MinimalApiService;
 using Ipstatuschecker.Persistence;
+using Ipstatuschecker.PingBackgroundService.MinimalApiService;
 using Ipstatuschecker.Services;
 using Microsoft.EntityFrameworkCore;
 

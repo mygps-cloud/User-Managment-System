@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Dto;
-using ipstatuschecker.PingServices;
 
 
-namespace ipstatuschecker.Controllers
+
+namespace ipstatuschecker.Mvc.Controllers
 {
   
 
