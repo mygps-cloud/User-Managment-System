@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Net.NetworkInformation;
 
-namespace Ipstatuschecker.PingBackgroundService.Services
+namespace Ipstatuschecker.Background_Infrastructure.Services
 {
     public class PingIpChecker(ILogger<PingIpChecker> logger)
     {

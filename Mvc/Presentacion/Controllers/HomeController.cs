@@ -1,48 +1,17 @@
-using System.Diagnostics;
+
 using Microsoft.AspNetCore.Mvc;
-
 using System.Net.NetworkInformation;
-using Ipstatuschecker.interfaces;
 using Ipstatuschecker.Dto;
+using Abstractions.interfaces;
 
 
 
-namespace ipstatuschecker.Mvc.Controllers
+namespace ipstatuschecker.Mvc.Presentacion.Controllers
 {
   
 
     public class HomeController(Iservices<UserDto> iservices) : Controller
     {
-
-
-
-//  private readonly PingService PingService;
-
-//     public HomeController(PingService PingService)
-//     {
-//       this.PingService = PingService;
-//     }
-
-// public class UserViewModel
-// {
-//     public int Id { get; set; }
-//     public string Name { get; set; }
-//     public List<IpStatusDto> IpStatuses { get; set; }
-//     public List<DeviceDto> Devices { get; set; }
-// }
-// public async Task<IActionResult> Index()
-// {
-//     var userDtos = await iservices.GetAllUsers();
-//     var viewModel = userDtos.Select(user => new UserViewModel
-//     {
-//         Id = user.Id,
-//         Name = user.Name,
-//         IpStatuses = user.IpStatuses,
-//         Devices = user.Devices
-//     }).ToList();
-
-//     return View(viewModel);
-// }
 
 
 public async Task<IActionResult> Index()
@@ -55,7 +24,7 @@ public async Task<IActionResult> Index()
 public async Task<IActionResult> robika()
 {
      
-    return View();
+   return View();
 }
     
 [HttpGet]

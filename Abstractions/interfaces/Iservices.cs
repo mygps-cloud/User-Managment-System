@@ -1,4 +1,4 @@
-namespace Ipstatuschecker.interfaces
+namespace Abstractions.interfaces
 {
     public interface Iservices<T>where T:class
     {

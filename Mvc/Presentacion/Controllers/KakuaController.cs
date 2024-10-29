@@ -1,10 +1,10 @@
 
+using Abstractions.interfaces;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.interfaces;
-using Ipstatuschecker.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Mvc.Infrastructure.Persistence;
 
-namespace Controllers
+namespace ipstatuschecker.Mvc.Presentacion.Kakua
 {
     [Route("api/[controller]")]
     [ApiController]

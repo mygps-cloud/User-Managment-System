@@ -1,4 +1,4 @@
-namespace Ipstatuschecker.Interfaces
+namespace Abstractions.interfaces
 {
     public interface IQueryIpStatusRepository<T> where T : class
     {

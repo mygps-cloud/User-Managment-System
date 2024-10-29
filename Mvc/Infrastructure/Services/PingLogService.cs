@@ -1,10 +1,11 @@
-using System.Linq;
-using Ipstatuschecker.DbContextSql;
+
+using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.interfaces;
-using Ipstatuschecker.Persistence;
+
 using Microsoft.EntityFrameworkCore;
+using Mvc.Infrastructure.DLA.DbContextSql;
+using Mvc.Infrastructure.Persistence;
 
 namespace Ipstatuschecker.Services
 {

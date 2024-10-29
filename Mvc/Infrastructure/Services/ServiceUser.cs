@@ -1,7 +1,6 @@
+using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.interfaces;
-using Ipstatuschecker.Interfaces;
 
 namespace Ipstatuschecker.Services
 {

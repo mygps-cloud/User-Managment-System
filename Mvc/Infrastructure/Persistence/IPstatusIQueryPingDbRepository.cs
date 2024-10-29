@@ -1,9 +1,14 @@
 
-using Ipstatuschecker.DbContextSql;
+using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
-using Ipstatuschecker.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Mvc.Infrastructure.DLA.DbContextSql;
 
+
+
+namespace Mvc.Infrastructure.Persistence
+
+{
 public class IPstatusIQueryPingDbRepository : IQueryIpStatusRepository<IpStatus>
 {
     private readonly DbIpCheck _context;
@@ -54,4 +59,7 @@ public class IPstatusIQueryPingDbRepository : IQueryIpStatusRepository<IpStatus>
 
         return ipStatus;
     }
+}
+
+
 }

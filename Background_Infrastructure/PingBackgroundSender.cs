@@ -1,7 +1,9 @@
 
-using Ipstatuschecker.PingBackgroundService.Services;
+using Ipstatuschecker.Background_Infrastructure.Services;
 
+namespace Ipstatuschecker.Background_Infrastructure
 
+{
 public class PingBackgroundService : BackgroundService
 {
   private readonly CheckIpStatuses checkIpStatuses;
@@ -24,6 +26,6 @@ public class PingBackgroundService : BackgroundService
  }
         
         
-
+}
 
     

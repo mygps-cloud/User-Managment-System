@@ -2,7 +2,7 @@ using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Services;
 
-namespace Ipstatuschecker.PingBackgroundService.Services
+namespace Ipstatuschecker.Background_Infrastructure.Services
 {
     public class CheckIpStatuses
     {

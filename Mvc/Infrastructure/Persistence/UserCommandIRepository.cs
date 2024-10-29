@@ -1,8 +1,9 @@
-using Ipstatuschecker.DbContextSql;
+using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
-using Ipstatuschecker.interfaces;
+using Mvc.Infrastructure.DLA.DbContextSql;
 
-namespace Ipstatuschecker.Persistence
+
+namespace Mvc.Infrastructure.Persistence
 {
     public class UserCommandIRepository(DbIpCheck context) : ICommandIpStatusRepository<User>
     {

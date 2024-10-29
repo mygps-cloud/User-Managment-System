@@ -1,4 +1,4 @@
-namespace ipstatuschecker;
+namespace Mvc.Presentacion.Views;
 
 public class IpCheckViewModel
 {
