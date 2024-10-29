@@ -1,3 +1,4 @@
+using System.Linq;
 using Ipstatuschecker.DbContextSql;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
@@ -25,10 +26,14 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
      var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
      if(existingLog!=null)
      {
-       var timeToAdd = entity?.OnlieTime?.Count > 0 ? existingLog?.OnlieTime : existingLog?.OflineTime;
-       timeToAdd?.Add(DateTime.UtcNow);
-        await context.SaveChangesAsync();
-        return true; 
+       
+            var timeToAdd = existingLog?.OflineTime; 
+            var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+            if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0) existingLog?.OnlieTime?.Add(DateTime.Now);
+            else if(entity?.OflineTime != null) timeToAdd?.Add(DateTime.Now);
+            await context.SaveChangesAsync();
+            return true;
+
      } else{
         await context.PingLog.AddAsync(pingLog);
         await context.SaveChangesAsync();
