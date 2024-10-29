@@ -2,7 +2,7 @@ using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 
-namespace Ipstatuschecker.Services
+namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
     public class ServiceUser(IQueryIpStatusRepository<User> qeuryIpStatusRepository,
     ICommandIpStatusRepository<User> commandIpStatusRepository) : Iservices<UserDto>

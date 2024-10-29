@@ -4,7 +4,7 @@ using Mvc.Infrastructure.Persistence;
 
 
 
-namespace Ipstatuschecker.Services
+namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
     public class DbPingBackgroundService : Iservices<IpStatusDto>
     {

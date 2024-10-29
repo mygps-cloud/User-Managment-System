@@ -4,10 +4,9 @@ using Ipstatuschecker.Background_Infrastructure.Configuration;
 using Ipstatuschecker.Background_Infrastructure.RouteServices.MinimalApiService;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
-
-using Ipstatuschecker.Services;
+using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
+using Ipstatuschecker.Mvc.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Infrastructure.DLA.DbContextSql;
 using Mvc.Infrastructure.Persistence;
 
 

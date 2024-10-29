@@ -1,4 +1,4 @@
-using System.Globalization;
+
 using System.Net.NetworkInformation;
 
 namespace Ipstatuschecker.Background_Infrastructure.Services

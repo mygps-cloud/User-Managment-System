@@ -1,6 +1,7 @@
 using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
-using Mvc.Infrastructure.DLA.DbContextSql;
+using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
+
 
 
 namespace Mvc.Infrastructure.Persistence

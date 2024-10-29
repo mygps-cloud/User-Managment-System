@@ -1,8 +1,9 @@
 
 using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
+using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Infrastructure.DLA.DbContextSql;
+
 
 
 

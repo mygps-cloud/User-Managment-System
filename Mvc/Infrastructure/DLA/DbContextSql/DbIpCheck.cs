@@ -1,7 +1,7 @@
 using Ipstatuschecker.DomainEntity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mvc.Infrastructure.DLA.DbContextSql
+namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
 {
     public class DbIpCheck :Microsoft.EntityFrameworkCore. DbContext
     {

@@ -1,6 +1,7 @@
 using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.Services;
+using Ipstatuschecker.Mvc.Infrastructure.Services;
+
 
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {

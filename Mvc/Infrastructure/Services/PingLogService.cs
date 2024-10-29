@@ -2,12 +2,11 @@
 using Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
-
+using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Infrastructure.DLA.DbContextSql;
 using Mvc.Infrastructure.Persistence;
 
-namespace Ipstatuschecker.Services
+namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
     public class PingLogService(DbIpCheck context,PingLogCommandIRepository pingLogCommandIRepository) : Iservices<PingLogDtoReqvest>
     {

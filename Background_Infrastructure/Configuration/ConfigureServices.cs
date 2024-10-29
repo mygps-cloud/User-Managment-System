@@ -1,7 +1,7 @@
 
 
 using Ipstatuschecker.Background_Infrastructure.Services;
-using Ipstatuschecker.Services;
+using Ipstatuschecker.Mvc.Infrastructure.Services;
 using Mvc.Infrastructure.Persistence;
 
 namespace Ipstatuschecker.Background_Infrastructure.Configuration
