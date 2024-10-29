@@ -15,43 +15,39 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
     if (entity == null)
         throw new ArgumentNullException(nameof(entity));
 
-    if (entity.UserId <= 0) 
-        throw new ArgumentException("UserId must be a valid ID.", nameof(entity.UserId));
-
-    try
+    var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+    if (existingLog != null)
     {
-   
-        var userExists = await context.Users
-            .AnyAsync(u => u.Id == entity.UserId);
+       
+        existingLog.OnlieTime.Add(DateTime.UtcNow); 
+        existingLog.OflineTime.Add(DateTime.UtcNow);
 
-        if (!userExists)
-        {
-            throw new Exception($"User with ID {entity.UserId} does not exist.");
-        }
-
-
-        var pingLog = new PingLog
-        {
-            UserId = entity.UserId,
-            OnlieTime = entity.OnlieTime,
-            OflineTime = entity.OflineTime,
-        };
-
-        // Add the new log and save changes
-        await context.PingLog.AddAsync(pingLog);
         await context.SaveChangesAsync();
+        return true; 
+    }
+    else
+    {
+        try
+        {
+            var pingLog = new PingLog
+            {
+                UserId = entity.UserId,
+                OnlieTime = entity.OnlieTime,
+                OflineTime = entity.OflineTime,
+            };
 
-        return true;
-    }
-    catch (DbUpdateException dbEx)
-    {
-       
-        throw new Exception("Database error occurred while saving changes.", dbEx.InnerException ?? dbEx);
-    }
-    catch (Exception ex)
-    {
-       
-        throw new Exception("An error occurred while processing your request.", ex);
+            await context.PingLog.AddAsync(pingLog);
+            await context.SaveChangesAsync();
+            return true;
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database error occurred while saving changes.", dbEx.InnerException ?? dbEx);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while processing your request.", ex);
+        }
     }
 }
 

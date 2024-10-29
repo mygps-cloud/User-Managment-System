@@ -33,6 +33,14 @@ namespace Ipstatuschecker.DbContextSql
                 .WithOne(u => u.PingLog) 
                 .HasForeignKey<PingLog>(p => p.UserId) 
                 .OnDelete(DeleteBehavior.SetNull); 
+
+
+
+                //   modelBuilder.Entity<PingLog>()
+                // .HasOne(p => p.User) 
+                // .WithMany(u => u.PingLog) 
+                // .HasForeignKey(param=>param.UserId)
+                // .OnDelete(DeleteBehavior.SetNull); 
         }
     }
 }

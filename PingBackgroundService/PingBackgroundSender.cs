@@ -46,6 +46,7 @@ private async Task CheckIpStatuses()
                         UserId = task.Id.Value,
                         OnlieTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>{},
                         OflineTime = response ? new List<DateTime>{} : new List<DateTime> { DateTime.Now }
+                      
                     };
 
                  
