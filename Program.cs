@@ -6,6 +6,7 @@ using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
+using Ipstatuschecker.Mvc.Presentacion.MvcOptionsRoute;
 using Microsoft.EntityFrameworkCore;
 using Mvc.Infrastructure.Persistence;
 
@@ -25,7 +26,7 @@ builder.Services.AddDbContext<DbIpCheck>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddservicesPingBackground();
-
+ builder.Services.RouteMvcOptions();
 
 builder.Services.AddScoped<DbPingBackgroundService>();
 

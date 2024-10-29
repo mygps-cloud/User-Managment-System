@@ -17,9 +17,13 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 public async Task<IActionResult> Index()
 {
     var model = await Dai(); 
-    //return View(model);
-    return View();
+    
+   return View("~/Mvc/Presentacion/Views/Home/Index.cshtml", model);
+ 
+   
 }
+
+
 
 
 public async Task<IActionResult> robika()
