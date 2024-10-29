@@ -1,6 +1,6 @@
 
 
-using Ipstatuschecker.PingBackgroundService.Services;
+using Ipstatuschecker.Background_Infrastructure.Services;
 using Ipstatuschecker.Services;
 using Mvc.Infrastructure.Persistence;
 
@@ -14,7 +14,7 @@ public static class  ConfigureServices
         services.AddSingleton<CheckIpStatuses>();
         services.AddScoped<PingLogService>();
         services.AddScoped<PingLogCommandIRepository>();
-        // services.AddHostedService<PingBackgroundService>();
+        services.AddHostedService<PingBackgroundService>();
         return services;
     }
 }

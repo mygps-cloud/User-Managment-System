@@ -1,5 +1,7 @@
+using Abstractions.interfaces;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.interfaces;
+using Mvc.Infrastructure.Persistence;
+
 
 
 namespace Ipstatuschecker.Services
