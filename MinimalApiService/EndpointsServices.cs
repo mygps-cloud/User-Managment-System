@@ -25,7 +25,6 @@ public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIReposit
     var offlineAllUsers = await pingLogCommandIRepository.GetAll();
 
     var pingLogDtoRequests = offlineAllUsers
-        .Where(log => log.OnlieTime != null && log.OflineTime.Any())
         .Select(log => new PingLogDtoResponse
         {
             Id = log.Id,
@@ -40,6 +39,7 @@ public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIReposit
         .ToList();
 
     return pingLogDtoRequests; 
+    
 }
 
 
