@@ -29,8 +29,10 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
        
             var timeToAdd = existingLog?.OflineTime; 
             var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
-            if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0) existingLog?.OnlieTime?.Add(DateTime.Now);
-            else if(entity?.OflineTime != null) timeToAdd?.Add(DateTime.Now);
+            if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0)
+             existingLog?.OnlieTime?.Add(DateTime.Now);
+            else if(entity?.OflineTime != null&&entity?.OflineTime?.Count>0) 
+            timeToAdd?.Add(DateTime.Now);
             await context.SaveChangesAsync();
             return true;
 
