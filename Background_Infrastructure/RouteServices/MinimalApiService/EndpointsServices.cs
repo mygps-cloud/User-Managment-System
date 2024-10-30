@@ -1,4 +1,5 @@
 
+using Ipstatuschecker.Abstractions.interfaces;
 using Ipstatuschecker.Dto;
 using Mvc.Infrastructure.Persistence;
 
@@ -16,11 +17,11 @@ namespace Ipstatuschecker.Background_Infrastructure.RouteServices.MinimalApiServ
         bookGroup.MapGet("GetByName/{name}", GetByName).WithName(nameof(GetByName));
 
        }
-public static async Task<List<PingLogDtoResponse>> GetAll(PingLogCommandIRepository pingLogCommandIRepository)
+public static async Task<List<PingLogDtoResponse>> GetAll(IPingLogRepository pingLogRepository)
 {  
     
+ var offlineAllUsers= await pingLogRepository.GetAll();
 
-    var offlineAllUsers = await pingLogCommandIRepository.GetAll();
 
     var pingLogDtoRequests = offlineAllUsers
         .Select(log => new PingLogDtoResponse

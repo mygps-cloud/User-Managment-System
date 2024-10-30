@@ -1,5 +1,6 @@
 
 using Abstractions.interfaces;
+using Ipstatuschecker.Abstractions.interfaces;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
@@ -8,7 +9,9 @@ using Mvc.Infrastructure.Persistence;
 
 namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
-    public class PingLogService(DbIpCheck context,PingLogCommandIRepository pingLogCommandIRepository) : Iservices<PingLogDtoReqvest>
+    public class PingLogService( DbIpCheck context,
+    PingLogCommandIRepository pingLogCommandIRepository,IPingLogRepository pingLogRepository) 
+    : Iservices<PingLogDtoReqvest>
     {
   
 public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
@@ -23,7 +26,10 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
                 OnlieTime = entity.OnlieTime,
                 OflineTime = entity.OflineTime,
             };
-     var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+    
+//   var existingLog= await pingLogRepository.GetByIdAsync(entity.UserId);
+
+       var existingLog= await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
      if(existingLog!=null)
      {
        
@@ -33,13 +39,14 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
              existingLog?.OnlieTime?.Add(DateTime.Now);
             else if(entity?.OflineTime != null&&entity?.OflineTime?.Count>0) 
             timeToAdd?.Add(DateTime.Now);
-            await context.SaveChangesAsync();
+            await pingLogRepository.Save();
             return true;
 
-     } else{
-        await context.PingLog.AddAsync(pingLog);
-        await context.SaveChangesAsync();
-        return true;
+     }
+      else
+     {
+       await pingLogRepository.Create(pingLog);
+         return true;
     }
 
             
@@ -70,7 +77,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
         {
             Id = log.Id,
             OnlieTime = log.OnlieTime, 
-            OflineTime = log.OflineTime.ToList(), 
+            OflineTime = log.OflineTime?.ToList(), 
             _UserDto = log.User != null ? new UserDto
             {
                 Id = log.User.Id,

@@ -2,9 +2,9 @@ namespace Abstractions.interfaces
 {
     public interface ICommandIpStatusRepository<T>where T:class
     {
-          Task<bool> CreateUser(T entety);
-          Task<T>UpdateUser(T entety);
-          Task<bool> DelteUser(int entetyId);
+          Task<bool> Create(T entety);
+          Task<T>Update(T entety);
+          Task<bool> Delete(int entetyId);
          
     }
 }

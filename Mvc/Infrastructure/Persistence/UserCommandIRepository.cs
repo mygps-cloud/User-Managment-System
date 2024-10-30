@@ -8,14 +8,14 @@ namespace Mvc.Infrastructure.Persistence
 {
     public class UserCommandIRepository(DbIpCheck context) : ICommandIpStatusRepository<User>
     {
-        public async Task<bool> CreateUser(User entity)
+        public async Task<bool> Create(User entity)
         {
             var entry = await context.Users.AddAsync(entity); 
             await context.SaveChangesAsync(); 
             return true; 
         }
 
-  public async Task<bool> DelteUser(int id)
+  public async Task<bool> Delete(int id)
         {
             var existingUser = await context.Users.FindAsync(id);
             if (existingUser == null)
@@ -30,7 +30,7 @@ namespace Mvc.Infrastructure.Persistence
 
     
 
-          public async Task<User> UpdateUser(User entity)
+          public async Task<User> Update(User entity)
             {
                 var entry = context.Users.Update(entity); 
                  await context.SaveChangesAsync(); 

@@ -49,13 +49,14 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
     }
 }
 
-
-        public Task<bool> CreateUser(PingLog entety)
+        public Task<bool> Create(PingLog entety)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DelteUser(int entetyId)
+      
+
+        public Task<bool> Delete(int entetyId)
         {
             throw new NotImplementedException();
         }
@@ -65,7 +66,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
              var OflineUsers=await context.PingLog.
            Include(p=>p.User)
           .AsNoTracking().
-          ToListAsync();
+           ToListAsync();
            return OflineUsers;
         }
 
@@ -87,7 +88,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
            return GetByName;
         }
 
-        public Task<PingLog> UpdateUser(PingLog entety)
+        public Task<PingLog> Update(PingLog entety)
         {
             throw new NotImplementedException();
         }

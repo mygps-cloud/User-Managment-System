@@ -30,7 +30,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
 
     try
     {
-        await commandIpStatusRepository.CreateUser(user);
+        await commandIpStatusRepository.Create(user);
         return true;
     }
     catch (Exception)
@@ -77,7 +77,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
     }
 
     
-    await commandIpStatusRepository.UpdateUser(existingUser);
+    await commandIpStatusRepository.Update(existingUser);
 
    
     return new UserDto
@@ -101,7 +101,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
     try
     {
-        bool isDeleted = await commandIpStatusRepository.DelteUser(entityId);
+        bool isDeleted = await commandIpStatusRepository.Delete(entityId);
         if (!isDeleted)
         {
             throw new Exception("User could not be deleted."); 
