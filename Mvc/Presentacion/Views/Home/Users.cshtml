@@ -1,4 +1,5 @@
-@* @using  Ipstatuschecker.Dto
+@* 
+@using Ipstatuschecker.Dto
 @model List<PingLogDtoResponse>
 
 <!DOCTYPE html>
@@ -6,66 +7,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Status Overview</title>
+    <title>User Status</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-        }
-        h2 {
-            color: #333;
-        }
-        .status {
-            margin: 15px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f0f0f0;
-        }
-        .user-info {
-            margin-top: 20px;
-        }
-        .user-info p {
-            margin: 5px 0;
-        }
+       body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; 
+    max-width: 100%; 
+    margin: auto;
+}
+
+.user-box {
+    padding: 10px;
+    border: 2px solid #ddd;
+    background-color: #f5f5f5;
+    margin: 20px; 
+    width: calc(20% - 40px); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.status {
+    margin: 10px 0;
+}
+
+.label {
+    margin: 5px 0;
+}
+
+.status-online {
+    color: green;
+}
+
+.status-offline {
+    color: red;
+}
+
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>User Status Overview</h2>
 
         @foreach (var log in Model)
         {
-            <div class="status">
-                <h3>Status ID: <span>@log.Id</span></h3>
-                <h4>Online Time:</h4>
-                <ul>
-                    <li>@log.OnlieTime</li>
-                </ul>
-                <h4>Offline Time:</h4>
-                <ul>
-                    @foreach (var offline in log.OflineTime)
-                    {
-                        <li>@offline</li>
-                    }
-                </ul>
-            </div>
-
-            <div class="user-info">
-                <h4>User Information</h4>
-                <p><strong>ID:</strong> <span>@log._UserDto?.Id</span></p>
-                <p><strong>Name:</strong> <span>@log._UserDto?.Name</span></p>
+            <div class="user-box">
+                <div class="status">
+                    <h4>Online Time:</h4>
+                    <ul>
+                        @foreach (var onlineTime in log.OnlieTime)
+                        {
+                            <li>@onlineTime.ToString("g")</li>
+                        }
+                    </ul>
+                    <h4>Offline Time:</h4>
+                    <ul>
+                        @foreach (var offline in log.OflineTime)
+                        {
+                            <li>@offline.ToString("g")</li>
+                        }
+                    </ul>
+                      <div class="user-info">
+                    <p><strong>Name:</strong> <span>@log._UserDto?.Name</span></p>
+                </div>
+                </div>
             </div>
         }
     </div>
@@ -74,7 +85,7 @@
 </html> *@
 
 
-@using  Ipstatuschecker.Dto
+@using Ipstatuschecker.Dto
 @model List<PingLogDtoResponse>
 
 <!DOCTYPE html>
@@ -82,71 +93,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Status Overview</title>
+    <title>User Status</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
+            text-align: center;
+            margin-top: 20px;
         }
+
         .container {
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin: auto;
+            max-width: 100%;
         }
-        h2 {
-            color: #333;
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px 0;
         }
-        .status {
-            margin: 15px 0;
+
+        th, td {
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f0f0f0;
+            border: 2px solid #ddd;
+            text-align: center;
         }
-        .user-info {
-            margin-top: 10px; /* Adjusted spacing for better visual alignment */
+
+        th {
+            background-color: #f5f5f5;
         }
-        .user-info p {
-            margin: 5px 0;
+
+        .status-online {
+            color: green;
+        }
+
+        .status-offline {
+            color: red;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>User Status Overview</h2>
-
-        @foreach (var log in Model)
-        {
-            <div class="status">
-                <h3>Status ID: <span>@log.Id</span></h3>
-                <h4>Online Time:</h4>
-                <ul>
-                    @foreach (var onlineTime in log.OnlieTime)
-                    {
-                        <li>@onlineTime.ToString("g")</li>
-                    }
-                </ul>
-                <h4>Offline Time:</h4>
-                <ul>
-                    @foreach (var offline in log.OflineTime)
-                    {
-                        <li>@offline.ToString("g")</li>
-                    }
-                </ul>
-            </div>
-
-            <div class="user-info">
-                <h4>User Information</h4>
-                <p><strong>ID:</strong> <span>@log._UserDto?.Id</span></p>
-                <p><strong>Name:</strong> <span>@log._UserDto?.Name</span></p>
-            </div>
-        }
+        <h2>User Status</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Online Time</th>
+                    <th>Offline Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td>@log._UserDto?.Name</td>
+                        <td>
+                            <ul>
+                                @foreach (var onlineTime in log.OnlieTime)
+                                {
+                                    <li>@onlineTime.ToString("g")</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (var offline in log.OflineTime)
+                                {
+                                    <li>@offline.ToString("g")</li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
 </body>
