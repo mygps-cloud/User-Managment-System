@@ -32,6 +32,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
              throw new Exception("User is empty");
         }
 
+      
+
         public async Task<PingLog> GetByIdAsync(int id)
         {
           
@@ -43,8 +45,9 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
               return user;
         }
 
-        public Task<PingLog> GetByNameAsync(string name)
+        public async Task<PingLog> GetByNameAsync(string name)
         {
+
             throw new NotImplementedException();
         }
 

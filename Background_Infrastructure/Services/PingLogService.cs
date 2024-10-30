@@ -7,7 +7,7 @@ using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 using Mvc.Infrastructure.Persistence;
 
-namespace Ipstatuschecker.Mvc.Infrastructure.Services
+namespace Background_Infrastructure.Services
 {
     public class PingLogService( DbIpCheck context,
     PingLogCommandIRepository pingLogCommandIRepository,IPingLogRepository pingLogRepository) 
@@ -35,12 +35,14 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
        
             var timeToAdd = existingLog?.OflineTime; 
             var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+            var hasOflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+
             if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0)
              existingLog?.OnlieTime?.Add(DateTime.Now);
-            else if(entity?.OflineTime != null&&entity?.OflineTime?.Count>0) 
+            else if(entity?.OflineTime != null&&!hasOflineRecordForToday) 
             timeToAdd?.Add(DateTime.Now);
-            await pingLogRepository.Save();
-            return true;
+           
+            return  await pingLogRepository.Save();
 
      }
       else

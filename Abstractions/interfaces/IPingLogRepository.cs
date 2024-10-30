@@ -8,6 +8,7 @@ namespace Ipstatuschecker.Abstractions.interfaces
     IQueryIpStatusRepository<PingLog>
     {
         Task<bool>Save();
+      
         
     }
 }
