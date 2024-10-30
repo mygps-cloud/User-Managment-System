@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
 using Abstractions.interfaces;
+using Ipstatuschecker.Abstractions.interfaces;
 
 
 
@@ -10,7 +11,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 {
   
 
-    public class HomeController(Iservices<UserDto> iservices) : Controller
+    public class HomeController(Iservices<UserDto> iservices,IPingLogRepository pingLogRepository) : Controller
     {
 
 
@@ -23,7 +24,29 @@ public async Task<IActionResult> Index()
    
 }
 
+public async Task<IActionResult> Users()
+{
+      var offlineAllUsers = await pingLogRepository.GetAll();
 
+        var pingLogDtoRequests = offlineAllUsers
+            .Select(log => new PingLogDtoResponse
+            {
+                Id = log.Id,
+                OnlieTime = log.OnlieTime,
+                OflineTime = log.OflineTime.ToList(),
+                _UserDto = log.User != null ? new UserDto
+                {
+                    Id = log.User.Id,
+                    Name = log.User.Name
+                } : null
+            })
+            .ToList();
+
+        
+     
+  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",pingLogDtoRequests);
+}
+   
 
 
 public async Task<IActionResult> robika()
