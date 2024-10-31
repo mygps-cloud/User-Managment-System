@@ -43,7 +43,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 OflineTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
                             };
 
-                            await pingLogService.AddNewUser(pingLog);
+                            await pingLogService.addService(pingLog);
                         }
                     }
                     else
