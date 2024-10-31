@@ -6,9 +6,6 @@ namespace Ipstatuschecker.DomainEntity
     public string? IpAddress { get; set; }
     public string? Status { get; set; }
     
-   
-
-    
 }
 
 }

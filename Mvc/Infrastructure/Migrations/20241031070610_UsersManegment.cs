@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ipstatuschecker.Migrations
+namespace ipstatuschecker.Mvc.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class PingLog : Migration
+    public partial class UsersManegment : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,6 +67,29 @@ namespace ipstatuschecker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "workSchedules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StartTime = table.Column<string>(type: "TEXT", nullable: true),
+                    EndTime = table.Column<string>(type: "TEXT", nullable: true),
+                    BreakDuration = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_workSchedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_workSchedules_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Devices",
                 columns: table => new
                 {
@@ -113,6 +137,12 @@ namespace ipstatuschecker.Migrations
                 table: "PingLog",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_workSchedules_UserId",
+                table: "workSchedules",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -123,6 +153,9 @@ namespace ipstatuschecker.Migrations
 
             migrationBuilder.DropTable(
                 name: "PingLog");
+
+            migrationBuilder.DropTable(
+                name: "workSchedules");
 
             migrationBuilder.DropTable(
                 name: "IpStatuses");

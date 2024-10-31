@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ipstatuschecker.Migrations
+namespace ipstatuschecker.Mvc.Infrastructure.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
     partial class DbIpCheckModelSnapshot : ModelSnapshot
@@ -101,6 +101,35 @@ namespace ipstatuschecker.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Ipstatuschecker.DomainEntity.WorkSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BreakDuration")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("workSchedules");
+                });
+
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.Device", b =>
                 {
                     b.HasOne("Ipstatuschecker.DomainEntity.IpStatus", "IpStatus")
@@ -135,6 +164,15 @@ namespace ipstatuschecker.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Ipstatuschecker.DomainEntity.WorkSchedule", b =>
+                {
+                    b.HasOne("Ipstatuschecker.DomainEntity.User", null)
+                        .WithOne("workSchedule")
+                        .HasForeignKey("Ipstatuschecker.DomainEntity.WorkSchedule", "UserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.User", b =>
                 {
                     b.Navigation("Devices");
@@ -142,6 +180,8 @@ namespace ipstatuschecker.Migrations
                     b.Navigation("IpStatuses");
 
                     b.Navigation("PingLog");
+
+                    b.Navigation("workSchedule");
                 });
 #pragma warning restore 612, 618
         }

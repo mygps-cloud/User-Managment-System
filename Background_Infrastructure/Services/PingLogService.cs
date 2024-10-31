@@ -29,16 +29,18 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
     
 //   var existingLog= await pingLogRepository.GetByIdAsync(entity.UserId);
 
-       var existingLog= await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+    var existingLog= await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
      if(existingLog!=null)
      {
        
             var timeToAdd = existingLog?.OflineTime; 
-            var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
-            var hasOflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+            var hasOnlineRecordForToday = existingLog?.OnlieTime?
+            .Any(time => time.Day == DateTime.Now.Day) ?? false;
+            var hasOflineRecordForToday = existingLog?.OflineTime?
+            .Any(time => time.Day == DateTime.Now.Day) ?? false;
 
             if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0)
-             existingLog?.OnlieTime?.Add(DateTime.Now);
+            existingLog?.OnlieTime?.Add(DateTime.Now);
             else if(entity?.OflineTime != null&&!hasOflineRecordForToday) 
             timeToAdd?.Add(DateTime.Now);
            
