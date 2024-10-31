@@ -13,6 +13,7 @@ namespace Mvc.Infrastructure.Persistence
             return await context.Users.
             Include(param=>param.Devices).
             Include(param=>param.IpStatuses)
+            
             .AsNoTracking().ToListAsync()
             ??
              throw new Exception("User is empty");
@@ -23,6 +24,7 @@ namespace Mvc.Infrastructure.Persistence
             return await context.Users.
             Include(param=>param.Devices).
             Include(param=>param.IpStatuses).
+            Include(param=>param.workSchedule).
             AsNoTracking().FirstOrDefaultAsync(X=>Id==Id)??
             throw new Exception("User Id not found");
         }
@@ -32,6 +34,7 @@ namespace Mvc.Infrastructure.Persistence
            
             return await context.Users.
             Include(param=>param.Devices).
+            Include(param=>param.workSchedule).
             Include(param=>param.IpStatuses).
             AsNoTracking().FirstOrDefaultAsync(x => x.Name == name)
             ?? throw new Exception("User Name not found");
