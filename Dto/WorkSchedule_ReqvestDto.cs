@@ -7,6 +7,7 @@ namespace Ipstatuschecker.Dto
     public List<TimeSpan>? StartTime { get; set; }
     public List<TimeSpan>? EndTime { get; set; }
     public int BreakDuration { get; set; } 
+    public int UserId { get; set; } 
         
     }
 }

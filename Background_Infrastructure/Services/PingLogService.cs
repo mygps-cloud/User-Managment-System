@@ -3,6 +3,7 @@
 using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Background_Infrastructure.Persitence;
+using Ipstatuschecker.Background_Infrastructure.Services;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
@@ -12,11 +13,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Background_Infrastructure.Services
 {
     public class PingLogService( DbIpCheck context,
-    PingLogCommandIRepository pingLogCommandIRepository,IPingLogRepository pingLogRepository) 
+    PingLogCommandIRepository pingLogCommandIRepository,
+    IPingLogRepository pingLogRepository,TimeControlService timeControlService) 
     : IUserservices<PingLogDtoReqvest>
     {
   
 public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
+
 {
     if (entity == null)throw new ArgumentNullException(nameof(entity));
 
@@ -31,19 +34,24 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
     
 //   var existingLog= await pingLogRepository.GetByIdAsync(entity.UserId);
 
+
+  
     var existingLog= await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+    var BreakTime= await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
      if(existingLog!=null)
      {
-       
+            var addBreakTime=BreakTime?.StartTime;
             var timeToAdd = existingLog?.OflineTime; 
             var hasOnlineRecordForToday = existingLog?.OnlieTime?
             .Any(time => time.Day == DateTime.Now.Day) ?? false;
             var hasOflineRecordForToday = existingLog?.OflineTime?
             .Any(time => time.Day == DateTime.Now.Day) ?? false;
 
+
             if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0)
             existingLog?.OnlieTime?.Add(DateTime.Now);
-            else if(entity?.OflineTime != null&&!hasOflineRecordForToday) 
+            else if(entity?.OflineTime != null&&!hasOflineRecordForToday
+            &&timeControlService.IsWithinTimeFrame==false) 
             timeToAdd?.Add(DateTime.Now);
            
             return  await pingLogRepository.Save();
@@ -52,7 +60,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
       else
      {
        await pingLogRepository.Create(pingLog);
-         return true;
+       return true;
     }
 
             
