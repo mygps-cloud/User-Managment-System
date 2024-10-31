@@ -1,14 +1,15 @@
 
-using Abstractions.interfaces;
+using Abstractions.interfaces.Iservices;
+using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Mvc.Infrastructure.Persistence;
+
 
 namespace ipstatuschecker.Mvc.Presentacion.Kakua
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KakuaController(Iservices<UserDto> iservices,PingLogCommandIRepository pingLogCommandIRepository) : Controller
+    public class KakuaController(IUserservices<UserDto> iservices,PingLogCommandIRepository pingLogCommandIRepository) : Controller
     {
 
 

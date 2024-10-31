@@ -1,12 +1,13 @@
-using Abstractions.interfaces;
+
+using Abstractions.interfaces.Iservices;
+using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Dto;
-using Mvc.Infrastructure.Persistence;
 
 
 
 namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
-    public class DbPingBackgroundService : Iservices<IpStatusDto>
+    public class DbPingBackgroundService : IUserservices<IpStatusDto>
     {
         private readonly IPstatusIQueryPingDbRepository pstatusIQueryPingDbRepository;
 

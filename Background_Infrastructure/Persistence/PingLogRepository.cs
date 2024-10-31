@@ -1,5 +1,5 @@
-using System.Net.NetworkInformation;
-using Ipstatuschecker.Abstractions.interfaces;
+
+using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;

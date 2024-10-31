@@ -1,6 +1,6 @@
-namespace Abstractions.interfaces
+namespace Abstractions.interfaces.Iservices
 {
-    public interface Iservices<T>where T:class
+    public interface IUserservices<T>where T:class
     {
             Task<bool> AddNewUser(T entety);
           Task<T>UpdateNewUser(T entety);

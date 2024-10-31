@@ -1,4 +1,4 @@
-using Abstractions.interfaces;
+using Abstractions.interfaces.IRepository;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;

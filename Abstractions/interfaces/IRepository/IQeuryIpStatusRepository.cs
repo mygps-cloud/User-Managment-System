@@ -1,4 +1,4 @@
-namespace Abstractions.interfaces
+namespace Abstractions.interfaces.IRepository
 {
     public interface IQueryIpStatusRepository<T> where T : class
     {

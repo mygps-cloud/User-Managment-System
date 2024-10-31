@@ -1,17 +1,19 @@
 
-using Abstractions.interfaces;
-using Ipstatuschecker.Abstractions.interfaces;
+
+using Abstractions.interfaces.Iservices;
+using Ipstatuschecker.Abstractions.interfaces.IRepository;
+using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Infrastructure.Persistence;
+
 
 namespace Background_Infrastructure.Services
 {
     public class PingLogService( DbIpCheck context,
     PingLogCommandIRepository pingLogCommandIRepository,IPingLogRepository pingLogRepository) 
-    : Iservices<PingLogDtoReqvest>
+    : IUserservices<PingLogDtoReqvest>
     {
   
 public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
@@ -110,7 +112,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
             throw new NotImplementedException();
         }
 
-        Task<List<PingLogDtoReqvest>> Iservices<PingLogDtoReqvest>.GetAllUsers()
+        Task<List<PingLogDtoReqvest>> IUserservices<PingLogDtoReqvest>.GetAllUsers()
         {
             throw new NotImplementedException();
         }

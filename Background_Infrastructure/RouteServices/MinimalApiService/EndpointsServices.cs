@@ -1,7 +1,7 @@
 
-using Ipstatuschecker.Abstractions.interfaces;
+using Ipstatuschecker.Abstractions.interfaces.IRepository;
+using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Dto;
-using Mvc.Infrastructure.Persistence;
 
 
 namespace Ipstatuschecker.Background_Infrastructure.RouteServices.MinimalApiService

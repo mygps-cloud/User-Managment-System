@@ -1,11 +1,13 @@
 using Abstractions.interfaces;
+using Abstractions.interfaces.IRepository;
+using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 
 namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
     public class ServiceUser(IQueryIpStatusRepository<User> qeuryIpStatusRepository,
-    ICommandIpStatusRepository<User> commandIpStatusRepository) : Iservices<UserDto>
+    ICommandIpStatusRepository<User> commandIpStatusRepository) : IUserservices<UserDto>
     {
         public async Task<bool> AddNewUser(UserDto userDto)
 {
