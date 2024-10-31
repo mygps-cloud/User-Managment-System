@@ -1,7 +1,6 @@
 
-
-using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
+using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Background_Infrastructure.Services;
 using Ipstatuschecker.DomainEntity;
@@ -15,11 +14,12 @@ namespace Background_Infrastructure.Services
     public class PingLogService( DbIpCheck context,
     PingLogCommandIRepository pingLogCommandIRepository,
     IPingLogRepository pingLogRepository,TimeControlService timeControlService) 
-    : IUserservices<PingLogDtoReqvest>
+    : IPingLogService
     {
   
-public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
 
+public async Task<bool> addService(PingLogDtoReqvest entity)
+       
 {
     if (entity == null)throw new ArgumentNullException(nameof(entity));
 
@@ -31,8 +31,7 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
                 OnlieTime = entity.OnlieTime,
                 OflineTime = entity.OflineTime,
             };
-    
-//   var existingLog= await pingLogRepository.GetByIdAsync(entity.UserId);
+
 
 
   
@@ -72,57 +71,30 @@ public async Task<bool> AddNewUser(PingLogDtoReqvest entity)
         
     }
 
-
-
-
-
-        public Task<bool> DelteUserById(int entetyId)
+        public async Task<List<PingLogDtoResponse>> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
- public async Task<List<PingLogDtoResponse>> GetAllUsers2()
-{
-    var offlineAllUsers = await pingLogCommandIRepository.GetAll();
-
-    var pingLogDtoRequests = offlineAllUsers
-        .Where(log => log.OnlieTime != null && log.OflineTime.Any())
-        .Select(log => new PingLogDtoResponse
-        {
-            Id = log.Id,
-            OnlieTime = log.OnlieTime, 
-            OflineTime = log.OflineTime?.ToList(), 
-            _UserDto = log.User != null ? new UserDto
             {
-                Id = log.User.Id,
-                Name = log.User.Name 
-            } : null 
-        })
-        .ToList();
+            var offlineAllUsers = await pingLogCommandIRepository.GetAll();
 
-    return pingLogDtoRequests;
+            var pingLogDtoRequests = offlineAllUsers
+                .Where(log => log.OnlieTime != null && log.OflineTime.Any())
+                .Select(log => new PingLogDtoResponse
+                {
+                    Id = log.Id,
+                    OnlieTime = log.OnlieTime, 
+                    OflineTime = log.OflineTime?.ToList(), 
+                    _UserDto = log.User != null ? new UserDto
+                    {
+                        Id = log.User.Id,
+                        Name = log.User.Name 
+                    } : null 
+                })
+                .ToList();
+
+            return pingLogDtoRequests;
 }
-
-
-
-        public Task<PingLogDtoReqvest> GetByUserIdAsync(int id)
-        {
-            throw new NotImplementedException();
         }
 
-        public Task<PingLogDtoReqvest> GetByUserNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<PingLogDtoReqvest> UpdateNewUser(PingLogDtoReqvest entety)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<List<PingLogDtoReqvest>> IUserservices<PingLogDtoReqvest>.GetAllUsers()
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
