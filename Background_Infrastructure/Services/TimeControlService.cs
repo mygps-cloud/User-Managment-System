@@ -1,30 +1,20 @@
+
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {
     public class TimeControlService
     {
-        private bool _isWithinTimeFrame;
+        private readonly DateTime startTime;
 
-        public TimeControlService()
+        public TimeControlService(DateTime startTime)
         {
-            Task.Run(() => UpdateTimeFrameStatus());
+            this.startTime = startTime;
         }
 
-        public bool IsWithinTimeFrame => _isWithinTimeFrame;
-
-        private async Task UpdateTimeFrameStatus()
+        public bool IsTenSecondsPassed()
         {
-            var startTime = new TimeSpan(9, 0, 0);
-            var endTime = startTime.Add(new TimeSpan(6, 0, 0)); 
             
-            var checkInterval = TimeSpan.FromMilliseconds(1000); 
-            
-            while (true)
-            {
-                var currentTime = DateTime.Now.TimeOfDay;
-                _isWithinTimeFrame = currentTime >= startTime && currentTime < endTime;
-                
-                await Task.Delay(checkInterval); 
-            }
+            return DateTime.Now >= startTime.AddSeconds(10);
         }
+
     }
 }

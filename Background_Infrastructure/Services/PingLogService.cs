@@ -13,63 +13,68 @@ namespace Background_Infrastructure.Services
 {
     public class PingLogService( DbIpCheck context,
     PingLogCommandIRepository pingLogCommandIRepository,
-    IPingLogRepository pingLogRepository,TimeControlService timeControlService) 
+    IPingLogRepository pingLogRepository) 
     : IPingLogService
     {
   
 
+
 public async Task<bool> addService(PingLogDtoReqvest entity)
-       
 {
-    if (entity == null)throw new ArgumentNullException(nameof(entity));
+    if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-        try
+    var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+    var hasOnlineRecordForToday = existingLog?.OnlieTime.Any(time => time.Day == DateTime.Now.Day) ?? false;
+    var hasSufficientTimePassed = 
+    existingLog?.OnlieTime.Count > 0 &&(DateTime.Now - existingLog.OnlieTime.Last()).TotalSeconds >= 50;
+    var hasOfflineRecordForToday = existingLog?.OflineTime.Any(time => time.Day == DateTime.Now.Day) ?? false;
+
+    try
+    {
+      
+        var pingLog = new PingLog
         {
-            var pingLog = new PingLog
-            {
-                UserId = entity.UserId,
-                OnlieTime = entity.OnlieTime,
-                OflineTime = entity.OflineTime,
-            };
+            UserId = entity.UserId,
+            OnlieTime = entity.OnlieTime,
+            OflineTime = entity.OflineTime,
+        };
 
-
-
-  
-    var existingLog= await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-    var BreakTime= await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-     if(existingLog!=null)
-     {
-            var addBreakTime=BreakTime?.StartTime;
-            var timeToAdd = existingLog?.OflineTime; 
-            var hasOnlineRecordForToday = existingLog?.OnlieTime?
-            .Any(time => time.Day == DateTime.Now.Day) ?? false;
-            var hasOflineRecordForToday = existingLog?.OflineTime?
-            .Any(time => time.Day == DateTime.Now.Day) ?? false;
-
-
-            if (!hasOnlineRecordForToday && entity?.OnlieTime?.Count > 0)
-            existingLog?.OnlieTime?.Add(DateTime.Now);
-            else if(entity?.OflineTime != null&&!hasOflineRecordForToday
-            &&timeControlService.IsWithinTimeFrame==false) 
-            timeToAdd?.Add(DateTime.Now);
-           
-            return  await pingLogRepository.Save();
-
-     }
-      else
-     {
-       await pingLogRepository.Create(pingLog);
-       return true;
-    }
-
+        if (existingLog != null)
+        {
             
+            if (!hasOnlineRecordForToday && hasSufficientTimePassed)
+            {
+                existingLog.OnlieTime.Add(DateTime.Now);
+            }
+
+            if (existingLog.OnlieTime.Count > 0 && !hasOfflineRecordForToday &&
+                (DateTime.Now - existingLog.OnlieTime.Last()).TotalSeconds >= 50)
+            {
+                existingLog.OflineTime.Add(DateTime.Now);
+            }
+
+            return await pingLogRepository.Save();
         }
-        catch (DbUpdateException dbEx)
+        else
         {
-            throw new Exception("Database error occurred while saving changes.", dbEx.InnerException ?? dbEx);
+          
+            if (entity.OnlieTime.Count > 0)
+            {
+                await pingLogRepository.Create(pingLog);
+                return true;
+            }
         }
-        
     }
+    catch (Exception ex)
+    {
+        throw new Exception("Database error occurred while saving changes.", ex.InnerException ?? ex);
+    }
+
+    return false; 
+}
+
+
+
 
         public async Task<List<PingLogDtoResponse>> GetAll()
         {

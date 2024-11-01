@@ -20,10 +20,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             var pingLog = new WorkSchedule
             {
                 Id=workSchedule_ReqvestDto.Id,
-                Date=workSchedule_ReqvestDto.Date,
-                StartTime=workSchedule_ReqvestDto.StartTime,
-                EndTime=workSchedule_ReqvestDto.EndTime,
-                BreakDuration=workSchedule_ReqvestDto.BreakDuration,
+              
                 UserId=workSchedule_ReqvestDto.UserId
                
             };

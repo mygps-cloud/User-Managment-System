@@ -14,7 +14,8 @@ public static class  ConfigureServices
     public static IServiceCollection AddservicesPingBackground(this IServiceCollection services)
     {
         services.AddSingleton<PingIpChecker>(); 
-        services.AddSingleton<TimeControlService>(); 
+      services.AddSingleton<TimeControlService>(provider => 
+    new TimeControlService(DateTime.Now));
         services.AddSingleton<CheckIpStatuses>();
         services.AddScoped<PingLogService>();
         services.AddScoped<PingLogCommandIRepository>();

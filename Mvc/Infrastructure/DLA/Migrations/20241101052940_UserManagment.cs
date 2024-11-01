@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ipstatuschecker.Mvc.Infrastructure.Migrations
+namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
 {
     /// <inheritdoc />
-    public partial class UsersManegment : Migration
+    public partial class UserManagment : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,7 +71,6 @@ namespace ipstatuschecker.Mvc.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StartTime = table.Column<string>(type: "TEXT", nullable: true),
                     EndTime = table.Column<string>(type: "TEXT", nullable: true),
                     BreakDuration = table.Column<int>(type: "INTEGER", nullable: false),
