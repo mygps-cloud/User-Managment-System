@@ -131,4 +131,4 @@
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.pdb
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.genruntimeconfig.cache
 /home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ref/ipstatuschecker.dll
-/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.csproj.CopyComplete
+/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/ipstatus.CA3CD244.Up2Date
