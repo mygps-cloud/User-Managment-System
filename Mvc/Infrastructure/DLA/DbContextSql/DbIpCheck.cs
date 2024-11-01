@@ -11,6 +11,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
         public DbSet<IpStatus> IpStatuses { get; set; }
         public DbSet<Device> Devices { get; set; } 
         public DbSet<PingLog> PingLog { get; set; }
+         public DbSet<WorkSchedule> workSchedules   { get;set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -28,6 +29,14 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
                 .WithOne()
                 .OnDelete(DeleteBehavior.SetNull);
 
+         modelBuilder.Entity<User>()
+                .HasOne(u => u.workSchedule)
+                .WithOne()
+                .HasForeignKey<WorkSchedule>(ws => ws.UserId) 
+                .OnDelete(DeleteBehavior.SetNull);
+
+
+
             modelBuilder.Entity<PingLog>()
                 .HasOne(p => p.User) 
                 .WithOne(u => u.PingLog) 
@@ -35,12 +44,6 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
                 .OnDelete(DeleteBehavior.SetNull); 
 
 
-
-                //   modelBuilder.Entity<PingLog>()
-                // .HasOne(p => p.User) 
-                // .WithMany(u => u.PingLog) 
-                // .HasForeignKey(param=>param.UserId)
-                // .OnDelete(DeleteBehavior.SetNull); 
         }
     }
 }

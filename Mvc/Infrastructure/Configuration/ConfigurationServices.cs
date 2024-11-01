@@ -1,5 +1,7 @@
 
 using Abstractions.interfaces;
+using Abstractions.interfaces.IRepository;
+using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
@@ -18,7 +20,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Configuration
          serviceDescriptors.AddDbContext<DbIpCheck>(options => options.UseSqlite(dbconnect)); 
          serviceDescriptors.AddScoped<IQueryIpStatusRepository<User>,UserQueryRepository>();
          serviceDescriptors.AddScoped<ICommandIpStatusRepository<User>,UserCommandIRepository>();
-         serviceDescriptors.AddScoped<Iservices<UserDto>, ServiceUser>();
+         serviceDescriptors.AddScoped<IUserservices<UserDto>, ServiceUser>();
          return serviceDescriptors;
 
         }

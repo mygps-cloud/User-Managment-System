@@ -1,4 +1,4 @@
-using System.Net.NetworkInformation;
+
 using Background_Infrastructure.Services;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
@@ -43,7 +43,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 OflineTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
                             };
 
-                            await pingLogService.AddNewUser(pingLog);
+                            await pingLogService.addService(pingLog);
                         }
                     }
                     else

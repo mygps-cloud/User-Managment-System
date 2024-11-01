@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
-using Abstractions.interfaces;
-using Ipstatuschecker.Abstractions.interfaces;
+using Ipstatuschecker.Abstractions.interfaces.IRepository;
+using Abstractions.interfaces.Iservices;
+
 
 
 
@@ -11,7 +12,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 {
   
 
-    public class HomeController(Iservices<UserDto> iservices,IPingLogRepository pingLogRepository) : Controller
+    public class HomeController(IUserservices<UserDto> iservices,IPingLogRepository pingLogRepository) : Controller
     {
 
 
