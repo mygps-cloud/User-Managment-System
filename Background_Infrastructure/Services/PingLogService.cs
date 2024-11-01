@@ -56,7 +56,7 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
              
             }
 
-            return await pingLogRepository.Save();
+            return await workScheduleService.Save();
         }
         else
         {
@@ -79,7 +79,7 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
 
   public async Task<bool> addworkScheduleService(PingLogDtoReqvest entity)
         {
-              if (entity == null) throw new ArgumentNullException(nameof(entity));
+      if (entity == null) throw new ArgumentNullException(nameof(entity));
 
 var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
