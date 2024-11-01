@@ -77,7 +77,7 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
 }
 
 
-        public async Task<bool> addworkScheduleService(PingLogDtoReqvest entity)
+  public async Task<bool> addworkScheduleService(PingLogDtoReqvest entity)
         {
               if (entity == null) throw new ArgumentNullException(nameof(entity));
 

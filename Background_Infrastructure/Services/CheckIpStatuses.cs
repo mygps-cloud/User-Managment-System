@@ -42,11 +42,11 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 OnlieTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
                                 OflineTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
                             };
+                          await  pingLogService.addPingLogService(pingLog);
+                        //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
+                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
 
-                          var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
-                          var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
-
-                          await Task.WhenAll(task1, task2);
+                        //   await Task.WhenAll(task1, task2);
                         }
                     }
                     else
