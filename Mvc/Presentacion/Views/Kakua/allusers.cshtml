@@ -1,4 +1,6 @@
-﻿@model List<Ipstatuschecker.Dto.UserDto>
+﻿
+
+@model List<Ipstatuschecker.Dto.UserDto>
 
 @{
     ViewBag.Title = "მომხმარებლების სიები";
@@ -13,6 +15,7 @@
             <th>მომხმარებლის სახელი</th>
             <th>მოწყობილობები</th>
             <th>IP მისამართები</th>
+            <th>BrackeTime</th>
         </tr>
     </thead>
     <tbody>
@@ -51,9 +54,10 @@
                         <span>არ არის IP მისამართები</span>
                     }
                 </td>
+                <td>
+                BrackeTime 
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
-

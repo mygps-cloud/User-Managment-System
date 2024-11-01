@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ipstatuschecker.DomainEntity;
 
 namespace Ipstatuschecker.Dto
 {
@@ -17,6 +18,7 @@ namespace Ipstatuschecker.Dto
 
       
         public List<DeviceDto>? Devices { get; set; } = new();
+        //   public WorkScheduleDto? workSchedule {get;set;}
     }
     
 }
