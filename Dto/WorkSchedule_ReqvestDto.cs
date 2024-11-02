@@ -2,12 +2,13 @@ namespace Ipstatuschecker.Dto
 {
     public class WorkSchedule_ReqvestDto
     {
-    public int Id { get; set; }
-    public DateTime Date { get; set; }
-    public List<TimeSpan>? StartTime { get; set; }
-    public List<TimeSpan>? EndTime { get; set; }
+   public int Id { get; set; }
+  
+   
+    public List<DateTime>? StartTime { get; set; }
+    public List<DateTime>? EndTime { get; set; }
     public int BreakDuration { get; set; } 
-    public int UserId { get; set; } 
-        
+
+     public int UserId { get; set; } 
     }
 }

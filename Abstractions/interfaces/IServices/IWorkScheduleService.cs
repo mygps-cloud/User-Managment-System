@@ -2,10 +2,11 @@ using Ipstatuschecker.Dto;
 
 namespace Ipstatuschecker.Abstractions.interfaces.IServices
 {
-    public interface IWorkScheduleService
+    public interface IWorkScheduleService<T> where T : class
     {
-         Task addBreakTime(WorkSchedule_ReqvestDto  workSchedule_ReqvestDto );
-         Task<WorkSchedule_ResponseDto> GetBreakTime();
+         Task<bool> addBreakTime(T breakTime);
+         Task<T> GetBreakTime();
+         Task<bool> Save();
 
          
     }

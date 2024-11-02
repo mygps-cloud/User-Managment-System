@@ -1,65 +1,135 @@
+
+
 @model Ipstatuschecker.Dto.UserDto
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 20px;
+    }
 
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    #devices-container {
+        margin-top: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        background-color: #ffffff;
+    }
+
+    .device-pair {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 0.25rem;
+        background-color: #f9f9f9;
+    }
+
+    label {
+        font-weight: bold;
+    }
+</style>
 
 <form asp-controller="Kakua" asp-action="Create" method="post">
- <div class="form-group">
- <label for="Name">User Name</label>
- <input type="text" class="form-control" id="Name" name="Name" required />
- </div>
+    <div class="form-group">
+        <label for="Name">User Name</label>
+        <input type="text" class="form-control" id="Name" name="Name" required />
+    </div>
 
+    <div id="devices-container">
+        <div class="device-pair">
+            <div class="form-group">
+                <label for="Devices[0].DeviceNames">Device Name</label>
+                <input type="text" class="form-control" name="Devices[0].DeviceNames" required />
+            </div>
+            <div class="form-group">
+                <label for="IpStatuses[0].IpAddress">IP Address</label>
+                <input type="text" class="form-control" name="IpStatuses[0].IpAddress" required />
+            </div>
+            <div class="form-group">
+                <label for="IpStatuses[0].Status">Status</label>
+                <select class="form-control" name="IpStatuses[0].Status">
+                    <option value="Offline">Offline</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
- <div id="devices-container">
- <div class="device-pair">
- <div class="form-group">
- <label for="Devices[0].DeviceNames">Device Name</label>
- <input type="text" class="form-control" name="Devices[0].DeviceNames" required />
- </div>
- <div class="form-group">
- <label for="IpStatuses[0].IpAddress">IP Address</label>
- <input type="text" class="form-control" name="IpStatuses[0].IpAddress" required />
- </div>
- <div class="form-group">
- <label for="IpStatuses[0].Status">Status</label>
- <select class="form-control" name="IpStatuses[0].Status">
- <option value="Offline">Offline</option>
- </select>
- </div>
- </div>
- </div>
-
- <button type="button" class="btn btn-secondary" id="add-device">Add New Device</button>
-
- <button type="submit" class="btn btn-primary">Create</button>
+    <button type="button" class="btn btn-secondary" id="add-device">Add New Device</button>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
 
 @section Scripts {
- <script>
- let deviceCount = 1;
- document.getElementById('add-device').addEventListener('click', function () {
- deviceCount++;
+    <script>
+        let deviceCount = 1;
+        document.getElementById('add-device').addEventListener('click', function () {
+            deviceCount++;
 
- const deviceContainer = document.createElement('div');
- deviceContainer.classList.add('device-pair');
- deviceContainer.innerHTML = `
- <div class="form-group">
- <label for="Devices[${deviceCount - 1}].DeviceNames">Device ${deviceCount}</label>
- <input type="text" class="form-control" name="Devices[${deviceCount - 1}].DeviceNames" required />
- </div>
- <div class="form-group">
- <label for="IpStatuses[${deviceCount - 1}].IpAddress">IP address</label>
- <input type="text" class="form-control" name="IpStatuses[${deviceCount - 1}].IpAddress" required />
- </div>
- <div class="form-group">
- <label for="IpStatuses[${deviceCount - 1}].Status">Status</label>
- <select class="form-control" name="IpStatuses[${deviceCount - 1}].Status">
- <option value="Online">Active</option>
- <option value="Offline">Inactive</option>
- </select>
- </div>
- `;
+            const deviceContainer = document.createElement('div');
+            deviceContainer.classList.add('device-pair');
+            deviceContainer.innerHTML = `
+                <div class="form-group">
+                    <label for="Devices[${deviceCount - 1}].DeviceNames">Device ${deviceCount}</label>
+                    <input type="text" class="form-control" name="Devices[${deviceCount - 1}].DeviceNames" required />
+                </div>
+                <div class="form-group">
+                    <label for="IpStatuses[${deviceCount - 1}].IpAddress">IP Address</label>
+                    <input type="text" class="form-control" name="IpStatuses[${deviceCount - 1}].IpAddress" required />
+                </div>
+                <div class="form-group">
+                    <label for="IpStatuses[${deviceCount - 1}].Status">Status</label>
+                    <select class="form-control" name="IpStatuses[${deviceCount - 1}].Status">
+                        <option value="Online">Active</option>
+                        <option value="Offline">Inactive</option>
+                    </select>
+                </div>
+            `;
 
- document.getElementById('devices-container').appendChild(deviceContainer);
- });
- </script>
+            document.getElementById('devices-container').appendChild(deviceContainer);
+        });
+    </script>
 }

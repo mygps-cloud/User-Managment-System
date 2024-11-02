@@ -3,16 +3,19 @@ using System;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ipstatuschecker.Mvc.Infrastructure.Migrations
+namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    partial class DbIpCheckModelSnapshot : ModelSnapshot
+    [Migration("20241101052940_UserManagment")]
+    partial class UserManagment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -109,9 +112,6 @@ namespace ipstatuschecker.Mvc.Infrastructure.Migrations
 
                     b.Property<int>("BreakDuration")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("EndTime")
                         .HasColumnType("TEXT");

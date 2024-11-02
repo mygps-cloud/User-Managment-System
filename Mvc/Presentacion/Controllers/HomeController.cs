@@ -29,6 +29,12 @@ public async Task<IActionResult> Users()
 {
       var offlineAllUsers = await pingLogRepository.GetAll();
 
+      foreach(var user in offlineAllUsers)
+      {
+        Console.WriteLine($"user name    ,{user.User.Name}");
+
+      }
+
         var pingLogDtoRequests = offlineAllUsers
             .Select(log => new PingLogDtoResponse
             {

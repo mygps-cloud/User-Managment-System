@@ -24,7 +24,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             using (var scope = _serviceProvider.CreateScope())
             {
                 var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
-                var pingLogService = scope.ServiceProvider.GetRequiredService<PingLogService>();
+                var pingLogService = scope.ServiceProvider.GetRequiredService<Check_In_Out_service>();
 
                 try
                 {
@@ -43,7 +43,18 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 OflineTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
                             };
 
-                            await pingLogService.addService(pingLog);
+                            var WorkSchedule_Dto= new WorkSchedule_ReqvestDto
+                            {
+                                UserId = task.Id.Value,
+                                StartTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
+                                EndTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
+
+                            };
+                          await  pingLogService.addPingLogService(pingLog);
+                        //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
+                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
+
+                        //   await Task.WhenAll(task1, task2);
                         }
                     }
                     else
