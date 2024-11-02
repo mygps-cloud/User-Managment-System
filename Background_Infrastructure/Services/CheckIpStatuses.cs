@@ -1,5 +1,6 @@
 
 using Background_Infrastructure.Services;
+using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
 
@@ -24,7 +25,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             using (var scope = _serviceProvider.CreateScope())
             {
                 var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
-                var pingLogService = scope.ServiceProvider.GetRequiredService<Check_In_Out_service>();
+                var pingLogService = scope.ServiceProvider.GetRequiredService<IPingLogService>();
+                 var workScheduleService = scope.ServiceProvider.GetRequiredService< IWorkScheduleService<PingLogDtoReqvest>>();
 
                 try
                 {
@@ -51,6 +53,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
 
                             };
                           await  pingLogService.addPingLogService(pingLog);
+                            await  workScheduleService.addBreakTime(pingLog);
                         //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
                         //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
 

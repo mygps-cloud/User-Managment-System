@@ -1,5 +1,6 @@
 
 
+using Abstractions.interfaces.Iservices;
 using Background_Infrastructure.Services;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
@@ -19,12 +20,13 @@ public static class  ConfigureServices
         services.AddSingleton<PingIpChecker>(); 
         services.AddSingleton<CheckIpStatuses>();
 
-        services.AddScoped<Check_In_Out_service>();
+    
         services.AddScoped<PingLogCommandIRepository>();
         services.AddScoped<IPingLogRepository,PingLogRepository>();
         services.AddScoped<DbPingBackgroundService>();
         services.AddScoped<IPstatusIQueryPingDbRepository>();
-        
+        services.AddScoped<IPingLogService, Check_In_Out_service>();
+      
         services.AddScoped<IWorkScheduleRepository,WorkScheduleRepository>();
         services.AddScoped<IWorkScheduleService<PingLogDtoReqvest>,WorkScheduleService>();
         

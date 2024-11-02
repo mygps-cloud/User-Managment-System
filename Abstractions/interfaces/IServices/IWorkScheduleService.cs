@@ -6,7 +6,6 @@ namespace Ipstatuschecker.Abstractions.interfaces.IServices
     {
          Task<bool> addBreakTime(T breakTime);
          Task<T> GetBreakTime();
-         Task<bool> Save();
 
          
     }
