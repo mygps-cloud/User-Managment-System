@@ -19,13 +19,10 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
          
   if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-var existingLog = await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-
-var hasOnlineRecordForToday = existingLog?.StartTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
-
- var hasSufficientTimePassed = existingLog?.StartTime?.Count > 0 ;
-
-var hasOfflineRecordForToday = existingLog?.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+var existinworkSchedule = await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+var hasSufficientTimePassed = existinworkSchedule?.StartTime?.Count > 0 ;
+var hasBreakeTimeTimePassed = existinworkSchedule?.StartTime?.Count <2;
+var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
 //===============================================================================================================//
 
@@ -39,32 +36,28 @@ var hasOfflineRecordForToday = existingLog?.EndTime?.Any(time => time.Day == Dat
             EndTime = entity.EndTime,
         };
 
-        if (existingLog != null)
+        if (existinworkSchedule != null)
         {
             
-            // if (!hasOnlineRecordForToday )
-            // {
-            //     existingLog?.StartTime?.Add(DateTime.Now);
-            // }
 
             if (!hasOfflineRecordForToday &&
                 entity?.EndTime?.Count>0)
             {
-                existingLog?.EndTime?.Add(DateTime.Now);
+                existinworkSchedule?.EndTime?.Add(DateTime.Now);
              
             }
 
             return await workScheduleRepository.Save();
         }
-        else
-        {
-          
-            if (entity.StartTime?.Count > 0)
+          else
             {
-                await workScheduleRepository.addBreakTime(workSchedule);
-                return true;
+            
+                if (entity.StartTime?.Count > 0)
+                {
+                    await workScheduleRepository.addBreakTime(workSchedule);
+                    return true;
+                }
             }
-        }
     }
     catch (Exception ex)
     {

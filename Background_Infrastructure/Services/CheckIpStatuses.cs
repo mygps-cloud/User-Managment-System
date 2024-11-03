@@ -1,5 +1,4 @@
 
-using Background_Infrastructure.Services;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
@@ -52,10 +51,10 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 EndTime = response ? new List<DateTime>{ DateTime.Now }: new List<DateTime> ()
 
                             };
-                        //   await  pingLogService.addPingLogService(pingLog);
+                          await  pingLogService.addPingLogService(pingLog);
                           await  workScheduleService.addBreakTime(WorkSchedule_Dto);
                         //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
-                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
+                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(WorkSchedule_Dto));
 
                         //   await Task.WhenAll(task1, task2);
                         }
