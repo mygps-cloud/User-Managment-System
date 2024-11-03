@@ -46,7 +46,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-around;
-            width: 200px;
+            width: 300px;
            
         }
 
@@ -120,7 +120,8 @@
                             <ul>
                                 @foreach (var onlineTime in log.OnlieTime)
                                 {
-                                    <li>@onlineTime.ToString("g")</li>
+                                   
+                                     {<option>@onlineTime.ToString("g")</option>}
                                 }
                             </ul>
                         </td>
@@ -128,7 +129,8 @@
                             <ul>
                                 @foreach (var offline in log.OflineTime)
                                 {
-                                    <li>@offline.ToString("g")</li>
+                                  
+                                     {<option>@offline.ToString("g")</option>}
                                 }
                             </ul>
                         </td>
@@ -138,11 +140,9 @@
                                     > Start Time</p>
                                 <div class="box-list">
                                     <select class='ol-tag' id='start-time-@log.Id'>
-                                      <option>00:00:00</option>
-                                      <option>00:00:00</option>
-                                        <option>00:00:00</option>
-                                      <option>00:00:00</option>
-                                      
+                                        @foreach(var StartTime in log.OnlieTime)
+                                      {<option>@StartTime.ToString("g")</option>}
+                                    
 
                                     </select>
                                 </div>
@@ -153,8 +153,8 @@
                                     Time </p>
                                 <div class="box-list">
                                     <select class='ol-tag' id="end-time-@log.Id">
-                                        <option>00:00:00</option>
-                                      <option>00:00:00</option>
+                                        @foreach(var StartTime in log.OnlieTime)
+                                         {<option>@StartTime.ToString("g")</option>}
                                     </select>
                                 </div>
                             </div>
