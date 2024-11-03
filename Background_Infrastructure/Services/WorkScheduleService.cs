@@ -42,16 +42,15 @@ var hasOfflineRecordForToday = existingLog?.EndTime?.Any(time => time.Day == Dat
         if (existingLog != null)
         {
             
-            if (!hasOnlineRecordForToday  && hasSufficientTimePassed)
-            {
-                existingLog?.StartTime?.Add(DateTime.Now);
-            }
+            // if (!hasOnlineRecordForToday )
+            // {
+            //     existingLog?.StartTime?.Add(DateTime.Now);
+            // }
 
-            if (existingLog?.StartTime?.Count > 0 && !hasOfflineRecordForToday &&
-                (DateTime.Now - existingLog.StartTime.Last()).Minutes >= 1
-                &&entity?.EndTime?.Count>0)
+            if (!hasOfflineRecordForToday &&
+                entity?.EndTime?.Count>0)
             {
-                existingLog?.EndTime?.Add(DateTime.Now.AddMinutes(-1));
+                existingLog?.EndTime?.Add(DateTime.Now);
              
             }
 

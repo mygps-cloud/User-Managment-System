@@ -48,8 +48,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                             var WorkSchedule_Dto= new WorkSchedule_ReqvestDto
                             {
                                 UserId = task.Id.Value,
-                                StartTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
-                                EndTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
+                                StartTime = response ? new List<DateTime> () : new List<DateTime>{ DateTime.Now },
+                                EndTime = response ? new List<DateTime>{ DateTime.Now }: new List<DateTime> ()
 
                             };
                         //   await  pingLogService.addPingLogService(pingLog);
