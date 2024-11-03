@@ -1,5 +1,4 @@
 
-using Background_Infrastructure.Services;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
@@ -26,7 +25,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             {
                 var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
                 var pingLogService = scope.ServiceProvider.GetRequiredService<IPingLogService>();
-                 var workScheduleService = scope.ServiceProvider.GetRequiredService< IWorkScheduleService<PingLogDtoReqvest>>();
+                 var workScheduleService = scope.ServiceProvider.GetRequiredService< IWorkScheduleService<WorkSchedule_ReqvestDto>>();
 
                 try
                 {
@@ -48,14 +47,14 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                             var WorkSchedule_Dto= new WorkSchedule_ReqvestDto
                             {
                                 UserId = task.Id.Value,
-                                StartTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
-                                EndTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
+                                StartTime = response ? new List<DateTime> () : new List<DateTime>{ DateTime.Now },
+                                EndTime = response ? new List<DateTime>{ DateTime.Now }: new List<DateTime> ()
 
                             };
                           await  pingLogService.addPingLogService(pingLog);
-                            await  workScheduleService.addBreakTime(pingLog);
+                          await  workScheduleService.addBreakTime(WorkSchedule_Dto);
                         //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
-                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
+                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(WorkSchedule_Dto));
 
                         //   await Task.WhenAll(task1, task2);
                         }

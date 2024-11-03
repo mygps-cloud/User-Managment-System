@@ -21,12 +21,15 @@ public async Task<bool> addPingLogService(PingLogDtoReqvest entity)
 {
     if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+//===============================================================================================================//
+
 var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 var hasSufficientTimePassed = existingLog?.OnlieTime?.Count > 0 &&(DateTime.Now - existingLog.OnlieTime.Last()).
 Minutes >= 1;
 var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
+//==============================================================================================================//
     try
     {
       
