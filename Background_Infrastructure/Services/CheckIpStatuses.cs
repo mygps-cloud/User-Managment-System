@@ -26,7 +26,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             {
                 var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
                 var pingLogService = scope.ServiceProvider.GetRequiredService<IPingLogService>();
-                 var workScheduleService = scope.ServiceProvider.GetRequiredService< IWorkScheduleService<PingLogDtoReqvest>>();
+                 var workScheduleService = scope.ServiceProvider.GetRequiredService< IWorkScheduleService<WorkSchedule_ReqvestDto>>();
 
                 try
                 {
@@ -52,8 +52,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 EndTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
 
                             };
-                          await  pingLogService.addPingLogService(pingLog);
-                            await  workScheduleService.addBreakTime(pingLog);
+                        //   await  pingLogService.addPingLogService(pingLog);
+                          await  workScheduleService.addBreakTime(WorkSchedule_Dto);
                         //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
                         //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(pingLog));
 

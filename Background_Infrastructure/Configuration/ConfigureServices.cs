@@ -28,7 +28,7 @@ public static class  ConfigureServices
         services.AddScoped<IPingLogService, Check_In_Out_service>();
       
         services.AddScoped<IWorkScheduleRepository,WorkScheduleRepository>();
-        services.AddScoped<IWorkScheduleService<PingLogDtoReqvest>,WorkScheduleService>();
+        services.AddScoped<IWorkScheduleService<WorkSchedule_ReqvestDto>,WorkScheduleService>();
         
         return services;
     }
