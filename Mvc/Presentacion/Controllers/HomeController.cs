@@ -4,6 +4,7 @@ using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Abstractions.interfaces.Iservices;
+using Ipstatuschecker.Dto.Response;
 
 
 
@@ -17,22 +18,13 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
     {
 
 
-public async Task<IActionResult> Index()
+public async Task<IActionResult> ByName()
 {
-    var model = await Dai(); 
-    
-   return View("~/Mvc/Presentacion/Views/Home/Index.cshtml", model);
- 
    
-}
-
-public async Task<IActionResult> Users()
-{
-      var offlineAllUsers = await pingLogRepository.GetAll();
     
       var users = await iservices.GetAllUsers();
 
-var breake = users.Select(p => new UserDto
+var breake = users.Select(p => new GetAllViweModelDto
 {
     Id = p.Id,
     Name = p.Name,
@@ -52,23 +44,47 @@ var breake = users.Select(p => new UserDto
       
     } : null
 }).ToList();
+        
+     
+//   return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
+  return View("~/Mvc/Presentacion/Views/Home/ByName.cshtml");
+}
 
 
+public async Task<IActionResult> Index()
+{
+    var model = await Dai(); 
+    
+   return View("~/Mvc/Presentacion/Views/Home/Index.cshtml", model);
+ 
+   
+}
 
-        var pingLogDtoRequests = offlineAllUsers
-            .Select(log => new PingLogDtoResponse
-            {
-                Id = log.Id,
-                OnlieTime = log.OnlieTime,
-                OflineTime = log.OflineTime.ToList(),
-                _UserDto = log.User != null ? new UserDto
-                {
-                    Id = log.User.Id,
-                    Name = log.User.Name
-                } : null
-            })
-            .ToList();
+public async Task<IActionResult> Users()
+{
+    
+      var users = await iservices.GetAllUsers();
 
+var breake = users.Select(p => new GetAllViweModelDto
+{
+    Id = p.Id,
+    Name = p.Name,
+ 
+    PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+    {
+         Id = p.PingLogDtoResponse.Id,
+         OnlieTime = p.PingLogDtoResponse.OnlieTime,
+         OflineTime = p.PingLogDtoResponse.OflineTime
+        
+    }:null,
+
+    WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+    {
+        StartTime=p.WorkSchedules.StartTime,
+        EndTime=p.WorkSchedules.EndTime,
+      
+    } : null
+}).ToList();
         
      
   return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);

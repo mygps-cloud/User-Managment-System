@@ -1,5 +1,6 @@
 @using Ipstatuschecker.Dto
-@model List<UserDto>
+@using Ipstatuschecker.Dto.Response
+@model List<GetAllViweModelDto>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,18 +119,22 @@
                         <td>@log.Name</td>
                         <td>
                             <ul>
-                                @foreach (var onlineTime in log.PingLogDtoResponse?.OnlieTime)
+                             @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any())
+                            {    @foreach (var onlineTime in log.PingLogDtoResponse?.OnlieTime)
                                 {
                                     <li>@onlineTime.ToString("g")</li>
                                 }
+                             }
                             </ul>
                         </td>
                         <td>
                             <ul>
-                                @foreach (var offline in log.PingLogDtoResponse.OflineTime)
+                             @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any())
+                             {   @foreach (var offline in log.PingLogDtoResponse.OflineTime)
                                 {
                                     <li>@offline.ToString("g")</li>
                                 }
+                             }
                             </ul>
                         </td>
                         <td class="breaktime">
@@ -139,9 +144,13 @@
                                 <div class="box-list">
                                     <select class='ol-tag' id='start-time-@log.Id'>
 
-                                        <option>
-                                            @log.WorkSchedules?.StartTime
-                                        </option>
+                    @if (log.WorkSchedules?.StartTime != null && log.WorkSchedules.StartTime.Any())
+                                {
+                                    foreach (var StartTime in log.WorkSchedules.StartTime)
+                                    {
+                                        <option>@StartTime.ToString("HH:mm:ss")</option>
+                                    }
+                                }
                                         
                                     </select>
                                 </div>
@@ -151,9 +160,15 @@
                                 <p style="cursor:pointer" id="end-btn-@log.Id">End Time</p>
                                 <div class="box-list">
                                     <select class='ol-tag' id="end-time-@log.Id">
-                                        <option>
-                                            @log.WorkSchedules?.EndTime
-                                        </option>
+                                
+                       @if (log.WorkSchedules?.EndTime != null && log.WorkSchedules.EndTime.Any())
+                            {
+                                foreach (var endTime in log.WorkSchedules.EndTime)
+                                {
+                                    <option>@endTime.ToString("HH:mm:ss")</option>
+                                }
+                            }
+
                                     </select>
                                 </div>
                             </div>

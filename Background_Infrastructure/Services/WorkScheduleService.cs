@@ -1,5 +1,4 @@
 
-
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.DomainEntity;
@@ -19,9 +18,12 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
          
   if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+
+var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+var hasOnlineRecordForTodayCheckIn = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+
 var existinworkSchedule = await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 var hasSufficientTimePassed = existinworkSchedule?.StartTime?.Count > 0 ;
-var hasBreakeTimeTimePassed = existinworkSchedule?.StartTime?.Count <2;
 var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
 //===============================================================================================================//
@@ -52,7 +54,7 @@ var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Da
           else
             {
             
-                if (entity.StartTime?.Count > 0)
+                if (hasOnlineRecordForTodayCheckIn&&entity.StartTime?.Count > 0)
                 {
                     await workScheduleRepository.addBreakTime(workSchedule);
                     return true;
