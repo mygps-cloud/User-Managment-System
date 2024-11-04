@@ -19,8 +19,8 @@ namespace Ipstatuschecker.Dto
       
         public List<DeviceDto>? Devices { get; set; } = new();
        
-        public List<PingLogDtoResponse>? PingLogDtoResponse  = new();
-        public WorkSchedule_ResponseDto WorkSchedules = new();   
+        public PingLogDtoResponse? PingLogDtoResponse { get; set; } = new();
+        public WorkSchedule_ResponseDto? WorkSchedules { get; set; } = new();   
     }
     
 }

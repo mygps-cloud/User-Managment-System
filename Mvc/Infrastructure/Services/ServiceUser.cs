@@ -138,7 +138,19 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
             {
                 Id = device.Id,
                 DeviceNames = device.DeviceNames
-            }).ToList()
+            }).ToList(),
+            WorkSchedules = user.workSchedule != null ? new WorkSchedule_ResponseDto
+                {
+                    StartTime = user.workSchedule.StartTime,
+                    EndTime = user.workSchedule.EndTime
+                } : null,
+            PingLogDtoResponse = user.PingLog != null ? new PingLogDtoResponse
+            {
+                Id = user.PingLog.Id,
+                OnlieTime = user.PingLog.OnlieTime,
+                OflineTime = user.PingLog.OflineTime 
+            } : null
+            
         }).ToList();
         
 

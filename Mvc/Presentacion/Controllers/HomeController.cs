@@ -37,18 +37,18 @@ var breake = users.Select(p => new UserDto
     Id = p.Id,
     Name = p.Name,
  
-    PingLogDtoResponse = p.PingLogDtoResponse?.Select(log => new PingLogDtoResponse
+    PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
     {
-         Id = log.Id,
-         OnlieTime = log.OnlieTime,
-        OflineTime = log.OflineTime
-      
-    }).ToList(),
+         Id = p.PingLogDtoResponse.Id,
+         OnlieTime = p.PingLogDtoResponse.OnlieTime,
+         OflineTime = p.PingLogDtoResponse.OflineTime
+        
+    }:null,
 
     WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
     {
-        StartTime=p.WorkSchedules?.StartTime,
-        EndTime=p.WorkSchedules?.EndTime,
+        StartTime=p.WorkSchedules.StartTime,
+        EndTime=p.WorkSchedules.EndTime,
       
     } : null
 }).ToList();
@@ -71,7 +71,7 @@ var breake = users.Select(p => new UserDto
 
         
      
-  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",pingLogDtoRequests);
+  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
 }
    
 

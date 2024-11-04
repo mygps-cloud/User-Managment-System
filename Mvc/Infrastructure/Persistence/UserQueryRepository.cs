@@ -13,7 +13,8 @@ namespace Mvc.Infrastructure.Persistence
             return await context.Users.
             Include(param=>param.Devices).
             Include(param=>param.IpStatuses).
-            Include(param=>param.workSchedule)
+            Include(param=>param.workSchedule).
+            Include(param=>param.PingLog)
             
             .AsNoTracking().ToListAsync()
             ??
