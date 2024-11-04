@@ -91,30 +91,6 @@ public static async Task<List<PingLogDtoResponse>> GetByName(string name,PingLog
             return new List<PingLogDtoResponse> { pingLogByName };
 }
 
-/*
-   public static async Task<bool> AddNewTimeStatus(PingLogDtoReqvest entity,PingLogCommandIRepository pingLogCommandIRepository)
-{
-    try
-    {
-       
-        
-        var pingLog = new PingLog
-        {
-            OnlieTime = entity.OnlieTime,
-            OflineTime = entity.OflineTime,
-            UserId = entity.UserId
-        };
-        await pingLogCommandIRepository.CreateUser(pingLog);
-
-        return true;
-    }
-    catch (Exception ex)
-    {
-        throw new Exception("Database error ->>>", ex);
-    }
-}
-*/
-
 
 
     }

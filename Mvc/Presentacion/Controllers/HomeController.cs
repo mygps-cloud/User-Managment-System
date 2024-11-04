@@ -12,7 +12,8 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 {
   
 
-    public class HomeController(IUserservices<UserDto> iservices,IPingLogRepository pingLogRepository) : Controller
+    public class HomeController(IUserservices<UserDto> iservices,
+    IPingLogRepository pingLogRepository) : Controller
     {
 
 
@@ -28,12 +29,31 @@ public async Task<IActionResult> Index()
 public async Task<IActionResult> Users()
 {
       var offlineAllUsers = await pingLogRepository.GetAll();
+    
+      var users = await iservices.GetAllUsers();
 
-      foreach(var user in offlineAllUsers)
-      {
-        Console.WriteLine($"user name    ,{user.User.Name}");
+var breake = users.Select(p => new UserDto
+{
+    Id = p.Id,
+    Name = p.Name,
+ 
+    PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+    {
+         Id = p.PingLogDtoResponse.Id,
+         OnlieTime = p.PingLogDtoResponse.OnlieTime,
+         OflineTime = p.PingLogDtoResponse.OflineTime
+        
+    }:null,
 
-      }
+    WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+    {
+        StartTime=p.WorkSchedules.StartTime,
+        EndTime=p.WorkSchedules.EndTime,
+      
+    } : null
+}).ToList();
+
+
 
         var pingLogDtoRequests = offlineAllUsers
             .Select(log => new PingLogDtoResponse
@@ -51,7 +71,7 @@ public async Task<IActionResult> Users()
 
         
      
-  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",pingLogDtoRequests);
+  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
 }
    
 
@@ -85,7 +105,6 @@ public async Task<IActionResult> robika()
 {
     var users = await iservices.GetAllUsers();
     
-    // Console.WriteLine(users);
     var userDtos = new List<UserDto>();
 
     var tasks = users.Select(async user =>

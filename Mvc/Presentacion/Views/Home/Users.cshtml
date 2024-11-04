@@ -1,5 +1,5 @@
 @using Ipstatuschecker.Dto
-@model List<PingLogDtoResponse>
+@model List<UserDto>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,10 +115,10 @@
                 @foreach (var log in Model)
                 {
                     <tr>
-                        <td>@log._UserDto?.Name</td>
+                        <td>@log.Name</td>
                         <td>
                             <ul>
-                                @foreach (var onlineTime in log.OnlieTime)
+                                @foreach (var onlineTime in log.PingLogDtoResponse?.OnlieTime)
                                 {
                                     <li>@onlineTime.ToString("g")</li>
                                 }
@@ -126,38 +126,39 @@
                         </td>
                         <td>
                             <ul>
-                                @foreach (var offline in log.OflineTime)
+                                @foreach (var offline in log.PingLogDtoResponse.OflineTime)
                                 {
                                     <li>@offline.ToString("g")</li>
                                 }
                             </ul>
                         </td>
                         <td class="breaktime">
-                            <div class="start-wrapper">
-                                <p style="cursor:pointer" id="start-btn-@log.Id"
-                                    > Start Time</p>
+
+                             <div class="start-wrapper">
+                                <p style="cursor:pointer" id="start-btn-@log.Id">Start Time</p>
                                 <div class="box-list">
                                     <select class='ol-tag' id='start-time-@log.Id'>
-                                      <option>00:00:00</option>
-                                      <option>00:00:00</option>
-                                        <option>00:00:00</option>
-                                      <option>00:00:00</option>
-                                      
 
+                                        <option>
+                                            @log.WorkSchedules?.StartTime
+                                        </option>
+                                        
                                     </select>
                                 </div>
                             </div>
 
                             <div class="start-wrapper">
-                                <p style="cursor:pointer" id="end-btn-@log.Id"  >End
-                                    Time </p>
+                                <p style="cursor:pointer" id="end-btn-@log.Id">End Time</p>
                                 <div class="box-list">
                                     <select class='ol-tag' id="end-time-@log.Id">
-                                        <option>00:00:00</option>
-                                      <option>00:00:00</option>
+                                        <option>
+                                            @log.WorkSchedules?.EndTime
+                                        </option>
                                     </select>
                                 </div>
                             </div>
+
+
                         </td>
                     </tr>
                 }
