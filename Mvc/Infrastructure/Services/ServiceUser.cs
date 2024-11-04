@@ -185,38 +185,59 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
 
 
 
-
-    public async Task<UserDto> GetByUserIdAsync(int id)
+public async Task<UserDto> GetByUserIdAsync(int id)
 {
-   
+  
     var user = await qeuryIpStatusRepository.GetByIdAsync(id);
 
-   
+ 
     if (user == null)
     {
-        throw new Exception("User not found."); 
+        throw new KeyNotFoundException("User not found.");
     }
 
-   
+  
     var userDto = new UserDto
     {
         Id = user.Id,
         Name = user.Name,
+        
+
         IpStatuses = user.IpStatuses?.Select(ip => new IpStatusDto
         {
             Id = ip.Id,
             IpAddress = ip.IpAddress,
             Status = ip.Status
         }).ToList(),
+
+    
         Devices = user.Devices?.Select(device => new DeviceDto
         {
             Id = device.Id,
             DeviceNames = device.DeviceNames
-        }).ToList()
+        }).ToList(),
+
+     
+        PingLogDtoResponse = user.PingLog != null ? new PingLogDtoResponse
+        {
+         Id = user.PingLog.Id,
+         OnlieTime = user.PingLog.OnlieTime,
+         OflineTime = user.PingLog.OflineTime
+        } : null,
+
+      
+        WorkSchedules = user.workSchedule != null ? new WorkSchedule_ResponseDto
+        {
+            Id = user.workSchedule.Id,
+            StartTime = user.workSchedule.StartTime,
+            EndTime = user.workSchedule.EndTime,
+            UserId = user.workSchedule.UserId
+        } : null
     };
 
-    return userDto; 
+    return userDto;
 }
+
     public async Task<UserDto> GetByUserNameAsync(string name)
         {
            var user = await qeuryIpStatusRepository.GetByNameAsync(name);

@@ -27,7 +27,8 @@ namespace Mvc.Infrastructure.Persistence
             Include(param=>param.Devices).
             Include(param=>param.IpStatuses).
             Include(param=>param.workSchedule).
-            AsNoTracking().FirstOrDefaultAsync(X=>Id==Id)??
+            Include(param=>param.PingLog).
+            AsNoTracking().FirstOrDefaultAsync(userbyid=>userbyid.Id==Id)??
             throw new Exception("User Id not found");
         }
 
@@ -38,6 +39,7 @@ namespace Mvc.Infrastructure.Persistence
             Include(param=>param.Devices).
             Include(param=>param.workSchedule).
             Include(param=>param.IpStatuses).
+            Include(param=>param.PingLog).
             AsNoTracking().FirstOrDefaultAsync(x => x.Name == name)
             ?? throw new Exception("User Name not found");
         }
