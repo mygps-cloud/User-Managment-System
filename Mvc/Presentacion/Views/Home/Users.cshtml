@@ -76,9 +76,9 @@
             display: flex;
             align-content: center;
             justify-content: center;
-            @* background-color: red; *@
+           
             overflow-y: scroll;
-            @* position: absolute; *@
+         
             bottom:20px;
         }
 
@@ -116,25 +116,42 @@
                 @foreach (var log in Model)
                 {
                     <tr>
-                        <td>@log.Name</td>
+                       <td>
+                        <a href="#" onclick="event.preventDefault(); goToPage('@log.Id')">@log.Name</a>
+                     </td>
+
                         <td>
                             <ul>
-                             @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any())
-                            {    @foreach (var onlineTime in log.PingLogDtoResponse?.OnlieTime)
-                                {
-                                    <li>@onlineTime.ToString("g")</li>
-                                }
-                             }
+                              <div class="start-wrapper">
+                                <p style="cursor:pointer" id="online-btn-@log.Id">Time In</p>
+                                <div class="box-list">
+                                    <select class="ol-tag" id="online-time-@log.Id">
+                                        @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any())
+                                        {
+                                            foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
+                                            {
+                                                <option>@onlineTime.ToString("g")</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
                             </ul>
                         </td>
                         <td>
                             <ul>
-                             @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any())
-                             {   @foreach (var offline in log.PingLogDtoResponse.OflineTime)
-                                {
-                                    <li>@offline.ToString("g")</li>
-                                }
-                             }
+                             <div class="start-wrapper">
+                                <p style="cursor:pointer" id="offline-btn-@log.Id">Offline Time</p>
+                                <div class="box-list">
+                                    <select class="ol-tag" id="break-offline-time-@log.Id">
+                                        @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any())
+                                        {
+                                            foreach (var offline in log.PingLogDtoResponse.OflineTime)
+                                            {
+                                                <option>@offline.ToString("g")</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
                             </ul>
                         </td>
                         <td class="breaktime">
@@ -190,6 +207,17 @@
             }
         };
     </script>
+
+
+    <script>
+    function goToPage(id) {
+       
+        const url = `/Home/ByName/${id}`;
+        
+        window.location.href = url;
+    }
+</script>
+
 </body>
 
 </html>

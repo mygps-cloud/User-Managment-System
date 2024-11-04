@@ -1,0 +1,58 @@
+@model List<TimesheetEntry>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timesheet</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: center; border: 1px solid #ddd; }
+        th { background-color: #f4f4f4; }
+        .total-hours { background-color: #ffe4e1; }
+        .break1-hours, .break2-hours { background-color: #fffacd; }
+        .productive-hours { background-color: #add8e6; }
+    </style>
+</head>
+<body>
+
+    <h2>Timesheet</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time In</th>
+                <th>Break1 Start</th>
+                <th>Break1 End</th>
+                <th>Break2 Start</th>
+                <th>Break2 End</th>
+                <th>Time Out</th>
+                <th class="total-hours">Total Hours</th>
+                <th class="break1-hours">Break1 Hours</th>
+                <th class="break2-hours">Break2 Hours</th>
+                <th class="productive-hours">Total Productive Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model)
+            {
+                <tr>
+                    <td>@entry.Date.ToShortDateString()</td>
+                    <td>@entry.TimeIn.ToString("hh:mm tt")</td>
+                    <td>@entry.Break1Start.ToString("hh:mm tt")</td>
+                    <td>@entry.Break1End.ToString("hh:mm tt")</td>
+                    <td>@entry.Break2Start.ToString("hh:mm tt")</td>
+                    <td>@entry.Break2End.ToString("hh:mm tt")</td>
+                    <td>@entry.TimeOut.ToString("hh:mm tt")</td>
+                    <td class="total-hours">@entry.TotalHours</td>
+                    <td class="break1-hours">@entry.Break1Hours</td>
+                    <td class="break2-hours">@entry.Break2Hours</td>
+                    <td class="productive-hours">@entry.TotalProductiveHours</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>
