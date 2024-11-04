@@ -13,7 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ipstatuschecker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f085d0b77bcf3d146fcaf7ca2cd25d84bd626a9f")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a8f5004a82680c7df38407a2a60d72547d83a2c")]
+>>>>>>> 9887632fc313f9c49d99036a019cd18b7a535a45
 [assembly: System.Reflection.AssemblyProductAttribute("ipstatuschecker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ipstatuschecker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
