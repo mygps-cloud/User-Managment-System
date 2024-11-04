@@ -1,5 +1,6 @@
 @using Ipstatuschecker.Dto
-@model List<PingLogDtoResponse>
+@using Ipstatuschecker.Dto.Response
+@model List<GetAllViweModelDto>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,9 +76,9 @@
             display: flex;
             align-content: center;
             justify-content: center;
-            @* background-color: red; *@
+           
             overflow-y: scroll;
-            @* position: absolute; *@
+         
             bottom:20px;
         }
 
@@ -115,49 +116,81 @@
                 @foreach (var log in Model)
                 {
                     <tr>
-                        <td>@log._UserDto?.Name</td>
+                       <td>
+                        <a href="#" onclick="event.preventDefault(); goToPage('@log.Id')">@log.Name</a>
+                     </td>
+
                         <td>
                             <ul>
-                                @foreach (var onlineTime in log.OnlieTime)
-                                {
-                                    <li>@onlineTime.ToString("g")</li>
-                                }
+                              <div class="start-wrapper">
+                                <p style="cursor:pointer" id="online-btn-@log.Id">Time In</p>
+                                <div class="box-list">
+                                    <select class="ol-tag" id="online-time-@log.Id">
+                                        @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any())
+                                        {
+                                            foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
+                                            {
+                                                <option>@onlineTime.ToString("g")</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
                             </ul>
                         </td>
                         <td>
                             <ul>
-                                @foreach (var offline in log.OflineTime)
-                                {
-                                    <li>@offline.ToString("g")</li>
-                                }
+                             <div class="start-wrapper">
+                                <p style="cursor:pointer" id="offline-btn-@log.Id">Offline Time</p>
+                                <div class="box-list">
+                                    <select class="ol-tag" id="break-offline-time-@log.Id">
+                                        @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any())
+                                        {
+                                            foreach (var offline in log.PingLogDtoResponse.OflineTime)
+                                            {
+                                                <option>@offline.ToString("g")</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
                             </ul>
                         </td>
                         <td class="breaktime">
-                            <div class="start-wrapper">
-                                <p style="cursor:pointer" id="start-btn-@log.Id"
-                                    > Start Time</p>
+
+                             <div class="start-wrapper">
+                                <p style="cursor:pointer" id="start-btn-@log.Id">Start Time</p>
                                 <div class="box-list">
                                     <select class='ol-tag' id='start-time-@log.Id'>
-                                      <option>00:00:00</option>
-                                      <option>00:00:00</option>
-                                        <option>00:00:00</option>
-                                      <option>00:00:00</option>
-                                      
 
+                    @if (log.WorkSchedules?.StartTime != null && log.WorkSchedules.StartTime.Any())
+                                {
+                                    foreach (var StartTime in log.WorkSchedules.StartTime)
+                                    {
+                                        <option>@StartTime.ToString("HH:mm:ss")</option>
+                                    }
+                                }
+                                        
                                     </select>
                                 </div>
                             </div>
 
                             <div class="start-wrapper">
-                                <p style="cursor:pointer" id="end-btn-@log.Id"  >End
-                                    Time </p>
+                                <p style="cursor:pointer" id="end-btn-@log.Id">End Time</p>
                                 <div class="box-list">
                                     <select class='ol-tag' id="end-time-@log.Id">
-                                        <option>00:00:00</option>
-                                      <option>00:00:00</option>
+                                
+                       @if (log.WorkSchedules?.EndTime != null && log.WorkSchedules.EndTime.Any())
+                            {
+                                foreach (var endTime in log.WorkSchedules.EndTime)
+                                {
+                                    <option>@endTime.ToString("HH:mm:ss")</option>
+                                }
+                            }
+
                                     </select>
                                 </div>
                             </div>
+
+
                         </td>
                     </tr>
                 }
@@ -174,6 +207,17 @@
             }
         };
     </script>
+
+
+    <script>
+    function goToPage(id) {
+       
+        const url = `/Home/ByName/${id}`;
+        
+        window.location.href = url;
+    }
+</script>
+
 </body>
 
 </html>

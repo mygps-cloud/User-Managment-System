@@ -5,6 +5,7 @@ using Ipstatuschecker.Dto;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.Dto.Response;
+using Ipstatuschecker.Mvc.Infrastructure.Services;
 
 
 public class TimesheetEntry
@@ -13,12 +14,8 @@ public class TimesheetEntry
     public DateTime TimeIn { get; set; }
     public DateTime Break1Start { get; set; }
     public DateTime Break1End { get; set; }
-    public DateTime Break2Start { get; set; }
-    public DateTime Break2End { get; set; }
     public DateTime TimeOut { get; set; }
     public TimeSpan TotalHours { get; set; }
-    public TimeSpan Break1Hours { get; set; }
-    public TimeSpan Break2Hours { get; set; }
     public TimeSpan TotalProductiveHours { get; set; }
 }
 
@@ -32,32 +29,21 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
     {
 
 
-public async Task<IActionResult> ByName()
-{
-   
-     var timesheetEntries = new List<TimesheetEntry>
-        {
-            new TimesheetEntry
-            {
-                Date = new DateTime(2022, 4, 1),
-                TimeIn = DateTime.Parse("08:55 PM"),
-                Break1Start = DateTime.Parse("10:58 PM"),
-                Break1End = DateTime.Parse("11:19 PM"),
-                Break2Start = DateTime.Parse("01:23 AM"),
-                Break2End = DateTime.Parse("01:40 AM"),
-                TimeOut = DateTime.Parse("05:15 AM"),
-                TotalHours = TimeSpan.Parse("08:20:02"),
-                Break1Hours = TimeSpan.Parse("00:21:04"),
-                Break2Hours = TimeSpan.Parse("00:16:55"),
-                TotalProductiveHours = TimeSpan.Parse("07:42:03")
-            },
-            // Add other entries similarly
-        };
-       
-     
-//   return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
-  return View("~/Mvc/Presentacion/Views/Home/ByName.cshtml",timesheetEntries);
+
+public async Task<IActionResult> ByName(int id)
+{ 
+    var statistic = new UserStatisticServices();
+    
+    var user = await iservices.GetByUserIdAsync(id);
+
+    var timesheetEntry = await statistic.HourStatistic(user);
+    
+    
+    var timesheetEntries = new List<TimesheetEntry> { timesheetEntry };
+
+    return View("~/Mvc/Presentacion/Views/Home/ByName.cshtml", timesheetEntries);
 }
+
 
 
 public async Task<IActionResult> Index()
@@ -101,7 +87,7 @@ var breake = users.Select(p => new GetAllViweModelDto
    
 
 
-public async Task<IActionResult> robika()
+public  IActionResult robika()
 {
      
    return View();

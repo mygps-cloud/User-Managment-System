@@ -23,32 +23,38 @@
             <tr>
                 <th>Date</th>
                 <th>Time In</th>
-                <th>Break1 Start</th>
-                <th>Break1 End</th>
-                <th>Break2 Start</th>
-                <th>Break2 End</th>
+                <th>Break Start</th>
+                <th>Break End</th>
+                @* <th>Break2 Start</th>
+                <th>Break2 End</th> *@
                 <th>Time Out</th>
                 <th class="total-hours">Total Hours</th>
                 <th class="break1-hours">Break1 Hours</th>
-                <th class="break2-hours">Break2 Hours</th>
+                @* <th class="break2-hours">Break2 Hours</th> *@
                 <th class="productive-hours">Total Productive Hours</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var entry in Model)
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var entry in Model)
+                {
+                    <tr>
+                        <td>@(entry?.Date.ToShortDateString() ?? "N/A")</td>
+                        <td>@(entry?.TimeIn.ToString("hh:mm tt") ?? "N/A")</td>
+                        <td>@(entry?.Break1Start.ToString("hh:mm tt") ?? "N/A")</td>
+                        <td>@(entry?.Break1End.ToString("hh:mm tt") ?? "N/A")</td>
+                        <td>@(entry?.TimeOut.ToString("hh:mm tt") ?? "N/A")</td>
+                        <td class="total-hours">@((entry?.TotalHours ?? TimeSpan.Zero).ToString(@"hh\:mm"))</td>
+                        
+                        <td class="productive-hours">@((entry?.TotalProductiveHours ?? TimeSpan.Zero).ToString(@"hh\:mm"))</td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@entry.Date.ToShortDateString()</td>
-                    <td>@entry.TimeIn.ToString("hh:mm tt")</td>
-                    <td>@entry.Break1Start.ToString("hh:mm tt")</td>
-                    <td>@entry.Break1End.ToString("hh:mm tt")</td>
-                    <td>@entry.Break2Start.ToString("hh:mm tt")</td>
-                    <td>@entry.Break2End.ToString("hh:mm tt")</td>
-                    <td>@entry.TimeOut.ToString("hh:mm tt")</td>
-                    <td class="total-hours">@entry.TotalHours</td>
-                    <td class="break1-hours">@entry.Break1Hours</td>
-                    <td class="break2-hours">@entry.Break2Hours</td>
-                    <td class="productive-hours">@entry.TotalProductiveHours</td>
+                    <td colspan="11">No data available</td>
                 </tr>
             }
         </tbody>
