@@ -4,8 +4,20 @@ using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Abstractions.interfaces.Iservices;
+using Ipstatuschecker.Dto.Response;
+using Ipstatuschecker.Mvc.Infrastructure.Services;
 
 
+public class TimesheetEntry
+{
+    public DateTime Date { get; set; }
+    public DateTime TimeIn { get; set; }
+    public DateTime Break1Start { get; set; }
+    public DateTime Break1End { get; set; }
+    public DateTime TimeOut { get; set; }
+    public TimeSpan TotalHours { get; set; }
+    public TimeSpan TotalProductiveHours { get; set; }
+}
 
 
 namespace ipstatuschecker.Mvc.Presentacion.Controllers
@@ -17,6 +29,23 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
     {
 
 
+
+public async Task<IActionResult> ByName(int id)
+{ 
+    var statistic = new UserStatisticServices();
+    
+    var user = await iservices.GetByUserIdAsync(id);
+
+    var timesheetEntry = await statistic.HourStatistic(user);
+    
+    
+    var timesheetEntries = new List<TimesheetEntry> { timesheetEntry };
+
+    return View("~/Mvc/Presentacion/Views/Home/ByName.cshtml", timesheetEntries);
+}
+
+
+
 public async Task<IActionResult> Index()
 {
     var model = await Dai(); 
@@ -26,57 +55,70 @@ public async Task<IActionResult> Index()
    
 }
 
+
+
 public async Task<IActionResult> Users()
 {
-      var offlineAllUsers = await pingLogRepository.GetAll();
+    var users = await iservices.GetAllUsers();
+
+    var breake = users.Select(p => new GetAllViweModelDto
+    {
+        Id = p.Id,
+        Name = p.Name,
+
+        PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+        {
+            Id = p.PingLogDtoResponse.Id,
+            // Filter OnlieTime to only include today's entries
+            OnlieTime = p.PingLogDtoResponse.OnlieTime?.Where(t => t.Date == DateTime.Today).ToList(),
+            // Filter OflineTime to only include today's entries
+            OflineTime = p.PingLogDtoResponse.OflineTime?.Where(t => t.Date == DateTime.Today).ToList()
+        } : null,
+
+        WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+        {
+            StartTime = p.WorkSchedules.StartTime,
+            EndTime = p.WorkSchedules.EndTime,
+        } : null
+    }).ToList();
+
+    return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
+}
+
+
+// public async Task<IActionResult> Users()
+// {
     
-      var users = await iservices.GetAllUsers();
+//       var users = await iservices.GetAllUsers();
 
-var breake = users.Select(p => new UserDto
-{
-    Id = p.Id,
-    Name = p.Name,
+// var breake = users.Select(p => new GetAllViweModelDto
+// {
+//     Id = p.Id,
+//     Name = p.Name,
  
-    PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
-    {
-         Id = p.PingLogDtoResponse.Id,
-         OnlieTime = p.PingLogDtoResponse.OnlieTime,
-         OflineTime = p.PingLogDtoResponse.OflineTime
+//     PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+//     {
+//          Id = p.PingLogDtoResponse.Id,
+//          OnlieTime = p.PingLogDtoResponse.OnlieTime,
+//          OflineTime = p.PingLogDtoResponse.OflineTime
         
-    }:null,
+//     }:null,
 
-    WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
-    {
-        StartTime=p.WorkSchedules.StartTime,
-        EndTime=p.WorkSchedules.EndTime,
+//     WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+//     {
+//         StartTime=p.WorkSchedules.StartTime,
+//         EndTime=p.WorkSchedules.EndTime,
       
-    } : null
-}).ToList();
-
-
-
-        var pingLogDtoRequests = offlineAllUsers
-            .Select(log => new PingLogDtoResponse
-            {
-                Id = log.Id,
-                OnlieTime = log.OnlieTime,
-                OflineTime = log.OflineTime.ToList(),
-                _UserDto = log.User != null ? new UserDto
-                {
-                    Id = log.User.Id,
-                    Name = log.User.Name
-                } : null
-            })
-            .ToList();
-
+//     } : null
+// }).ToList();
         
      
-  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
-}
+//   return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
+// }
    
 
 
-public async Task<IActionResult> robika()
+public  IActionResult robika()
 {
      
    return View();

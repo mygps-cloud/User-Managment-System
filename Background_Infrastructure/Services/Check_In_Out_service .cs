@@ -49,10 +49,10 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
             }
 
             if (existingLog?.OnlieTime?.Count > 0 && !hasOfflineRecordForToday &&
-                (DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 1
+                (DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 40
                 &&entity?.OflineTime?.Count>0)
             {
-                existingLog?.OflineTime?.Add(DateTime.Now.AddMinutes(-1));
+                existingLog?.OflineTime?.Add(DateTime.Now.AddMinutes(-40));
              
             }
 

@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/neo/Desktop/C#/Ipstatuschecker
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/ByName.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL0J5TmFtZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

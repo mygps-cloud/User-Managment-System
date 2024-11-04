@@ -1,5 +1,6 @@
 @using Ipstatuschecker.Dto
-@model List<UserDto>
+@using Ipstatuschecker.Dto.Response
+@model List<GetAllViweModelDto>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,13 +8,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Status</title>
+    <title>User Status - Today's Log</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 20px;
+            background-color: #f0f2f5; 
+            color: #333;
         }
 
         .container {
@@ -21,53 +24,66 @@
             flex-direction: column;
             align-items: center;
             margin: auto;
-            max-width: 100%;
+            max-width: 98%; 
+            background: #ffffff; 
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+            border-radius: 10px; 
+            padding: 20px;
         }
 
         table {
-            width: 80%;
+            width: 130%;
             border-collapse: collapse;
             margin: 20px 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
         th,
         td {
-            padding: 10px;
-            border: 2px solid #ddd;
+            padding: 20px; 
+            border: 1px solid #ddd;
             text-align: center;
         }
 
         th {
-            background-color: #f5f5f5;
+            background-color: #4CAF50; 
+            color: #ffffff; 
+            font-size: 1.2em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; 
+        }
+
+        a {
+            color: #3399ff; 
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #0056b3; 
         }
 
         .breaktime {
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-around;
-            width: 200px;
-           
-        }
-
-        .ol-tag {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-
-        }
-
-        .status-online {
-            color: green;
+            justify-content: space-between;
+            gap: 30px; 
+            width: 120%; 
         }
 
         .start-wrapper {
             display: flex;
             flex-direction: column;
-            position:relative;
-            height: 100px;
-
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            width: 100%; 
+            margin: 15px 0;
         }
 
         .box-list {
@@ -75,92 +91,165 @@
             display: flex;
             align-content: center;
             justify-content: center;
-            @* background-color: red; *@
             overflow-y: scroll;
-            @* position: absolute; *@
-            bottom:20px;
+            max-height: 130px;
+            width: 100%;
         }
 
-        .status-offline {
-            color: red;
+        select {
+            padding: 10px; 
+            border-radius: 6px; 
+            border: 1px solid #ccc;
+            width: 100%; 
+            font-size: 1em;
         }
 
-        #start-time,
-        #end-time {
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.8em;
-            color: black;
-            background-color: transparent;
+        p {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .time-in {
+            color: #4CAF50; 
+        }
+
+        .time-in:hover {
+            color: #388e3c; 
+        }
+
+        .time-out {
+            color: #FF8C00; 
+        }
+
+        .time-out:hover {
+            color: #e67e00; 
+        }
+
+        .break-start {
+            color: #FF3333; 
+        }
+
+        .break-start:hover {
+            color: #cc0000; 
+        }
+
+        .break-end {
+            color: #FFD700; 
+        }
+
+        .break-end:hover {
+            color: #e6c300; 
+        }
+
+        .action-button {
+            padding: 15px 25px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
             border: none;
-            padding: 0;
+            border-radius: 7px; 
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            font-size: 1.1em; 
+        }
+
+        .action-button:hover {
+            background-color: #388e3c; 
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-       
+        <h1>Today's User Log Status</h1>
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>  Time In</th>
-                    <th> Time Out </th>
-                    <th>Break time</th>
+                    <th>Time In</th>
+                    <th>Time Out</th>
+                    <th>Break Time</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var log in Model)
                 {
-                    <tr>
-                        <td>@log.Name</td>
-                        <td>
-                            <ul>
-                                @foreach (var onlineTime in log.PingLogDtoResponse?.OnlieTime)
-                                {
-                                    <li>@onlineTime.ToString("g")</li>
-                                }
-                            </ul>
-                        </td>
-                        <td>
-                            <ul>
-                                @foreach (var offline in log.PingLogDtoResponse.OflineTime)
-                                {
-                                    <li>@offline.ToString("g")</li>
-                                }
-                            </ul>
-                        </td>
-                        <td class="breaktime">
+                    if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today))
+                    {
+                        <tr>
+                            <td>
+                                <a href="#" onclick="event.preventDefault(); goToPage('@log.Id')">@log.Name</a>
+                            </td>
 
-                             <div class="start-wrapper">
-                                <p style="cursor:pointer" id="start-btn-@log.Id">Start Time</p>
-                                <div class="box-list">
-                                    <select class='ol-tag' id='start-time-@log.Id'>
-
-                                        <option>
-                                            @log.WorkSchedules?.StartTime
-                                        </option>
-                                        
-                                    </select>
+                            <td>
+                                <div class="start-wrapper">
+                                    <p class="time-in" onclick="openHandler('online-time-@log.Id')">Time In</p>
+                                    <div class="box-list">
+                                        <select class="ol-tag" id="online-time-@log.Id">
+                                            @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today))
+                                            {
+                                                foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime.Where(t => t.Date == DateTime.Today))
+                                                {
+                                                    <option>@onlineTime.ToString("g")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            </td>
 
-                            <div class="start-wrapper">
-                                <p style="cursor:pointer" id="end-btn-@log.Id">End Time</p>
-                                <div class="box-list">
-                                    <select class='ol-tag' id="end-time-@log.Id">
-                                        <option>
-                                            @log.WorkSchedules?.EndTime
-                                        </option>
-                                    </select>
+                            <td>
+                                <div class="start-wrapper">
+                                    <p class="time-out" onclick="openHandler('break-offline-time-@log.Id')">Offline Time</p>
+                                    <div class="box-list">
+                                        <select class="ol-tag" id="break-offline-time-@log.Id">
+                                            @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any(t => t.Date == DateTime.Today))
+                                            {
+                                                foreach (var offline in log.PingLogDtoResponse.OflineTime.Where(t => t.Date == DateTime.Today))
+                                                {
+                                                    <option>@offline.ToString("g")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            </td>
 
+                            <td class="breaktime">
+                                <div class="start-wrapper">
+                                    <p class="break-start" onclick="openHandler('start-time-@log.Id')">Start Time</p>
+                                    <div class="box-list">
+                                        <select class='ol-tag' id='start-time-@log.Id'>
+                                            @if (log.WorkSchedules?.StartTime != null && log.WorkSchedules.StartTime.Any())
+                                            {
+                                                foreach (var startTime in log.WorkSchedules.StartTime)
+                                                {
+                                                    <option>@startTime.ToString("HH:mm:ss")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
 
-                        </td>
-                    </tr>
+                                <div class="start-wrapper">
+                                    <p class="break-end" onclick="openHandler('end-time-@log.Id')">End Time</p>
+                                    <div class="box-list">
+                                        <select class='ol-tag' id="end-time-@log.Id">
+                                            @if (log.WorkSchedules?.EndTime != null && log.WorkSchedules.EndTime.Any())
+                                            {
+                                                foreach (var endTime in log.WorkSchedules.EndTime)
+                                                {
+                                                    <option>@endTime.ToString("HH:mm:ss")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -170,10 +259,14 @@
         const openHandler = (type) => {
             const element = document.getElementById(type);
             if (element) {
-
                 element.style.opacity = element.style.opacity === "1" ? "0" : "1";
             }
         };
+
+        function goToPage(id) {
+            const url = `/Home/ByName/${id}`;
+            window.location.href = url;
+        }
     </script>
 </body>
 
