@@ -33,8 +33,9 @@ var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == e
       
       
 var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+
 var hasSufficientTimePassed = existingLog?.OnlieTime?.Count > 0 
-&&  existingLog.OnlieTime.Any(time => time.Day == DateTime.Now.Day);
+&& ! existingLog.OnlieTime.Any(time => time.Day == DateTime.Now.Day);
 var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
 //==============================================================================================================//
@@ -57,10 +58,10 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
             }
 
             if (existingLog?.OnlieTime?.Count > 0 && !hasOfflineRecordForToday &&
-                (DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 1
+                (DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 5
                 &&entity?.OflineTime?.Count>0)
             {
-                existingLog?.OflineTime?.Add(DateTime.Now.AddMinutes(-1));
+                existingLog?.OflineTime?.Add(DateTime.Now.AddMinutes(-5));
              
             }
 
