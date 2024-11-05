@@ -24,9 +24,13 @@ public async Task<bool> addPingLogService(PingLogDtoReqvest entity)
 //===============================================================================================================//
 
 var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
+      var key= pingLogRepository.GetByIdAsync(entity.UserId);
+      
+      
 var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
-var hasSufficientTimePassed = existingLog?.OnlieTime?.Count > 0 &&(DateTime.Now - existingLog.OnlieTime.Last()).
-Minutes >= 1;
+var hasSufficientTimePassed = existingLog?.OnlieTime?.Count > 0 
+&&(DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 40;
 var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
 //==============================================================================================================//
@@ -82,6 +86,7 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
         {
             {
             var offlineAllUsers = await pingLogCommandIRepository.GetAll();
+            
 
             var pingLogDtoRequests = offlineAllUsers
                 .Where(log => log.OnlieTime != null && log.OflineTime.Any())

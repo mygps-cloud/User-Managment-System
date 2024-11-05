@@ -69,9 +69,7 @@ public async Task<IActionResult> Users()
         PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
         {
             Id = p.PingLogDtoResponse.Id,
-            // Filter OnlieTime to only include today's entries
             OnlieTime = p.PingLogDtoResponse.OnlieTime?.Where(t => t.Date == DateTime.Today).ToList(),
-            // Filter OflineTime to only include today's entries
             OflineTime = p.PingLogDtoResponse.OflineTime?.Where(t => t.Date == DateTime.Today).ToList()
         } : null,
 
