@@ -6,7 +6,7 @@ namespace Ipstatuschecker.Abstractions.interfaces.IRepository
     {
          Task<bool> addBreakTime(WorkSchedule workSchedule);
          Task<List<WorkSchedule>> GetAllBreakTime();
-         Task<List<WorkSchedule>> GetBreakTimeById(int id);
+         Task<WorkSchedule> GetBreakTimeById(int id);
          Task<bool>Save();
     }
 }

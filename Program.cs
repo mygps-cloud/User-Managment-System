@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
  builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHealthChecks();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddservicesPingBackground();
 builder.Services.RouteMvcOptions();

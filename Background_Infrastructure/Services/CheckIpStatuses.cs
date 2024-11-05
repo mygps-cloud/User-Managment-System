@@ -66,7 +66,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"An error occurred: {ex.Message}");
+                    _logger.LogWarning($"An error occurred: {ex.Message}");
                 }
             }
         }

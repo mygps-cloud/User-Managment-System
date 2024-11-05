@@ -39,9 +39,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
           
            var user= await context.PingLog.
              AsNoTracking()
-            .FirstOrDefaultAsync(param=>param.UserId==id)??
-             throw new Exception("User is empty");
-             int i=0;
+            .FirstOrDefaultAsync(param=>param.UserId==id);
+            // ?? throw new Exception("User is empty");
               return user;
         }
 

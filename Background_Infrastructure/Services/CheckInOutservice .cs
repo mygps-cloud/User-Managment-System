@@ -1,3 +1,6 @@
+
+
+
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Background_Infrastructure.Persitence;
@@ -9,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Background_Infrastructure.Services
 {
-    public class Check_In_Out_service ( DbIpCheck context,
+    public class CheckInOutservice ( DbIpCheck context,
     PingLogCommandIRepository pingLogCommandIRepository,
     IPingLogRepository pingLogRepository) 
     :IPingLogService
@@ -25,12 +28,13 @@ public async Task<bool> addPingLogService(PingLogDtoReqvest entity)
 
 var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-      var key= pingLogRepository.GetByIdAsync(entity.UserId);
+//  var existingLog= await pingLogRepository.GetByIdAsync(entity.UserId);
+    
       
       
 var hasOnlineRecordForToday = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 var hasSufficientTimePassed = existingLog?.OnlieTime?.Count > 0 
-&&(DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 40;
+&&  existingLog.OnlieTime.Any(time => time.Day == DateTime.Now.Day);
 var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
 //==============================================================================================================//
@@ -46,17 +50,17 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
 
         if (existingLog != null)
         {
-            
-            if (!hasOnlineRecordForToday && hasSufficientTimePassed)
+                   if (hasSufficientTimePassed)
+            // if (!hasOnlineRecordForToday && hasSufficientTimePassed)
             {
                 existingLog?.OnlieTime?.Add(DateTime.Now);
             }
 
             if (existingLog?.OnlieTime?.Count > 0 && !hasOfflineRecordForToday &&
-                (DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 40
+                (DateTime.Now - existingLog.OnlieTime.Last()).Minutes >= 1
                 &&entity?.OflineTime?.Count>0)
             {
-                existingLog?.OflineTime?.Add(DateTime.Now.AddMinutes(-40));
+                existingLog?.OflineTime?.Add(DateTime.Now.AddMinutes(-1));
              
             }
 

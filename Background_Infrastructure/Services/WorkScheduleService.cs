@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {
     public  class WorkScheduleService( DbIpCheck context,
-    IWorkScheduleRepository workScheduleRepository) 
+    IWorkScheduleRepository workScheduleRepository, IPingLogRepository pingLogRepository) 
     : IWorkScheduleService<WorkSchedule_ReqvestDto>
     {
         public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity)
@@ -20,10 +20,14 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
 
 
 var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+var existinworkSchedule = await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
+// var existingLog = await  pingLogRepository.GetByIdAsync(entity.UserId);
+//    var existinworkSchedule = await workScheduleRepository.GetBreakTimeById(entity.UserId);
 
 var hasOnlineRecordForTodayCheckIn = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
-var existinworkSchedule = await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
 var hasSufficientTimePassed = existinworkSchedule?.StartTime?.Count > 0 ;
 var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 

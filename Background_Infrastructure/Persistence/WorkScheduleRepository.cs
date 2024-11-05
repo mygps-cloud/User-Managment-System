@@ -21,13 +21,12 @@ namespace Ipstatuschecker.Background_Infrastructure.Persistence
         .ToListAsync(); 
         }
 
-        public async Task<List<WorkSchedule>> GetBreakTimeById(int id)
+        public async Task<WorkSchedule> GetBreakTimeById(int id)
        {
 
          return  await context.workSchedules
         .AsNoTracking()
-        .Where(param => param.UserId == id) 
-        .ToListAsync(); 
+        .FirstOrDefaultAsync(param => param.UserId == id); 
        }
 
         public async Task<bool> Save()

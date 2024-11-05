@@ -6,15 +6,17 @@ using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.Dto.Response;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
+using Microsoft.Net.Http.Headers;
 
 
 public class TimesheetEntry
 {
     public DateTime Date { get; set; }
     public DateTime TimeIn { get; set; }
-    public DateTime Break1Start { get; set; }
-    public DateTime Break1End { get; set; }
+    public DateTime BreakStart { get; set; }
+    public DateTime BreakEnd { get; set; }
     public DateTime TimeOut { get; set; }
+    public DateTime BreakHours { get; set; }
     public TimeSpan TotalHours { get; set; }
     public TimeSpan TotalProductiveHours { get; set; }
 }
@@ -57,62 +59,62 @@ public async Task<IActionResult> Index()
 
 
 
-public async Task<IActionResult> Users()
-{
-    var users = await iservices.GetAllUsers();
-
-    var breake = users.Select(p => new GetAllViweModelDto
-    {
-        Id = p.Id,
-        Name = p.Name,
-
-        PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
-        {
-            Id = p.PingLogDtoResponse.Id,
-            OnlieTime = p.PingLogDtoResponse.OnlieTime?.Where(t => t.Date == DateTime.Today).ToList(),
-            OflineTime = p.PingLogDtoResponse.OflineTime?.Where(t => t.Date == DateTime.Today).ToList()
-        } : null,
-
-        WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
-        {
-            StartTime = p.WorkSchedules.StartTime,
-            EndTime = p.WorkSchedules.EndTime,
-        } : null
-    }).ToList();
-
-    return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
-}
-
-
 // public async Task<IActionResult> Users()
 // {
+//     var users = await iservices.GetAllUsers();
+
+//     var breake = users.Select(p => new GetAllViweModelDto
+//     {
+//         Id = p.Id,
+//         Name = p.Name,
+
+//         PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+//         {
+//             Id = p.PingLogDtoResponse.Id,
+//             OnlieTime = p.PingLogDtoResponse.OnlieTime?.Where(t => t.Date == DateTime.Today).ToList(),
+//             OflineTime = p.PingLogDtoResponse.OflineTime?.Where(t => t.Date == DateTime.Today).ToList()
+//         } : null,
+
+//         WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+//         {
+//             StartTime = p.WorkSchedules.StartTime,
+//             EndTime = p.WorkSchedules.EndTime,
+//         } : null
+//     }).ToList();
+
+//     return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
+// }
+
+
+public async Task<IActionResult> Users()
+{
     
-//       var users = await iservices.GetAllUsers();
+      var users = await iservices.GetAllUsers();
 
-// var breake = users.Select(p => new GetAllViweModelDto
-// {
-//     Id = p.Id,
-//     Name = p.Name,
+var breake = users.Select(p => new GetAllViweModelDto
+{
+    Id = p.Id,
+    Name = p.Name,
  
-//     PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
-//     {
-//          Id = p.PingLogDtoResponse.Id,
-//          OnlieTime = p.PingLogDtoResponse.OnlieTime,
-//          OflineTime = p.PingLogDtoResponse.OflineTime
+    PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+    {
+         Id = p.PingLogDtoResponse.Id,
+         OnlieTime = p.PingLogDtoResponse.OnlieTime,
+         OflineTime = p.PingLogDtoResponse.OflineTime
         
-//     }:null,
+    }:null,
 
-//     WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
-//     {
-//         StartTime=p.WorkSchedules.StartTime,
-//         EndTime=p.WorkSchedules.EndTime,
+    WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+    {
+        StartTime=p.WorkSchedules.StartTime,
+        EndTime=p.WorkSchedules.EndTime,
       
-//     } : null
-// }).ToList();
+    } : null
+}).ToList();
         
      
-//   return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
-// }
+  return View("~/Mvc/Presentacion/Views/Home/Users.cshtml",breake);
+}
    
 
 

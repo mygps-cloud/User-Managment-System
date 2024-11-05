@@ -1,3 +1,5 @@
+
+
 @model List<TimesheetEntry>
 
 <!DOCTYPE html>
@@ -25,12 +27,9 @@
                 <th>Time In</th>
                 <th>Break Start</th>
                 <th>Break End</th>
-                @* <th>Break2 Start</th>
-                <th>Break2 End</th> *@
                 <th>Time Out</th>
                 <th class="total-hours">Total Hours</th>
-                <th class="break1-hours">Break1 Hours</th>
-                @* <th class="break2-hours">Break2 Hours</th> *@
+                <th class="break-hours">Break Hours</th>
                 <th class="productive-hours">Total Productive Hours</th>
             </tr>
         </thead>
@@ -42,11 +41,11 @@
                     <tr>
                         <td>@(entry?.Date.ToShortDateString() ?? "N/A")</td>
                         <td>@(entry?.TimeIn.ToString("hh:mm tt") ?? "N/A")</td>
-                        <td>@(entry?.Break1Start.ToString("hh:mm tt") ?? "N/A")</td>
-                        <td>@(entry?.Break1End.ToString("hh:mm tt") ?? "N/A")</td>
+                        <td>@(entry?.BreakStart.ToString("hh:mm tt") ?? "N/A")</td>
+                        <td>@(entry?.BreakEnd.ToString("hh:mm tt") ?? "N/A")</td>
                         <td>@(entry?.TimeOut.ToString("hh:mm tt") ?? "N/A")</td>
                         <td class="total-hours">@((entry?.TotalHours ?? TimeSpan.Zero).ToString(@"hh\:mm"))</td>
-                        
+                        <td class="break-hours">@((entry?.BreakHours.TimeOfDay ?? TimeSpan.Zero).ToString(@"hh\:mm"))</td>
                         <td class="productive-hours">@((entry?.TotalProductiveHours ?? TimeSpan.Zero).ToString(@"hh\:mm"))</td>
                     </tr>
                 }
@@ -54,7 +53,7 @@
             else
             {
                 <tr>
-                    <td colspan="11">No data available</td>
+                    <td colspan="8">No data available</td>
                 </tr>
             }
         </tbody>

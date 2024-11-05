@@ -17,15 +17,19 @@ public static class  ConfigureServices
     public static IServiceCollection AddservicesPingBackground(this IServiceCollection services)
     {
         services.AddHostedService<PingBackgroundService>();
+
         services.AddSingleton<PingIpChecker>(); 
+
         services.AddSingleton<CheckIpStatuses>();
 
     
         services.AddScoped<PingLogCommandIRepository>();
+
         services.AddScoped<IPingLogRepository,PingLogRepository>();
+
         services.AddScoped<DbPingBackgroundService>();
         services.AddScoped<IPstatusIQueryPingDbRepository>();
-        services.AddScoped<IPingLogService, Check_In_Out_service>();
+        services.AddScoped<IPingLogService, CheckInOutservice>();
       
         services.AddScoped<IWorkScheduleRepository,WorkScheduleRepository>();
         services.AddScoped<IWorkScheduleService<WorkSchedule_ReqvestDto>,WorkScheduleService>();

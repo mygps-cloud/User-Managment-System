@@ -19,7 +19,7 @@ public class PingBackgroundService : BackgroundService
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     await checkIpStatuses.CheckIpStatus();
-                    await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
                 }
      }
 

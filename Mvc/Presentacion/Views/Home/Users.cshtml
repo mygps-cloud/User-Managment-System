@@ -8,14 +8,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Status - Today's Log</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 20px;
-            background-color: #f0f2f5; 
             color: #333;
         }
 
@@ -25,8 +23,7 @@
             align-items: center;
             margin: auto;
             max-width: 98%; 
-            background: #ffffff; 
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+          
             border-radius: 10px; 
             padding: 20px;
         }
@@ -56,7 +53,7 @@
         }
 
         a {
-            color: #3399ff; 
+            color: #7810bdf1; 
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1em;
@@ -64,7 +61,7 @@
 
         a:hover {
             text-decoration: underline;
-            color: #0056b3; 
+            color: #7810bdf1; 
         }
 
         .breaktime {
@@ -73,7 +70,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 30px; 
-            width: 120%; 
+            width: 100%; 
         }
 
         .start-wrapper {
@@ -163,7 +160,6 @@
 
 <body>
     <div class="container">
-        <h1>Today's User Log Status</h1>
         <table>
             <thead>
                 <tr>
@@ -188,9 +184,11 @@
                                     <p class="time-in" onclick="openHandler('online-time-@log.Id')">Time In</p>
                                     <div class="box-list">
                                         <select class="ol-tag" id="online-time-@log.Id">
-                                            @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today))
+                                             @if (log.PingLogDtoResponse?.OnlieTime != null )
+                                            @* @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today)) *@
                                             {
-                                                foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime.Where(t => t.Date == DateTime.Today))
+                                                 foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
+                                                @* foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime.Where(t => t.Date == DateTime.Today)) *@
                                                 {
                                                     <option>@onlineTime.ToString("g")</option>
                                                 }
@@ -205,9 +203,10 @@
                                     <p class="time-out" onclick="openHandler('break-offline-time-@log.Id')">Offline Time</p>
                                     <div class="box-list">
                                         <select class="ol-tag" id="break-offline-time-@log.Id">
-                                            @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any(t => t.Date == DateTime.Today))
-                                            {
-                                                foreach (var offline in log.PingLogDtoResponse.OflineTime.Where(t => t.Date == DateTime.Today))
+                                                @if (log.PingLogDtoResponse?.OflineTime != null )
+                                            @* @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any(t => t.Date == DateTime.Today)) *@
+                                            { foreach (var offline in log.PingLogDtoResponse.OflineTime)
+                                                @* foreach (var offline in log.PingLogDtoResponse.OflineTime.Where(t => t.Date == DateTime.Today)) *@
                                                 {
                                                     <option>@offline.ToString("g")</option>
                                                 }
@@ -216,8 +215,8 @@
                                     </div>
                                 </div>
                             </td>
-
-                            <td class="breaktime">
+                              <td>
+                            <div class="breaktime">
                                 <div class="start-wrapper">
                                     <p class="break-start" onclick="openHandler('start-time-@log.Id')">Start Time</p>
                                     <div class="box-list">
@@ -247,7 +246,9 @@
                                         </select>
                                     </div>
                                 </div>
-                            </td>
+                               
+                            </div>
+                             </td>
                         </tr>
                     }
                 }
