@@ -1,15 +1,17 @@
-using Abstractions.interfaces;
-using Abstractions.interfaces.IRepository;
+
 using Ipstatuschecker.DomainEntity;
 
 
 namespace Ipstatuschecker.Abstractions.interfaces.IRepository
 {
-    public interface IPingLogRepository:ICommandIpStatusRepository<PingLog>,
-    IQueryIpStatusRepository<PingLog>
+    public interface IPingLogRepository 
     {
-        Task<bool>Save();
-      
-        
+        Task<bool> Save();
+        Task<bool> Create(PingLog entity);
+         Task<List<PingLog>> GetAll();
+         Task<PingLog> GetByIdAsync(int id);
+         Task<PingLog> GetByNameAsync(string name);
+
+
     }
 }

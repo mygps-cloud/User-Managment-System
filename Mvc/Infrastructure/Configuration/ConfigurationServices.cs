@@ -17,9 +17,11 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Configuration
         {
          string dbconnect = "Data Source=UserIpChecker.db"; 
          
-         serviceDescriptors.AddDbContext<DbIpCheck>(options => options.UseSqlite(dbconnect)); 
-         serviceDescriptors.AddScoped<IQueryIpStatusRepository<User>,UserQueryRepository>();
-         serviceDescriptors.AddScoped<ICommandIpStatusRepository<User>,UserCommandIRepository>();
+         serviceDescriptors.AddDbContext<DbIpCheck>(options => options.UseSqlite(dbconnect),
+         ServiceLifetime.Scoped); 
+         
+         serviceDescriptors.AddScoped<IQueryUserRepository<User>,UserQueryRepository>();
+         serviceDescriptors.AddScoped<ICommandUserRepository<User>,UserCommandIRepository>();
          serviceDescriptors.AddScoped<IUserservices<UserDto>, ServiceUser>();
          serviceDescriptors.AddSingleton<UserStatisticServices>();
          

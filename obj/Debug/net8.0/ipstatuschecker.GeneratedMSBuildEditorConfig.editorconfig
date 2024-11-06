@@ -9,59 +9,59 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ipstatuschecker
 build_property.RootNamespace = ipstatuschecker
-build_property.ProjectDir = /home/neo/Desktop/C#/Ipstatuschecker/
+build_property.ProjectDir = /home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/neo/Desktop/C#/Ipstatuschecker
+build_property.MSBuildProjectDirectory = /home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/ByName.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Home/ByName.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL0J5TmFtZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/Index.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/robika.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Home/robika.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL3JvYmlrYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/Users copy.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Home/Users copy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL1VzZXJzIGNvcHkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Home/Users.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Home/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9Ib21lL1VzZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Kakua/allusers.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Kakua/allusers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9LYWt1YS9hbGx1c2Vycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Kakua/robika.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Kakua/robika.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9LYWt1YS9yb2Jpa2EuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Shared/Error.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9TaGFyZWQvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Shared/_ValidationScriptsPartial.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9TaGFyZWQvX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/_ViewImports.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9fVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/_ViewStart.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9fVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/neo/Desktop/C\#/Ipstatuschecker/Mvc/Presentacion/Views/Shared/_Layout.cshtml]
+[/home/neo/Desktop/C\#/FeaturabrancheIpstatuschecker/Ipstatuschecker/Mvc/Presentacion/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TXZjL1ByZXNlbnRhY2lvbi9WaWV3cy9TaGFyZWQvX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = b-w0ry3tjt7v

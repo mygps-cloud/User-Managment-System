@@ -3,27 +3,40 @@ using Ipstatuschecker.Background_Infrastructure.Services;
 
 namespace Ipstatuschecker.Background_Infrastructure
 
+{public class PingBackgroundService : BackgroundService
 {
-public class PingBackgroundService : BackgroundService
-{
-  private readonly CheckIpStatuses checkIpStatuses;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly ILogger<PingBackgroundService> _logger;
 
-    public PingBackgroundService(CheckIpStatuses checkIpStatuses)
+    public PingBackgroundService(IServiceScopeFactory serviceScopeFactory, ILogger<PingBackgroundService> logger)
     {
-      
-        this.checkIpStatuses=checkIpStatuses;
+        _serviceScopeFactory = serviceScopeFactory;
+        _logger = logger;
     }
 
-            protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-                while (!stoppingToken.IsCancellationRequested)
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var checkIpStatuses = scope.ServiceProvider.GetRequiredService<CheckIpStatuses>();
+
+                try
                 {
                     await checkIpStatuses.CheckIpStatus();
-                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
                 }
-     }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"An error occurred while checking IP statuses: {ex.Message}");
+                }
+            }
 
- }
+            await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken); 
+        }
+    }
+}
+
         
         
 }

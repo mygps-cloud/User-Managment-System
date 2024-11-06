@@ -6,8 +6,8 @@ using Ipstatuschecker.Dto;
 
 namespace Ipstatuschecker.Mvc.Infrastructure.Services
 {
-    public class ServiceUser(IQueryIpStatusRepository<User> qeuryIpStatusRepository,
-    ICommandIpStatusRepository<User> commandIpStatusRepository) : IUserservices<UserDto>
+    public class ServiceUser(IQueryUserRepository<User> qeuryIpStatusRepository,
+    ICommandUserRepository<User> commandIpStatusRepository) : IUserservices<UserDto>
     {
         public async Task<bool> AddNewUser(UserDto userDto)
         {

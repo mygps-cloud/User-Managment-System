@@ -1,6 +1,6 @@
 namespace Abstractions.interfaces
 {
-    public interface ICommandIpStatusRepository<T>where T:class
+    public interface ICommandUserRepository<T>where T:class
     {
           Task<bool> Create(T entety);
           Task<T>Update(T entety);

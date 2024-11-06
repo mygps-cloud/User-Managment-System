@@ -15,34 +15,15 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
         }
 
 
-        public async Task<bool> Delete(int id)
-        {
-            var existingUser = await context.PingLog.FindAsync(id);
-            if (existingUser == null) throw new Exception("User not found."); 
-            context.PingLog.Remove(existingUser);
-            return await context.SaveChangesAsync()>0?true:false;
-        }
+//==========================================================================================//
 
         public async Task<List<PingLog>> GetAll()
-        {
-           return await context.PingLog.
-            Include(user=>user.User)
-            .AsNoTracking()
-            .ToListAsync() ??
-             throw new Exception("User is empty");
-        }
-
-      
+        => await context.PingLog.Include(user=>user.User)
+        .ToListAsync() ??throw new Exception("User is empty");
 
         public async Task<PingLog> GetByIdAsync(int id)
-        {
-          
-           var user= await context.PingLog.
-             AsNoTracking()
-            .FirstOrDefaultAsync(param=>param.UserId==id);
-            // ?? throw new Exception("User is empty");
-              return user;
-        }
+        =>id>0?await context.PingLog.FirstOrDefaultAsync(param=>param.UserId==id)
+        ??throw new Exception("User is empty"):throw new Exception("PingLog not found for the given user ID.");
 
         public async Task<PingLog> GetByNameAsync(string name)
         {
@@ -51,13 +32,9 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
         }
 
         public async Task<bool> Save()
-        {
-           return await context.SaveChangesAsync()>0?true:false;
-        }
+        => await context.SaveChangesAsync()>0?true:false;
+        
 
-        public Task<PingLog> Update(PingLog entety)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

@@ -14,24 +14,13 @@ namespace Ipstatuschecker.Background_Infrastructure.Persistence
         }
 
         public async Task<List<WorkSchedule>> GetAllBreakTime()
-        {
-           
-         return  await context.workSchedules
-        .AsNoTracking()
-        .ToListAsync(); 
-        }
-
+        =>await context.workSchedules.AsNoTracking().ToListAsync();
         public async Task<WorkSchedule> GetBreakTimeById(int id)
-       {
+        => id > 0? (await context.workSchedules.FirstOrDefaultAsync(param => param.UserId == id)) 
+        ?? new WorkSchedule()
+        : new WorkSchedule();
 
-         return  await context.workSchedules
-        .AsNoTracking()
-        .FirstOrDefaultAsync(param => param.UserId == id); 
-       }
 
-        public async Task<bool> Save()
-        {
-             return await context.SaveChangesAsync() > 0 ? true : false;
-        }
+        public async Task<bool> Save()=> await context.SaveChangesAsync() > 0 ? true : false;
     }
 }

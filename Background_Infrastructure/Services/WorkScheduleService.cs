@@ -8,74 +8,68 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {
-    public  class WorkScheduleService( DbIpCheck context,
-    IWorkScheduleRepository workScheduleRepository, IPingLogRepository pingLogRepository) 
-    : IWorkScheduleService<WorkSchedule_ReqvestDto>
+  public class WorkScheduleService : IWorkScheduleService<WorkSchedule_ReqvestDto>
+{
+    private readonly DbIpCheck _context;
+    private readonly IWorkScheduleRepository _workScheduleRepository;
+    private readonly IPingLogRepository _pingLogRepository;
+
+    public WorkScheduleService(DbIpCheck context, IWorkScheduleRepository workScheduleRepository, IPingLogRepository pingLogRepository)
     {
-        public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity,bool Status)
+        _context = context;
+        _workScheduleRepository = workScheduleRepository;
+        _pingLogRepository = pingLogRepository;
+    }
+
+    public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity, bool Status)
     {
-    //==========================================================================================================//     
-         
-  if (entity == null) throw new ArgumentNullException(nameof(entity));
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+        var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+         var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-var existingLog = await context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-var existinworkSchedule = await context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-
-// var existingLog = await  pingLogRepository.GetByIdAsync(entity.UserId);
-//    var existinworkSchedule = await workScheduleRepository.GetBreakTimeById(entity.UserId);
-
-var hasOnlineRecordForTodayCheckIn = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
-
-
-var hasSufficientTimePassed = existinworkSchedule?.StartTime?.Count > 0 ;
-var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
-
-//===============================================================================================================//
-
-    try
-    {
       
-        var workSchedule = new WorkSchedule
-        {
-            UserId = entity.UserId,
-            StartTime = entity.StartTime,
-            EndTime = entity.EndTime,
-        };
+        // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
+        //  var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
 
-        if (existinworkSchedule != null)
-        {
-            
-        if (!hasOfflineRecordForToday &&Status)
-            // if (!hasOfflineRecordForToday &&entity?.EndTime?.Count>0)
-            {
-                existinworkSchedule?.EndTime?.Add(DateTime.Now);
-             
-            }
+        var hasOnlineRecordForTodayCheckIn = existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+        var hasSufficientTimePassed = existinworkSchedule?.StartTime?.Count > 0;
+        var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
 
-            return await workScheduleRepository.Save();
-        }
-          else
+        try
+        {
+            if (existinworkSchedule != null)
             {
-            
-                if (hasOnlineRecordForTodayCheckIn&&entity.StartTime?.Count > 0)
+                if (!hasOfflineRecordForToday && Status)
                 {
-                    await workScheduleRepository.addBreakTime(workSchedule);
+                    existinworkSchedule?.EndTime?.Add(DateTime.Now);
+                }
+
+                return await _workScheduleRepository.Save();
+            }
+            else
+            {
+                if (hasOnlineRecordForTodayCheckIn && !Status)
+                {
+                    var workSchedule = new WorkSchedule
+                    {
+                        UserId = entity.UserId,
+                        StartTime = entity.StartTime,
+                        EndTime = entity.EndTime,
+                    };
+
+                    await _workScheduleRepository.addBreakTime(workSchedule);
                     return true;
                 }
             }
-    }
-    catch (Exception ex)
-    {
-        throw new Exception("Database error occurred while saving changes.", ex.InnerException ?? ex);
-    }
-
-    return false; 
         }
-
-        public Task<WorkSchedule_ReqvestDto> GetBreakTime()
+        catch (Exception ex)
         {
-            throw new NotImplementedException();
+            throw new Exception("Database error occurred while saving changes.", ex.InnerException ?? ex);
         }
+
+        return false;
     }
+}
+
 }

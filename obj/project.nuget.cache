@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nqT+rYTlWQ8=",
+  "dgSpecHash": "yYzCELYKRDNBotOV8holioI12ZNkSJsV/rpwf3G3iUV8+SS7xWrT2D2SkyvMiWX69MPKrm6M3ci4ICZMTidnfA==",
   "success": true,
-  "projectFilePath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
+  "projectFilePath": "/home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
   "expectedPackageFiles": [
     "/home/neo/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

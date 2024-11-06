@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mvc.Infrastructure.Persistence
 {
-    public class UserQueryRepository(DbIpCheck context) : IQueryIpStatusRepository<User>
+    public class UserQueryRepository(DbIpCheck context) : IQueryUserRepository<User>
     {
           public async Task<List<User>> GetAll()
         {

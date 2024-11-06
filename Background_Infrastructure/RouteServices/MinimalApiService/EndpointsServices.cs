@@ -40,7 +40,7 @@ public static async Task<List<PingLogDtoResponse>> GetAll(IPingLogRepository pin
     return pingLogDtoRequests; 
     
 }
-public static async Task<List<PingLogDtoResponse>> GetById(int id,PingLogCommandIRepository pingLogCommandIRepository)
+public static async Task<List<PingLogDtoResponse>> GetById(int id,IPingLogRepository pingLogCommandIRepository)
 {
  
  
@@ -65,7 +65,7 @@ public static async Task<List<PingLogDtoResponse>> GetById(int id,PingLogCommand
 
             return new List<PingLogDtoResponse> { pingLogById };
 }
-public static async Task<List<PingLogDtoResponse>> GetByName(string name,PingLogCommandIRepository pingLogCommandIRepository)
+public static async Task<List<PingLogDtoResponse>> GetByName(string name,IPingLogRepository pingLogCommandIRepository)
 {
  
  

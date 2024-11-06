@@ -1,7 +1,7 @@
 
 using Ipstatuschecker.Abstractions.interfaces.IServices;
+using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.Mvc.Infrastructure.Services;
 
 
 namespace Ipstatuschecker.Background_Infrastructure.Services
@@ -10,32 +10,32 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<CheckIpStatuses> _logger;
-        private readonly  PingIpChecker _pingIpChecker;
+        private readonly PingIpChecker _pingIpChecker;
 
-        public CheckIpStatuses(IServiceProvider serviceProvider, ILogger<CheckIpStatuses> logger,PingIpChecker pingIpChecker)
+        public CheckIpStatuses(IServiceProvider serviceProvider, ILogger<CheckIpStatuses> logger, PingIpChecker pingIpChecker)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
-            _pingIpChecker=pingIpChecker;
+            _pingIpChecker = pingIpChecker;
         }
-
         public async Task CheckIpStatus()
         {
             using (var scope = _serviceProvider.CreateScope())
             {
-                var ipStatusService = scope.ServiceProvider.GetRequiredService<DbPingBackgroundService>();
+                var ipStatusService = scope.ServiceProvider.GetRequiredService<IPstatusService>();
                 var pingLogService = scope.ServiceProvider.GetRequiredService<IPingLogService>();
-                 var workScheduleService = scope.ServiceProvider.GetRequiredService< IWorkScheduleService<WorkSchedule_ReqvestDto>>();
+                var workScheduleService = scope.ServiceProvider.GetRequiredService<IWorkScheduleService<WorkSchedule_ReqvestDto>>();
+                var pingIpChecker = scope.ServiceProvider.GetRequiredService<PingIpChecker>();
 
                 try
                 {
-                    var tasksUsers = await ipStatusService.GetAllUsers();
+                    var tasksUsers = await ipStatusService.GetAllUsersWitchIp();
 
                     if (tasksUsers.Count > 0)
                     {
                         foreach (var task in tasksUsers)
                         {
-                            var PingResponseStatus = await _pingIpChecker.PingIp(task.IpAddress);
+                            var PingResponseStatus = await pingIpChecker.PingIp(task.IpAddress);
 
                             var PingLog = new PingLogDtoReqvest
                             {
@@ -44,19 +44,22 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 OflineTime = PingResponseStatus ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
                             };
 
-                            var WorkSchedule= new WorkSchedule_ReqvestDto
+                            var WorkSchedule = new WorkSchedule_ReqvestDto
                             {
                                 UserId = task.Id.Value,
-                                StartTime = PingResponseStatus ? new List<DateTime> () : new List<DateTime>{ DateTime.Now },
-                                EndTime = PingResponseStatus ? new List<DateTime>{ DateTime.Now }: new List<DateTime> ()
-
+                                StartTime = PingResponseStatus ? new List<DateTime>() : new List<DateTime> { DateTime.Now },
+                                EndTime = PingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>()
                             };
-                          await  pingLogService.addTimeInService(PingLog,PingResponseStatus);
-                          await  workScheduleService.addBreakTime(WorkSchedule,PingResponseStatus);
-                        //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
-                        //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(WorkSchedule_Dto));
 
-                        //   await Task.WhenAll(task1, task2);
+                            // await pingLogService.addTimeInService(PingLog, PingResponseStatus);
+                            // await workScheduleService.addBreakTime(WorkSchedule, PingResponseStatus);
+
+
+                            var task1 = pingLogService.addTimeInService(PingLog, PingResponseStatus);
+                            var task2 = workScheduleService.addBreakTime(WorkSchedule, PingResponseStatus);
+
+                            await Task.WhenAll(task1, task2);
+
                         }
                     }
                     else
@@ -71,6 +74,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             }
         }
 
-      
+
+
     }
 }

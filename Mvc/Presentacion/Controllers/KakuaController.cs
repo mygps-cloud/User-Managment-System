@@ -9,7 +9,8 @@ namespace ipstatuschecker.Mvc.Presentacion.Kakua
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KakuaController(IUserservices<UserDto> iservices,PingLogCommandIRepository pingLogCommandIRepository) : Controller
+    public class KakuaController(IUserservices<UserDto> iservices)
+     : Controller
     {
 
 
@@ -37,28 +38,28 @@ namespace ipstatuschecker.Mvc.Presentacion.Kakua
             }
         }
 
-   [HttpGet("GetAllUsers2")]
- public async Task<List<PingLogDtoResponse>> GetAllUsers2()
-{
-    var offlineAllUsers = await pingLogCommandIRepository.GetAll();
+//    [HttpGet("GetAllUsers2")]
+//  public async Task<List<PingLogDtoResponse>> GetAllUsers2()
+// {
+//     var offlineAllUsers = await pingLogCommandIRepository.GetAll();
 
-    var pingLogDtoRequests = offlineAllUsers
-        .Where(log => log.OnlieTime != null && log.OflineTime.Any())
-        .Select(log => new PingLogDtoResponse
-        {
-            Id = log.Id,
-            OnlieTime = log.OnlieTime, 
-            OflineTime = log.OflineTime, 
-            _UserDto = log.User != null ? new UserDto
-            {
-                Id = log.User.Id,
-                Name = log.User.Name 
-            } : null 
-        })
-        .ToList();
+//     var pingLogDtoRequests = offlineAllUsers
+//         .Where(log => log.OnlieTime != null && log.OflineTime.Any())
+//         .Select(log => new PingLogDtoResponse
+//         {
+//             Id = log.Id,
+//             OnlieTime = log.OnlieTime, 
+//             OflineTime = log.OflineTime, 
+//             _UserDto = log.User != null ? new UserDto
+//             {
+//                 Id = log.User.Id,
+//                 Name = log.User.Name 
+//             } : null 
+//         })
+//         .ToList();
 
-    return pingLogDtoRequests;
-}
+//     return pingLogDtoRequests;
+// }
 
 
 

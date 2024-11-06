@@ -1,6 +1,6 @@
 namespace Abstractions.interfaces.IRepository
 {
-    public interface IQueryIpStatusRepository<T> where T : class
+    public interface IQueryUserRepository<T> where T : class
     {
         Task<T> GetByIdAsync(int id);
         Task<T> GetByNameAsync(string name); 
