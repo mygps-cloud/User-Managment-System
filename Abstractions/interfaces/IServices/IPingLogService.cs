@@ -4,7 +4,7 @@ namespace Ipstatuschecker.Abstractions.interfaces.IServices
 {
     public interface IPingLogService
     {
-          Task<bool>  addPingLogService(PingLogDtoReqvest pingLogDtoReqvest);
+          Task<bool>  addTimeInService(PingLogDtoReqvest pingLogDtoReqvest,bool status);
           Task<List<PingLogDtoResponse>> GetAll();
     }
 }

@@ -20,7 +20,7 @@ namespace Background_Infrastructure.Services
   
 
 
-public async Task<bool> addPingLogService(PingLogDtoReqvest entity)
+public async Task<bool> addTimeInService(PingLogDtoReqvest entity,bool Status)
 {
     if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -51,8 +51,8 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
 
         if (existingLog != null)
         {
-                   if (hasSufficientTimePassed)
-            // if (!hasOnlineRecordForToday && hasSufficientTimePassed)
+
+             if (!hasOnlineRecordForToday && Status)
             {
                 existingLog?.OnlieTime?.Add(DateTime.Now);
             }
@@ -69,8 +69,8 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
         }
         else
         {
-          
-            if (entity.OnlieTime?.Count > 0)
+            if (Status)
+            // if (entity.OnlieTime?.Count > 0)
             {
                 await pingLogRepository.Create(pingLog);
                 return true;
@@ -85,7 +85,6 @@ var hasOfflineRecordForToday = existingLog?.OflineTime?.Any(time => time.Day == 
     return false; 
 }
 
-     
 
         public async Task<List<PingLogDtoResponse>> GetAll()
         {

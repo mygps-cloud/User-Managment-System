@@ -35,24 +35,24 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                     {
                         foreach (var task in tasksUsers)
                         {
-                            var response = await _pingIpChecker.PingIp(task.IpAddress);
+                            var PingResponseStatus = await _pingIpChecker.PingIp(task.IpAddress);
 
-                            var pingLog = new PingLogDtoReqvest
+                            var PingLog = new PingLogDtoReqvest
                             {
                                 UserId = task.Id.Value,
-                                OnlieTime = response ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
-                                OflineTime = response ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
+                                OnlieTime = PingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
+                                OflineTime = PingResponseStatus ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
                             };
 
-                            var WorkSchedule_Dto= new WorkSchedule_ReqvestDto
+                            var WorkSchedule= new WorkSchedule_ReqvestDto
                             {
                                 UserId = task.Id.Value,
-                                StartTime = response ? new List<DateTime> () : new List<DateTime>{ DateTime.Now },
-                                EndTime = response ? new List<DateTime>{ DateTime.Now }: new List<DateTime> ()
+                                StartTime = PingResponseStatus ? new List<DateTime> () : new List<DateTime>{ DateTime.Now },
+                                EndTime = PingResponseStatus ? new List<DateTime>{ DateTime.Now }: new List<DateTime> ()
 
                             };
-                          await  pingLogService.addPingLogService(pingLog);
-                          await  workScheduleService.addBreakTime(WorkSchedule_Dto);
+                          await  pingLogService.addTimeInService(PingLog,PingResponseStatus);
+                          await  workScheduleService.addBreakTime(WorkSchedule,PingResponseStatus);
                         //   var task1 = Task.Run(() => pingLogService.addPingLogService(pingLog));
                         //   var task2 = Task.Run(() => pingLogService.addworkScheduleService(WorkSchedule_Dto));
 
@@ -61,7 +61,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                     }
                     else
                     {
-                        _logger.LogInformation("No users found to ping.");
+                        _logger.LogWarning("No users found to ping.");
                     }
                 }
                 catch (Exception ex)

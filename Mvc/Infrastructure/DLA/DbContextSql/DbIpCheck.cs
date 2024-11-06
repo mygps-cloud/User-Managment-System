@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
 {
-    public class DbIpCheck :Microsoft.EntityFrameworkCore. DbContext
+    public class DbIpCheck : DbContext
     {
         public DbIpCheck(DbContextOptions<DbIpCheck> options) : base(options) { }
 

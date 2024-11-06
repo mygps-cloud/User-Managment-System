@@ -12,7 +12,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
     IWorkScheduleRepository workScheduleRepository, IPingLogRepository pingLogRepository) 
     : IWorkScheduleService<WorkSchedule_ReqvestDto>
     {
-        public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity)
+        public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity,bool Status)
     {
     //==========================================================================================================//     
          
@@ -46,9 +46,8 @@ var hasOfflineRecordForToday = existinworkSchedule?.EndTime?.Any(time => time.Da
         if (existinworkSchedule != null)
         {
             
-
-            if (!hasOfflineRecordForToday &&
-                entity?.EndTime?.Count>0)
+        if (!hasOfflineRecordForToday &&Status)
+            // if (!hasOfflineRecordForToday &&entity?.EndTime?.Count>0)
             {
                 existinworkSchedule?.EndTime?.Add(DateTime.Now);
              
