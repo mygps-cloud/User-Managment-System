@@ -1,10 +1,12 @@
 
 using Background_Infrastructure.Services;
+using ipstatuschecker.Background_Infrastructure.Services.TimeControlServices.Result;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Background_Infrastructure.Persistence;
 using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Background_Infrastructure.Services;
+using Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices;
 using Ipstatuschecker.Dto;
 
 
@@ -16,9 +18,16 @@ namespace Ipstatuschecker.Background_Infrastructure.Configuration
         {
             services.AddHostedService<PingBackgroundService>();
 
-            services.AddScoped<PingIpChecker>();
+            services.AddSingleton<PingIpChecker>();
 
             services.AddScoped<CheckIpStatuses>();
+
+
+            services.AddSingleton<ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>,
+            TimeControlWorkScheduleService>();
+
+            services.AddSingleton<ITimeControl<PingLogDtoReqvest,CheckInOutServiceResult>,
+            CheckInOutserviceTimeControlService>();
 
             services.AddScoped<IPstatusService, ServiceIPstatus>();
             services.AddScoped<IPstatusRepository, StatusIpRepository>();

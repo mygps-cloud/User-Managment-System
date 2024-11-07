@@ -51,8 +51,6 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 EndTime = PingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>()
                             };
 
-                            // await pingLogService.addTimeInService(PingLog, PingResponseStatus);
-                            // await workScheduleService.addBreakTime(WorkSchedule, PingResponseStatus);
 
 
                             var task1 = pingLogService.addTimeInService(PingLog, PingResponseStatus);

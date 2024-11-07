@@ -1,3 +1,4 @@
+using ipstatuschecker.Background_Infrastructure.Services.TimeControlServices.Result;
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.DomainEntity;
@@ -13,13 +14,16 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
         private readonly DbIpCheck _context;
         private readonly IWorkScheduleRepository _workScheduleRepository;
         private readonly IPingLogRepository _pingLogRepository;
+          private readonly IServiceProvider _serviceProvider;
 
 
-        public WorkScheduleService(DbIpCheck context, IWorkScheduleRepository workScheduleRepository, IPingLogRepository pingLogRepository)
+        public WorkScheduleService(DbIpCheck context, IWorkScheduleRepository workScheduleRepository,
+         IPingLogRepository pingLogRepository,IServiceProvider serviceProvider)
         {
             _context = context;
             _workScheduleRepository = workScheduleRepository;
             _pingLogRepository = pingLogRepository;
+            _serviceProvider=serviceProvider;
         }
 
         public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity, bool Status)
@@ -32,9 +36,9 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                 var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
                 var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-                // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
-                // var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
-
+                //  var ServiceTime = _serviceProvider.GetRequiredService<ITimeControl<WorkSchedule_ReqvestDto,WorkScheduleResult>>();
+                //  var WorkScheduleResult = await ServiceTime.TimeControlResult(entity, Status);
+                 
 
                 var hasOnlineRecordForToday = HasOnlineRecordForToday(existingLog);
                 var hasSufficientTimePassed = HasSufficientTimePassed(existingLog);
