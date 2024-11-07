@@ -1,11 +1,11 @@
 
 using Ipstatuschecker.Abstractions.interfaces.IServices;
-using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Dto;
 
 
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {
+    
     public class CheckIpStatuses
     {
         private readonly IServiceProvider _serviceProvider;

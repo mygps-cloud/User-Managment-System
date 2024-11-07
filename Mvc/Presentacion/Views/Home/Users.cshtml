@@ -1,5 +1,6 @@
 @using Ipstatuschecker.Dto
 @using Ipstatuschecker.Dto.Response
+@using System.Net.Http.Json
 @model List<GetAllViweModelDto>
 
 <!DOCTYPE html>
@@ -11,149 +12,148 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 20px;
+        color: #333;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: auto;
-            max-width: 98%; 
-          
-            border-radius: 10px; 
-            padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        max-width: 98%;
+        border-radius: 10px;
+        padding: 20px;
         }
 
         table {
-            width: 130%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        width: 130%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
         th,
         td {
-            padding: 20px; 
-            border: 1px solid #ddd;
-            text-align: center;
+        padding: 20px;
+        border: 1px solid #ddd;
+        text-align: center;
         }
 
         th {
-            background-color: #4CAF50; 
-            color: #ffffff; 
-            font-size: 1.2em;
+        background-color: #4CAF50;
+        color: #ffffff;
+        font-size: 1.2em;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9; 
+        background-color: #f9f9f9;
         }
 
         a {
-            color: #7810bdf1; 
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
+        color: #7810bdf1;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
         }
 
         a:hover {
-            text-decoration: underline;
-            color: #7810bdf1; 
+        text-decoration: underline;
+        color: #7810bdf1;
         }
 
         .breaktime {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 30px; 
-            width: 100%; 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        width: 100%;
         }
 
         .start-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: auto;
-            width: 100%; 
-            margin: 15px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        width: 100%;
+        margin: 15px 0;
         }
 
         .box-list {
-            padding-top: 5px;
-            display: flex;
-            align-content: center;
-            justify-content: center;
-            overflow-y: scroll;
-            max-height: 130px;
-            width: 100%;
+        padding-top: 5px;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        overflow-y: scroll;
+        max-height: 130px;
+        width: 100%;
         }
 
         select {
-            padding: 10px; 
-            border-radius: 6px; 
-            border: 1px solid #ccc;
-            width: 100%; 
-            font-size: 1em;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 100%;
+        font-size: 1em;
         }
 
         p {
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1em;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1em;
         }
 
         .time-in {
-            color: #4CAF50; 
+        color: #4CAF50;
         }
 
         .time-in:hover {
-            color: #388e3c; 
+        color: #388e3c;
         }
 
         .time-out {
-            color: #FF8C00; 
+        color: #FF8C00;
         }
 
         .time-out:hover {
-            color: #e67e00; 
+        color: #e67e00;
         }
 
         .break-start {
-            color: #FF3333; 
+        color: #FF3333;
         }
 
         .break-start:hover {
-            color: #cc0000; 
+        color: #cc0000;
         }
 
         .break-end {
-            color: #FFD700; 
+        color: #FFD700;
         }
 
         .break-end:hover {
-            color: #e6c300; 
+        color: #e6c300;
         }
 
         .action-button {
-            padding: 15px 25px;
-            margin-top: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 7px; 
-            cursor: pointer;
-            transition: background-color 0.3s;
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-            font-size: 1.1em; 
+        padding: 15px 25px;
+        margin-top: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        font-size: 1.1em;
         }
 
         .action-button:hover {
-            background-color: #388e3c; 
+        background-color: #388e3c;
         }
     </style>
 </head>
@@ -169,63 +169,58 @@
                     <th>Break Time</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="log-table-body">
                 @foreach (var log in Model)
                 {
-                    if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today))
-                    {
-                        <tr>
-                            <td>
-                                <a href="#" onclick="event.preventDefault(); goToPage('@log.Id')">@log.Name</a>
-                            </td>
+                    <tr data-log-id="@log.Id">
+                        <td>
+                            <a href="#" onclick="event.preventDefault(); goToPage('@log.Id')">@log.Name</a>
+                        </td>
 
-                            <td>
-                                <div class="start-wrapper">
-                                    <p class="time-in" onclick="openHandler('online-time-@log.Id')">Time In</p>
-                                    <div class="box-list">
-                                        <select class="ol-tag" id="online-time-@log.Id">
-                                             @if (log.PingLogDtoResponse?.OnlieTime != null )
-                                            @* @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today)) *@
+                        <td>
+                            <div class="start-wrapper">
+                                <p class="time-in" onclick="filterTimesByTimeIn('@log.Id')">Time In</p>
+                                <div class="box-list">
+                                    <select class="ol-tag time-in-select" id="online-time-@log.Id" onchange="filterTimesByTimeIn('@log.Id')">
+                                        @if (log.PingLogDtoResponse?.OnlieTime != null)
+                                        {
+                                            foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
                                             {
-                                                 foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
-                                                @* foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime.Where(t => t.Date == DateTime.Today)) *@
-                                                {
-                                                    <option>@onlineTime.ToString("g")</option>
-                                                }
+                                                <option value="@onlineTime.ToString("g")">@onlineTime.ToString("g")</option>
                                             }
-                                        </select>
-                                    </div>
+                                        }
+                                    </select>
                                 </div>
-                            </td>
+                            </div>
+                        </td>
 
-                            <td>
-                                <div class="start-wrapper">
-                                    <p class="time-out" onclick="openHandler('break-offline-time-@log.Id')">Offline Time</p>
-                                    <div class="box-list">
-                                        <select class="ol-tag" id="break-offline-time-@log.Id">
-                                                @if (log.PingLogDtoResponse?.OflineTime != null )
-                                            @* @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any(t => t.Date == DateTime.Today)) *@
-                                            { foreach (var offline in log.PingLogDtoResponse.OflineTime)
-                                                @* foreach (var offline in log.PingLogDtoResponse.OflineTime.Where(t => t.Date == DateTime.Today)) *@
-                                                {
-                                                    <option>@offline.ToString("g")</option>
-                                                }
+                        <td>
+                            <div class="start-wrapper">
+                                <p class="time-out">Offline Time</p>
+                                <div class="box-list">
+                                    <select class="ol-tag" id="break-offline-time-@log.Id">
+                                        @if (log.PingLogDtoResponse?.OflineTime != null)
+                                        {
+                                            foreach (var offline in log.PingLogDtoResponse.OflineTime)
+                                            {
+                                                <option value="@offline.ToString("g")">@offline.ToString("g")</option>
                                             }
-                                        </select>
-                                    </div>
+                                        }
+                                    </select>
                                 </div>
-                            </td>
-                              <td>
+                            </div>
+                        </td>
+                        <td>
                             <div class="breaktime">
                                 <div class="start-wrapper">
-                                    <p class="break-start" onclick="openHandler('start-time-@log.Id')">Start Time</p>
+                                    <p class="break-start">Start Time</p>
                                     <div class="box-list">
                                         <select class='ol-tag' id='start-time-@log.Id'>
                                             @if (log.WorkSchedules?.StartTime != null && log.WorkSchedules.StartTime.Any())
                                             {
                                                 foreach (var startTime in log.WorkSchedules.StartTime)
                                                 {
-                                                    <option>@startTime.ToString("HH:mm:ss")</option>
+                                                    <option value="@startTime.ToString("g")">@startTime.ToString("g")</option>
                                                 }
                                             }
                                         </select>
@@ -233,30 +228,33 @@
                                 </div>
 
                                 <div class="start-wrapper">
-                                    <p class="break-end" onclick="openHandler('end-time-@log.Id')">End Time</p>
+                                    <p class="break-end">End Time</p>
                                     <div class="box-list">
                                         <select class='ol-tag' id="end-time-@log.Id">
                                             @if (log.WorkSchedules?.EndTime != null && log.WorkSchedules.EndTime.Any())
                                             {
                                                 foreach (var endTime in log.WorkSchedules.EndTime)
                                                 {
-                                                    <option>@endTime.ToString("HH:mm:ss")</option>
+                                                    <option value="@endTime.ToString("g")">@endTime.ToString("g")</option>
                                                 }
                                             }
                                         </select>
                                     </div>
                                 </div>
-                               
                             </div>
-                             </td>
-                        </tr>
-                    }
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
 
     <script>
+
+
+         
+       
+
         const openHandler = (type) => {
             const element = document.getElementById(type);
             if (element) {
@@ -267,6 +265,28 @@
         function goToPage(id) {
             const url = `/Home/ByName/${id}`;
             window.location.href = url;
+        }
+
+        function filterTimesByTimeIn(logId) 
+        {
+            const timeInSelect = document.getElementById(`online-time-${logId}`);
+            const selectedTimeInValue = timeInSelect.value;
+
+            const offlineTimeSelect = document.getElementById(`break-offline-time-${logId}`);
+            const startTimeSelect = document.getElementById(`start-time-${logId}`);
+            const endTimeSelect = document.getElementById(`end-time-${logId}`);
+
+            [offlineTimeSelect, startTimeSelect, endTimeSelect].forEach(select => {
+                const options = select.querySelectorAll("option");
+                options.forEach(option => {
+                    if (option.textContent === selectedTimeInValue) 
+                    {
+                        option.style.display = "block";
+                    } else {
+                        option.style.display = "none";
+                    }
+                });
+            });
         }
     </script>
 </body>

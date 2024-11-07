@@ -204,7 +204,11 @@
                                     <div class="box-list">
                                         <select class="ol-tag" id="break-offline-time-@log.Id">
                                                 @if (log.PingLogDtoResponse?.OflineTime != null )
-                                            @* @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any(t => t.Date == DateTime.Today)) *@
+                                            @*
+                                            
+                                             @if (log.PingLogDtoResponse?.OflineTime != null && log.PingLogDtoResponse.OflineTime.Any(t => t.Date == DateTime.Today)) *@
+                                          
+                                                                             
                                             { foreach (var offline in log.PingLogDtoResponse.OflineTime)
                                                 @* foreach (var offline in log.PingLogDtoResponse.OflineTime.Where(t => t.Date == DateTime.Today)) *@
                                                 {
@@ -225,7 +229,8 @@
                                             {
                                                 foreach (var startTime in log.WorkSchedules.StartTime)
                                                 {
-                                                    <option>@startTime.ToString("HH:mm:ss")</option>
+                                                    @* <option>@startTime.ToString("HH:mm:ss")</option> *@
+                                                    <option>@startTime.ToString("g")</option>
                                                 }
                                             }
                                         </select>
@@ -240,7 +245,8 @@
                                             {
                                                 foreach (var endTime in log.WorkSchedules.EndTime)
                                                 {
-                                                    <option>@endTime.ToString("HH:mm:ss")</option>
+                                                    @* <option>@endTime.ToString("HH:mm:ss")</option> *@
+                                                        <option>@endTime.ToString("g")</option>
                                                 }
                                             }
                                         </select>
