@@ -1,5 +1,7 @@
 
-using Ipstatuschecker.Background_Infrastructure.Services;
+
+
+using Ipstatuschecker.Background_Infrastructure.Services.HostService;
 
 namespace Ipstatuschecker.Background_Infrastructure.HostService
 

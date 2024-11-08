@@ -1,6 +1,5 @@
 @using Ipstatuschecker.Dto
 @using Ipstatuschecker.Dto.Response
-@using System.Net.Http.Json
 @model List<GetAllViweModelDto>
 
 <!DOCTYPE html>
@@ -11,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
-        body {
+       body {
         font-family: Arial, sans-serif;
         text-align: center;
         margin-top: 20px;
@@ -169,106 +168,83 @@
                     <th>Break Time</th>
                 </tr>
             </thead>
-            <tbody id="log-table-body">
-                @foreach (var log in Model)
-                {
-                    <tr data-log-id="@log.Id">
-                        <td>
-                            <a href="#" onclick="event.preventDefault(); goToPage('@log.Id')">@log.Name</a>
-                        </td>
-
-                        <td>
-                            <div class="start-wrapper">
-                                <p class="time-in" onclick="filterTimesByTimeIn('@log.Id')">Time In</p>
-                                <div class="box-list">
-                                    <select class="ol-tag time-in-select" id="online-time-@log.Id" onchange="filterTimesByTimeIn('@log.Id')">
-                                        @if (log.PingLogDtoResponse?.OnlieTime != null)
-                                        {
-                                            foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
-                                            {
-                                                <option value="@onlineTime.ToString("g")">@onlineTime.ToString("g")</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="start-wrapper">
-                                <p class="time-out">Offline Time</p>
-                                <div class="box-list">
-                                    <select class="ol-tag" id="break-offline-time-@log.Id">
-                                        @if (log.PingLogDtoResponse?.OflineTime != null)
-                                        {
-                                            foreach (var offline in log.PingLogDtoResponse.OflineTime)
-                                            {
-                                                <option value="@offline.ToString("g")">@offline.ToString("g")</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="breaktime">
-                                <div class="start-wrapper">
-                                    <p class="break-start">Start Time</p>
-                                    <div class="box-list">
-                                        <select class='ol-tag' id='start-time-@log.Id'>
-                                            @if (log.WorkSchedules?.StartTime != null && log.WorkSchedules.StartTime.Any())
-                                            {
-                                                foreach (var startTime in log.WorkSchedules.StartTime)
-                                                {
-                                                    <option value="@startTime.ToString("g")">@startTime.ToString("g")</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="start-wrapper">
-                                    <p class="break-end">End Time</p>
-                                    <div class="box-list">
-                                        <select class='ol-tag' id="end-time-@log.Id">
-                                            @if (log.WorkSchedules?.EndTime != null && log.WorkSchedules.EndTime.Any())
-                                            {
-                                                foreach (var endTime in log.WorkSchedules.EndTime)
-                                                {
-                                                    <option value="@endTime.ToString("g")">@endTime.ToString("g")</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                }
+            <tbody   id="log-table-body">
+                <!-- The table body will be dynamically populated by JavaScript -->
             </tbody>
         </table>
     </div>
 
     <script>
+        // Step 1: Serialize the model data to JavaScript
+        const logs = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
 
+        // Step 2: Render the data into the HTML using JavaScript
+        document.addEventListener("DOMContentLoaded", () => {
+            renderLogs(logs);
+        });
 
-         
-       
+        function renderLogs(logs) {
+            const logTableBody = document.getElementById("log-table-body");
+            logTableBody.innerHTML = ''; // Clear the table body
 
-        const openHandler = (type) => {
-            const element = document.getElementById(type);
-            if (element) {
-                element.style.opacity = element.style.opacity === "1" ? "0" : "1";
-            }
-        };
+            logs.forEach(log => {
+                const row = document.createElement('tr');
+                row.dataset.logId = log.Id;
 
-        function goToPage(id) {
+                row.innerHTML = `
+                    <td><a href="#" onclick="event.preventDefault(); goToPage('${log.Id}')">${log.Name}</a></td>
+                    <td>
+                        <div id="test" class="start-wrapper">
+                            <p class="time-in" onclick="filterTimesByTimeIn('${log.Id}')">Time In TESTING</p>
+                            <div class="box-list">
+                                <select class="ol-tag time-in-select" id="online-time-${log.Id}" onchange="filterTimesByTimeIn('${log.Id}')">
+                                    ${log.PingLogDtoResponse?.OnlieTime ? log.PingLogDtoResponse.OnlieTime.map(time => `<option value="${time}">${new Date(time).toLocaleString()}</option>`).join('') : ''}
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="start-wrapper">
+                            <p class="time-out">Offline Time</p>
+                            <div class="box-list">
+                                <select class="ol-tag" id="break-offline-time-${log.Id}">
+                                    ${log.PingLogDtoResponse?.OflineTime ? log.PingLogDtoResponse.OflineTime.map(time => `<option value="${time}">${new Date(time).toLocaleString()}</option>`).join('') : ''}
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="breaktime">
+                            <div class="start-wrapper">
+                                <p class="break-start">Start Time</p>
+                                <div class="box-list">
+                                    <select class='ol-tag' id='start-time-${log.Id}'>
+                                        ${log.WorkSchedules?.StartTime ? log.WorkSchedules.StartTime.map(time => `<option value="${time}">${new Date(time).toLocaleString()}</option>`).join('') : ''}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="start-wrapper">
+                                <p class="break-end">End Time</p>
+                                <div class="box-list">
+                                    <select class='ol-tag' id="end-time-${log.Id}">
+                                        ${log.WorkSchedules?.EndTime ? log.WorkSchedules.EndTime.map(time => `<option value="${time}">${new Date(time).toLocaleString()}</option>`).join('') : ''}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+
+                logTableBody.appendChild(row);
+            });
+        }
+         function goToPage(id) {
             const url = `/Home/ByName/${id}`;
             window.location.href = url;
         }
 
-        function filterTimesByTimeIn(logId) 
-        {
+        function filterTimesByTimeIn(logId) {
             const timeInSelect = document.getElementById(`online-time-${logId}`);
             const selectedTimeInValue = timeInSelect.value;
 
@@ -279,8 +255,7 @@
             [offlineTimeSelect, startTimeSelect, endTimeSelect].forEach(select => {
                 const options = select.querySelectorAll("option");
                 options.forEach(option => {
-                    if (option.textContent === selectedTimeInValue) 
-                    {
+                    if (option.textContent === selectedTimeInValue) {
                         option.style.display = "block";
                     } else {
                         option.style.display = "none";
@@ -288,6 +263,10 @@
                 });
             });
         }
+
+ 
+
+
     </script>
 </body>
 

@@ -1,7 +1,7 @@
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Background_Infrastructure.Services.UpdateService;
 
-namespace Ipstatuschecker.Background_Infrastructure.Services
+namespace Ipstatuschecker.Background_Infrastructure.Services.HostService
 {
     public class CheckIpStatuses 
     {

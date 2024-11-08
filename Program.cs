@@ -1,5 +1,5 @@
 
-using Ipstatuschecker.Background_Infrastructure.Configuration;
+using Ipstatuschecker.Background_Infrastructure.Extension;
 using Ipstatuschecker.Background_Infrastructure.RouteServices.MinimalApiService;
 using Ipstatuschecker.Mvc.Infrastructure.DLA;
 using Ipstatuschecker.Mvc.Presentacion.MvcOptionsRoute;
