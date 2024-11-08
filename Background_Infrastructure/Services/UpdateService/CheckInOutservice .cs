@@ -6,7 +6,7 @@ using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 
-namespace Background_Infrastructure.Services
+namespace Background_Infrastructure.Services.UpdateService
 {
     public class CheckInOutservice : IPingLogService
     {

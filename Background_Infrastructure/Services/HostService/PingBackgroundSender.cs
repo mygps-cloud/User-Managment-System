@@ -1,7 +1,7 @@
 
 using Ipstatuschecker.Background_Infrastructure.Services;
 
-namespace Ipstatuschecker.Background_Infrastructure
+namespace Ipstatuschecker.Background_Infrastructure.HostService
 
 {public class PingBackgroundService : BackgroundService
 {

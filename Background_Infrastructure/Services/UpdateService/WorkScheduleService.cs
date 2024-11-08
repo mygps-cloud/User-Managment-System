@@ -7,7 +7,7 @@ using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Ipstatuschecker.Background_Infrastructure.Services
+namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 {
     public class WorkScheduleService : IWorkScheduleService<WorkSchedule_ReqvestDto>
     {

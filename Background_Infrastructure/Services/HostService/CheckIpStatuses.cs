@@ -1,5 +1,5 @@
 using Ipstatuschecker.Abstractions.interfaces.IServices;
-using Ipstatuschecker.Dto;
+using Ipstatuschecker.Background_Infrastructure.Services.UpdateService;
 
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {
@@ -16,15 +16,14 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             _pingIpChecker = pingIpChecker;
         }
 
-
         public async Task CheckIpStatus()
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var ipStatusService = scope.ServiceProvider.GetRequiredService<IPstatusService>();
-                var pingLogService = scope.ServiceProvider.GetRequiredService<IPingLogService>();
-                 var workScheduleService = scope.ServiceProvider.GetRequiredService<IWorkScheduleService<WorkSchedule_ReqvestDto>>();
                 var pingIpChecker = scope.ServiceProvider.GetRequiredService<PingIpChecker>();
+                var updatePingLogService = scope.ServiceProvider.GetRequiredService<UpdateCheckInOut>();
+                var updateWorkScheduleService = scope.ServiceProvider.GetRequiredService<UpdateBreake>();
 
                 try
                 {
@@ -36,22 +35,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                         {
                             var PingResponseStatus = await pingIpChecker.PingIp(task.IpAddress);
 
-                            var PingLog = new PingLogDtoReqvest
-                            {
-                                UserId = task.Id.Value,
-                                OnlieTime = PingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>(),
-                                OflineTime = PingResponseStatus ? new List<DateTime>() : new List<DateTime> { DateTime.Now }
-                            };
-
-                            var WorkSchedule = new WorkSchedule_ReqvestDto
-                            {
-                                UserId = task.Id.Value,
-                                StartTime = PingResponseStatus ? new List<DateTime>() : new List<DateTime> { DateTime.Now },
-                                EndTime = PingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>()
-                            };
-
-                            await pingLogService.addTimeInService(PingLog, PingResponseStatus);
-                            await workScheduleService.addBreakTime(WorkSchedule, PingResponseStatus);
+                            await updatePingLogService.UpdatePingLog(scope, task.Id.Value, PingResponseStatus);
+                            await updateWorkScheduleService.UpdateWorkSchedule(scope, task.Id.Value, PingResponseStatus);
                         }
                     }
                     else
@@ -65,5 +50,5 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                 }
             }
         }
-    }
+    } 
 }
