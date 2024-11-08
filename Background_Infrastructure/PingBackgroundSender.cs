@@ -21,10 +21,13 @@ namespace Ipstatuschecker.Background_Infrastructure
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var checkIpStatuses = scope.ServiceProvider.GetRequiredService<CheckIpStatuses>();
+                
 
                 try
                 {
                     await checkIpStatuses.CheckIpStatus();
+                    
+                   
                 }
                 catch (Exception ex)
                 {
@@ -32,7 +35,7 @@ namespace Ipstatuschecker.Background_Infrastructure
                 }
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken); 
+              await Task.Delay(3000, stoppingToken);
         }
     }
 }

@@ -1,4 +1,4 @@
-using ipstatuschecker.Background_Infrastructure.Services.TimeControlServices.Result;
+
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.DomainEntity;
@@ -35,6 +35,9 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             {
                 var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
                 var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
+                //  var existingLog =await _pingLogRepository.GetByIdAsync( entity.UserId);
+                // var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById( entity.UserId);
 
                 //  var ServiceTime = _serviceProvider.GetRequiredService<ITimeControl<WorkSchedule_ReqvestDto,WorkScheduleResult>>();
                 //  var WorkScheduleResult = await ServiceTime.TimeControlResult(entity, Status);
@@ -81,12 +84,12 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
 
         private bool HasOnlineRecordForToday(PingLog existingLog)
         {
-            return existingLog?.OnlieTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
+            return existingLog?.OnlineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false;
         }
 
         private bool HasSufficientTimePassed(PingLog existingLog)
         {
-            return existingLog?.OnlieTime?.Count > 0 && !existingLog.OnlieTime.Any(time => time.Day == DateTime.Now.Day);
+            return existingLog?.OnlineTime?.Count > 0 && !existingLog.OnlineTime.Any(time => time.Day == DateTime.Now.Day);
         }
 
         private bool HasOfflineRecordForToday(PingLog existingLog)
@@ -95,3 +98,16 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

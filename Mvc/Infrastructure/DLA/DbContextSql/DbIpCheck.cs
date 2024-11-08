@@ -1,5 +1,6 @@
 using Ipstatuschecker.DomainEntity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
 {
@@ -9,41 +10,34 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql
 
         public DbSet<User> Users { get; set; }
         public DbSet<IpStatus> IpStatuses { get; set; }
-        public DbSet<Device> Devices { get; set; } 
+        public DbSet<Device> Devices { get; set; }
         public DbSet<PingLog> PingLog { get; set; }
-         public DbSet<WorkSchedule> workSchedules   { get;set;}
+        public DbSet<WorkSchedule> workSchedules { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.IpStatuses)
-                .WithOne() 
-                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Devices)
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<Device>()
-                .HasOne(i => i.IpStatus)
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull);
-
-         modelBuilder.Entity<User>()
-                .HasOne(u => u.workSchedule)
-                .WithOne()
-                .HasForeignKey<WorkSchedule>(ws => ws.UserId) 
-                .OnDelete(DeleteBehavior.SetNull);
-
-
-
-            modelBuilder.Entity<PingLog>()
-                .HasOne(p => p.User) 
-                .WithOne(u => u.PingLog) 
-                .HasForeignKey<PingLog>(p => p.UserId) 
-                .OnDelete(DeleteBehavior.SetNull); 
-
-
+            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+            base.OnModelCreating(modelBuilder);
+            
         }
+
     }
+
+    //   public class Factory : IDesignTimeDbContextFactory<DbIpCheck>
+    // {
+    //     public DbIpCheck CreateDbContext(string[] args)
+    //     {
+    //         var config = new ConfigurationBuilder()
+    //             .SetBasePath(Directory.GetCurrentDirectory())
+    //            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    //            .Build();
+
+    //         var optionsBuilder = new DbContextOptionsBuilder<DbIpCheck>();
+    //         var connectionString = config.GetConnectionString("DB");
+    //           optionsBuilder.UseMySql(connectionString, 
+    //           new MySqlServerVersion(new Version(8, 0, 21)));
+    
+    //         return new DbIpCheck(optionsBuilder.Options);
+    //     }
+    // }
 }

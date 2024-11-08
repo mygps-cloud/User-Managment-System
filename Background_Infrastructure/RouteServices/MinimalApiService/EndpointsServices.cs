@@ -1,6 +1,5 @@
 
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
-using Ipstatuschecker.Background_Infrastructure.Persitence;
 using Ipstatuschecker.Dto;
 
 
@@ -27,7 +26,7 @@ public static async Task<List<PingLogDtoResponse>> GetAll(IPingLogRepository pin
         .Select(log => new PingLogDtoResponse
         {
             Id = log.Id,
-            OnlieTime = log.OnlieTime, 
+            OnlieTime = log.OnlineTime, 
             OflineTime = log.OflineTime.ToList(), 
             _UserDto = log.User != null ? new UserDto
             {
@@ -53,7 +52,7 @@ public static async Task<List<PingLogDtoResponse>> GetById(int id,IPingLogReposi
              var pingLogById =  new PingLogDtoResponse
               {
             Id = ById.Id,
-            OnlieTime = ById.OnlieTime, 
+            OnlieTime = ById.OnlineTime, 
             OflineTime = ById.OflineTime.ToList(), 
             _UserDto = ById.User!= null ? new UserDto
             {
@@ -78,7 +77,7 @@ public static async Task<List<PingLogDtoResponse>> GetByName(string name,IPingLo
              var pingLogByName =  new PingLogDtoResponse
               {
             Id = ByName.Id,
-            OnlieTime = ByName.OnlieTime, 
+            OnlieTime = ByName.OnlineTime, 
             OflineTime = ByName.OflineTime.ToList(), 
             _UserDto = ByName.User!= null ? new UserDto
             {

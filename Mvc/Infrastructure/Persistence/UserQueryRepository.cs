@@ -21,6 +21,29 @@ namespace Mvc.Infrastructure.Persistence
              throw new Exception("User is empty");
         }
 
+
+
+
+
+        // public async Task<List<User>> GetByIdAsync(int id)
+        // {
+        //     var users = await context.Users
+        //         .Include(param => param.Devices)
+        //         .Include(param => param.IpStatuses)
+        //         .Include(param => param.workSchedule)
+        //         .Include(param => param.PingLog)
+        //         .AsNoTracking()
+        //         .Where(userbyid => userbyid.Id == id)
+        //         .ToListAsync();
+
+        //     if (users == null || users.Count == 0)
+        //     {
+        //         throw new Exception("User Id not found");
+        //     }
+
+        //     return users;
+        // }
+
         public async Task<User> GetByIdAsync(int Id)
         {
             return await context.Users.

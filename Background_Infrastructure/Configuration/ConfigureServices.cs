@@ -17,10 +17,12 @@ namespace Ipstatuschecker.Background_Infrastructure.Configuration
         public static IServiceCollection AddservicesPingBackground(this IServiceCollection services)
         {
             services.AddHostedService<PingBackgroundService>();
+            
 
             services.AddSingleton<PingIpChecker>();
 
-            services.AddScoped<CheckIpStatuses>();
+             services.AddScoped<CheckIpStatuses>();
+           
 
 
             services.AddSingleton<ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>,

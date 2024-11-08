@@ -3,11 +3,12 @@ using System;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
+namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
     partial class DbIpCheckModelSnapshot : ModelSnapshot
@@ -15,27 +16,32 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.Device", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int?>("Id"));
 
                     b.Property<string>("DeviceNames")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("IpStatusId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IpStatusId")
-                        .IsUnique();
+                    b.HasIndex("IpStatusId");
 
                     b.HasIndex("UserId");
 
@@ -46,16 +52,18 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int?>("Id"));
 
                     b.Property<string>("IpAddress")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Status")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -68,16 +76,18 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("OflineTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("OnlieTime")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("OnlineTime")
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -91,10 +101,13 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 
@@ -105,19 +118,18 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<int>("BreakDuration")
-                        .HasColumnType("INTEGER");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("EndTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("StartTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -130,9 +142,8 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.Device", b =>
                 {
                     b.HasOne("Ipstatuschecker.DomainEntity.IpStatus", "IpStatus")
-                        .WithOne()
-                        .HasForeignKey("Ipstatuschecker.DomainEntity.Device", "IpStatusId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("IpStatusId");
 
                     b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("Devices")
@@ -147,7 +158,7 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("IpStatuses")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.PingLog", b =>
@@ -155,19 +166,19 @@ namespace ipstatuschecker.Mvc.Infrastructure.DLA.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
                         .WithOne("PingLog")
                         .HasForeignKey("Ipstatuschecker.DomainEntity.PingLog", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.WorkSchedule", b =>
                 {
-                    b.HasOne("Ipstatuschecker.DomainEntity.User", null)
+                    b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
                         .WithOne("workSchedule")
                         .HasForeignKey("Ipstatuschecker.DomainEntity.WorkSchedule", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.User", b =>

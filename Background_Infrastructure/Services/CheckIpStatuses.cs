@@ -1,12 +1,9 @@
-
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Dto;
 
-
 namespace Ipstatuschecker.Background_Infrastructure.Services
 {
-    
-    public class CheckIpStatuses
+    public class CheckIpStatuses 
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<CheckIpStatuses> _logger;
@@ -18,13 +15,15 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
             _logger = logger;
             _pingIpChecker = pingIpChecker;
         }
+
+
         public async Task CheckIpStatus()
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var ipStatusService = scope.ServiceProvider.GetRequiredService<IPstatusService>();
                 var pingLogService = scope.ServiceProvider.GetRequiredService<IPingLogService>();
-                var workScheduleService = scope.ServiceProvider.GetRequiredService<IWorkScheduleService<WorkSchedule_ReqvestDto>>();
+                 var workScheduleService = scope.ServiceProvider.GetRequiredService<IWorkScheduleService<WorkSchedule_ReqvestDto>>();
                 var pingIpChecker = scope.ServiceProvider.GetRequiredService<PingIpChecker>();
 
                 try
@@ -51,13 +50,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                                 EndTime = PingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>()
                             };
 
-
-
-                            var task1 = pingLogService.addTimeInService(PingLog, PingResponseStatus);
-                            var task2 = workScheduleService.addBreakTime(WorkSchedule, PingResponseStatus);
-
-                            await Task.WhenAll(task1, task2);
-
+                            await pingLogService.addTimeInService(PingLog, PingResponseStatus);
+                            await workScheduleService.addBreakTime(WorkSchedule, PingResponseStatus);
                         }
                     }
                     else
@@ -71,8 +65,5 @@ namespace Ipstatuschecker.Background_Infrastructure.Services
                 }
             }
         }
-
-
-
     }
 }
