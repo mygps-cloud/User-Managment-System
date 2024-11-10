@@ -26,7 +26,7 @@ public static class SemaphoreService<TEntity, TRepository>
             var response = new PingLogDtoResponse
             {
                 UserId = existingLog.UserId,
-                OnlieTime = existingLog.OnlineTime,
+                OnlineTime = existingLog.OnlineTime,
                 OflineTime = existingLog.OflineTime
             };
 

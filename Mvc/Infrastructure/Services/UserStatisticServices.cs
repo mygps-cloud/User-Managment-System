@@ -9,7 +9,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
             return await Task.Run(() =>
             {
             
-                var onlineTimes = userDto?.PingLogDtoResponse?.OnlieTime ?? new List<DateTime>();
+                var onlineTimes = userDto?.PingLogDtoResponse?.OnlineTime ?? new List<DateTime>();
                 var offlineTimes = userDto?.PingLogDtoResponse?.OflineTime ?? new List<DateTime>();
                 
              

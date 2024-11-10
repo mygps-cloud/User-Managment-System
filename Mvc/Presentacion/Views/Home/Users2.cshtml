@@ -172,7 +172,7 @@
             <tbody>
                 @foreach (var log in Model)
                 {
-                    if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today))
+                    if (log.PingLogDtoResponse?.OnlineTime != null && log.PingLogDtoResponse.OnlineTime.Any(t => t.Date == DateTime.Today))
                     {
                         <tr>
                             <td>
@@ -184,10 +184,10 @@
                                     <p class="time-in" onclick="openHandler('online-time-@log.Id')">Time In</p>
                                     <div class="box-list">
                                         <select class="ol-tag" id="online-time-@log.Id">
-                                             @if (log.PingLogDtoResponse?.OnlieTime != null )
+                                             @if (log.PingLogDtoResponse?.OnlineTime != null )
                                             @* @if (log.PingLogDtoResponse?.OnlieTime != null && log.PingLogDtoResponse.OnlieTime.Any(t => t.Date == DateTime.Today)) *@
                                             {
-                                                 foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime)
+                                                 foreach (var onlineTime in log.PingLogDtoResponse.OnlineTime)
                                                 @* foreach (var onlineTime in log.PingLogDtoResponse.OnlieTime.Where(t => t.Date == DateTime.Today)) *@
                                                 {
                                                     <option>@onlineTime.ToString("g")</option>

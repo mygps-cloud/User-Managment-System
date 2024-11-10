@@ -146,7 +146,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
                     PingLogDtoResponse = user.PingLog != null ? new PingLogDtoResponse
                     {
                         Id = user.PingLog.Id,
-                        OnlieTime = user.PingLog.OnlineTime,
+                        OnlineTime = user.PingLog.OnlineTime,
                         OflineTime = user.PingLog.OflineTime
                     } : null
 
@@ -196,7 +196,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
                 PingLogDtoResponse = user.PingLog != null ? new PingLogDtoResponse
                 {
                     Id = user.PingLog.Id,
-                    OnlieTime = user.PingLog.OnlineTime,
+                    OnlineTime = user.PingLog.OnlineTime,
                     OflineTime = user.PingLog.OflineTime
                 } : null,
 

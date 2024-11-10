@@ -15,10 +15,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices
             var Result= new WorkScheduleResult
             {
                 HasOnlineRecordForToday=entity.StartTime?.Any(time => time.Day == DateTime.Now.Day)??false,
-                HasSufficientTimePassed = (entity.StartTime?.Count > 0 && (entity.StartTime?.
-                Any(time => time.Day == DateTime.Now.Day) ?? false)),
                 HasOfflineRecordForToday=entity.StartTime?.Any(time => time.Day == DateTime.Now.Day)?? false,
-                LastTimeIn=Status
+                LastTimeIn = Status &&! (entity.StartTime?.Any(time => time.Day == DateTime.Now.Day) ?? false)
 
 
             };

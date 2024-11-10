@@ -26,7 +26,7 @@ public static async Task<List<PingLogDtoResponse>> GetAll(IPingLogRepository pin
         .Select(log => new PingLogDtoResponse
         {
             Id = log.Id,
-            OnlieTime = log.OnlineTime, 
+            OnlineTime = log.OnlineTime, 
             OflineTime = log.OflineTime.ToList(), 
             _UserDto = log.User != null ? new UserDto
             {
@@ -52,7 +52,7 @@ public static async Task<List<PingLogDtoResponse>> GetById(int id,IPingLogReposi
              var pingLogById =  new PingLogDtoResponse
               {
             Id = ById.Id,
-            OnlieTime = ById.OnlineTime, 
+            OnlineTime = ById.OnlineTime, 
             OflineTime = ById.OflineTime.ToList(), 
             _UserDto = ById.User!= null ? new UserDto
             {
@@ -77,7 +77,7 @@ public static async Task<List<PingLogDtoResponse>> GetByName(string name,IPingLo
              var pingLogByName =  new PingLogDtoResponse
               {
             Id = ByName.Id,
-            OnlieTime = ByName.OnlineTime, 
+            OnlineTime = ByName.OnlineTime, 
             OflineTime = ByName.OflineTime.ToList(), 
             _UserDto = ByName.User!= null ? new UserDto
             {

@@ -12,7 +12,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
             var PingLog = new PingLogDtoReqvest
             {
                 UserId = userId,
-                OnlieTime = pingResponseStatus ? new List<DateTime> { DateTime.Now } 
+                OnlineTime = pingResponseStatus ? new List<DateTime> { DateTime.Now } 
                 : new List<DateTime>(),
                 OflineTime = pingResponseStatus ? new List<DateTime>()
                  : new List<DateTime> { DateTime.Now }

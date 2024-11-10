@@ -4,22 +4,23 @@ using Ipstatuschecker.Dto;
 
 namespace Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices
 {
-    public class CheckInOutserviceTimeControlService : ITimeControl<PingLogDtoReqvest,CheckInOutServiceResult>
+    public class CheckInOutserviceTimeControlService : ITimeControl<PingLogDtoReqvest, CheckInOutServiceResult>
     {
-     
         public Task<CheckInOutServiceResult> TimeControlResult(PingLogDtoReqvest entity, bool Status)
         {
-            
-            var Result= new CheckInOutServiceResult
+            var Result = new CheckInOutServiceResult
             {
-                HasOnlineRecordForToday=entity.OnlieTime?.Any(time => time.Day == DateTime.Now.Day)??false,
-                HasSufficientTimePassed = (entity.OnlieTime?.Count > 0 && (entity.OnlieTime?.
-                Any(time => time.Day == DateTime.Now.Day) ?? false)),
-                HasOfflineRecordForToday=entity.OflineTime?.Any(time => time.Day == DateTime.Now.Day)?? false,
-                LastTimeIn =  (DateTime.Now - entity.OnlieTime.Last()).Minutes >= 2
-
+                HasOnlineRecordForToday = entity?.OnlineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false,
+                HasSufficientTimePassed = entity?.OnlineTime?.Count > 0 && entity?.OnlineTime?.Any(time => time.Day == DateTime.Now.Day) == true,
+                HasOfflineRecordForToday = entity?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false,
+                LastTimeIn = entity?.OnlineTime != null && entity?.OnlineTime.Any() == true
+         ? (DateTime.Now - entity.OnlineTime.Last()).Minutes >= 2
+         : false
             };
-             return Task.FromResult(Result);
+
+
+            return Task.FromResult(Result);
         }
+
     }
 }

@@ -57,7 +57,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
         PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
         {
             Id = p.PingLogDtoResponse.Id,
-            OnlieTime = p.PingLogDtoResponse.OnlieTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
+            OnlineTime = p.PingLogDtoResponse.OnlineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
             OflineTime = p.PingLogDtoResponse.OflineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
         } : null,
 
