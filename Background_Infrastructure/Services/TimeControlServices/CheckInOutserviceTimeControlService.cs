@@ -14,7 +14,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices
                 HasSufficientTimePassed = entity?.OnlineTime?.Count > 0 && entity?.OnlineTime?.Any(time => time.Day == DateTime.Now.Day) == true,
                 HasOfflineRecordForToday = entity?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false,
                 LastTimeIn = entity?.OnlineTime != null && entity?.OnlineTime.Any() == true
-         ? (DateTime.Now - entity.OnlineTime.Last()).Minutes >= 2
+         ? (DateTime.Now - entity.OnlineTime.Last()).Minutes >= 4
          : false
             };
 

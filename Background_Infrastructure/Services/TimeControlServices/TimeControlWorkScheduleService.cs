@@ -16,7 +16,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices
             {
                 HasOnlineRecordForToday=entity.StartTime?.Any(time => time.Day == DateTime.Now.Day)??false,
                 HasOfflineRecordForToday=entity.StartTime?.Any(time => time.Day == DateTime.Now.Day)?? false,
-                LastTimeIn = Status &&! (entity.StartTime?.Any(time => time.Day == DateTime.Now.Day) ?? false)
+                LastTimeIn = Status&& !(entity.EndTime?.Any(time => time.Day == DateTime.Now.Day) ?? false)
 
 
             };
