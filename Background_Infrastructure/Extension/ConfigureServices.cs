@@ -20,6 +20,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Extension
         public static IServiceCollection AddservicesPingBackground(this IServiceCollection services)
         {
             services.AddHostedService<PingBackgroundService>();
+            // services.AddScoped(typeof(LockService<>));
 
 
             services.AddSingleton<PingIpChecker>();

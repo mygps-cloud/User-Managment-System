@@ -19,12 +19,16 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
 
         public async Task<List<PingLog>> GetAll()
         => await context.PingLog.Include(user=>user.User)
-        .ToListAsync() ??throw new Exception("User is empty");
+        .ToListAsync() ??throw new Exception
+        ("PingLogRepository->>>>>>>>>>User is empty");
 
         public async Task<PingLog> GetByIdAsync(int id)
         =>id>0?await context.PingLog.Include(user=>user.User)
         .FirstOrDefaultAsync(param=>param.UserId==id)
-        ??throw new Exception("User is empty"):throw new Exception("PingLog not found for the given user ID.");
+        ??throw new Exception
+        ("Message PingLogRepository->>>>>User is empty")
+        :throw new Exception
+        ("Message PingLogRepository->>>>> not found user ID.");
 
         public async Task<PingLog> GetByNameAsync(string name)
         {

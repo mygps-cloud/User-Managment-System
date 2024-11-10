@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj": {}
+    "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj": {}
   },
   "projects": {
-    "/home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj": {
+    "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
+        "projectUniqueName": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
         "projectName": "ipstatuschecker",
-        "projectPath": "/home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
+        "projectPath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
         "packagesPath": "/home/neo/.nuget/packages/",
-        "outputPath": "/home/neo/Desktop/C#/FeaturabrancheIpstatuschecker/Ipstatuschecker/obj/",
+        "outputPath": "/home/neo/Desktop/C#/Ipstatuschecker/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/neo/.nuget/NuGet/NuGet.Config"
@@ -32,12 +32,21 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.35, )"
+            },
             "Microsoft.Data.Sqlite": {
               "target": "Package",
               "version": "[8.0.10, )"
@@ -84,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -68,7 +68,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
         } : null
     }).ToList();
 
-    return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
+    return View("~/Mvc/Presentacion/Views/Home/Users2.cshtml", breake);
 }
 
 

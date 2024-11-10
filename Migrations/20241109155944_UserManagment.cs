@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ipstatuschecker.Migrations
 {
     /// <inheritdoc />
-    public partial class User : Migration
+    public partial class UserManagment : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    [Migration("20241108085235_User")]
-    partial class User
+    [Migration("20241109155944_UserManagment")]
+    partial class UserManagment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

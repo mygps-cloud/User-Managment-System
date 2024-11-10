@@ -16,7 +16,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA
         {
 
 
-            string dbconnect = "Server=localhost;Port=3306;Database=DeviceDatabase;User Id=root;Password=password;";
+            string dbconnect = "Server=localhost;Port=3306;Database=UserManagment;User Id=root;Password=password;";
 
             serviceDescriptors.AddDbContext<DbIpCheck>
             (options =>options.UseMySql
