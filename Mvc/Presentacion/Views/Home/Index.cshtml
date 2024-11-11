@@ -1,11 +1,12 @@
-﻿﻿
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Checker</title>
+
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,6 +88,8 @@
             color: red;
         }
     </style>
+
+
 </head>
 
 <body>
@@ -124,10 +127,13 @@
                             <p class="label">Status:
                                 <span class="status-@ip.Status.ToLower()">@ip.Status</span>
                             </p>
+                           <button onclick="deleteUser('@user.Id')" style="background-color: red; color: white;">Delete</button>
+
                         </div>
+                        <button onclick="pingSelectedDevice('@ip.IpAddress')">PingDevice</button>
+
                     }
                 </div>
-                <button onclick="pingSelectedDevice('@user.Id')">Ping Selected Device</button>
             </div>
         }
     </div>
@@ -143,25 +149,84 @@
 
             if (selectedDevice) {
                 const deviceIp = getDeviceIp(userId, selectedDevice);
-                const ipElement = document.getElementById(`ipItem_${deviceIp}`);
-                if (ipElement) {
-                    ipElement.querySelector('.ip-address').classList.add('highlight');
+                if (deviceIp) {
+                    const ipElement = document.getElementById(`ipItem_${deviceIp}`);
+                    if (ipElement) {
+                        ipElement.querySelector('.ip-address').classList.add('highlight');
+                    }
                 }
             }
         }
 
         function getDeviceIp(userId, deviceName) {
-          
+            const userDevices = @Html.Raw(Json.Serialize(Model));
+            const user = userDevices.find(u => u.Id === userId);
+            if (user) {
+                const device = user.Devices.find(d => d.DeviceNames === deviceName);
+                if (device) {
+                    return device.IpAddress;
+                }
+            }
+            return null;
         }
 
-        function pingSelectedDevice(userId) {
-            const selectedDevice = document.getElementById(`deviceSelect_${userId}`).value;
-            if (selectedDevice) {
-                alert(`Pinging device: ${selectedDevice}`);
-            } else {
-                alert('Please select a device to ping.');
+        const pingSelectedDevice = async (ipAddress) => {
+            if (!ipAddress) {
+                alert('Invalid IP address. Please select a valid device.');
+                return;
+            }
+
+            console.error('ipAddress:', ipAddress);
+            try {
+                let response = await fetch(`Home/PingIp13/${ipAddress}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                let data = await response.json();
+                alert(`Device status: ${data.status}`);
+            } catch (err) {
+                console.error('Error:', err);
+                alert('An error occurred while pinging the IP address.');
             }
         }
+
+
+
+
+
+
+        const deleteUser = async (userId) => {
+            if (!userId) {
+                alert('Invalid user ID. Please select a valid user.');
+                return;
+            }
+
+            try {
+                console.error('userId777777777777777777-----:', userId);
+                let response = await fetch(`Home/Delete/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                let data = await response.json();
+                alert(data.message);
+              
+                location.reload();
+            } catch (err) {
+                console.error('Error:', err);
+                alert('An error occurred while deleting the user.');
+            }
+        }
+
     </script>
 </body>
 

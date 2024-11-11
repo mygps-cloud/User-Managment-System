@@ -19,6 +19,27 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
 
 
+        [HttpPost("Home/Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Console.WriteLine($"userId--------,{id}");
+            if (id <= 0)
+            {
+                return BadRequest("Invalid ID provided.");
+            }
+
+            var result = await iservices.DelteUserById(id);
+
+            if (result)
+            {
+                return Ok(new { message = "User deleted successfully." });
+            }
+            else
+            {
+                return NotFound(new { message = "User not found or could not be deleted." });
+            }
+        }
+
         public async Task<IActionResult> ByName(int id)
         {
             var statistic = new UserStatisticServices();
@@ -45,31 +66,31 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
         }
 
 
-      public async Task<IActionResult> Users()
-{
-    var users = await iservices.GetAllUsers();
-
-    var breake = users.Select(p => new GetAllViweModelDto
-    {
-        Id = p.Id,
-        Name = p.Name,
-
-        PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+        public async Task<IActionResult> Users()
         {
-            Id = p.PingLogDtoResponse.Id,
-            OnlineTime = p.PingLogDtoResponse.OnlineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
-            OflineTime = p.PingLogDtoResponse.OflineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
-        } : null,
+            var users = await iservices.GetAllUsers();
 
-        WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
-        {
-            StartTime = p.WorkSchedules.StartTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
-            EndTime = p.WorkSchedules.EndTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
-        } : null
-    }).ToList();
+            var breake = users.Select(p => new GetAllViweModelDto
+            {
+                Id = p.Id,
+                Name = p.Name,
 
-    return View("~/Mvc/Presentacion/Views/Home/Users2.cshtml", breake);
-}
+                PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+                {
+                    Id = p.PingLogDtoResponse.Id,
+                    OnlineTime = p.PingLogDtoResponse.OnlineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
+                    OflineTime = p.PingLogDtoResponse.OflineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
+                } : null,
+
+                WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+                {
+                    StartTime = p.WorkSchedules.StartTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
+                    EndTime = p.WorkSchedules.EndTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
+                } : null
+            }).ToList();
+
+            return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
+        }
 
 
 
@@ -79,17 +100,18 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
             return View();
         }
 
-        [HttpGet]
+
+        [HttpGet("Home/PingIp13/{ipAddress}")]
         public async Task<IActionResult> PingIp13(string ipAddress)
         {
-            //database
 
-            var status = await PingIp("192.168.1.94");
+
+            var status = await PingIp(ipAddress);
+            Console.WriteLine($"ipAddress   ,{ipAddress}");
 
             return Json(new { status = status ? "Online" : "Offline" });
 
         }
-
 
         public async Task<IActionResult> GetIpStatus()
         {
@@ -145,9 +167,6 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
             return userDtos;
         }
-
-
-
 
         public async Task<bool> PingIp(string ipAddress)
         {
