@@ -8,28 +8,25 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
         {
             return await Task.Run(() =>
             {
-            
                 var onlineTimes = userDto?.PingLogDtoResponse?.OnlineTime ?? new List<DateTime>();
                 var offlineTimes = userDto?.PingLogDtoResponse?.OflineTime ?? new List<DateTime>();
                 
-             
-                int totalHours = ParseTime(offlineTimes) + ParseTime(onlineTimes);
+                TimeSpan totalOnlineTime = CalculateTotalTime(onlineTimes, offlineTimes);
 
                 var startTimes = userDto?.WorkSchedules?.StartTime ?? new List<DateTime>();
                 var endTimes = userDto?.WorkSchedules?.EndTime ?? new List<DateTime>();
                 TimeSpan totalBreakTime = CalculateTotalBreakTime(startTimes, endTimes);
 
-            
                 var timesheetEntry = new TimesheetEntry
                 {
-                    Date = onlineTimes.FirstOrDefault() != default ? onlineTimes.First() : DateTime.Now,
+                    Date = onlineTimes.FirstOrDefault() != default ? onlineTimes.First().Date : DateTime.Now.Date,
                     TimeIn = onlineTimes.FirstOrDefault() != default ? onlineTimes.First() : DateTime.MinValue,
                     TimeOut = offlineTimes.LastOrDefault() != default ? offlineTimes.Last() : DateTime.MinValue,
                     BreakStart = startTimes.FirstOrDefault() != default ? startTimes.First() : DateTime.MinValue,
                     BreakEnd = endTimes.FirstOrDefault() != default ? endTimes.First() : DateTime.MinValue,
-                    TotalHours = TimeSpan.FromHours(totalHours),
+                    TotalHours = totalOnlineTime,
                     BreakHours = DateTime.MinValue.Add(totalBreakTime),
-                    TotalProductiveHours = TimeSpan.FromHours(totalHours) - totalBreakTime
+                    TotalProductiveHours = totalOnlineTime - totalBreakTime
                 };
 
                 return timesheetEntry;
@@ -40,7 +37,6 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
         {
             TimeSpan totalBreakTime = TimeSpan.Zero;
 
-   
             int pairCount = Math.Min(startTimes.Count, endTimes.Count);
             for (int i = 0; i < pairCount; i++)
             {
@@ -56,26 +52,23 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
             return totalBreakTime;
         }
 
-        private int ParseTime(List<DateTime>? timeList)
+        private TimeSpan CalculateTotalTime(List<DateTime> onlineTimes, List<DateTime> offlineTimes)
         {
-            int totalMinutes = 0;
+            TimeSpan totalTime = TimeSpan.Zero;
 
-       
-            if (timeList != null && timeList.Count >= 2)
+            int pairCount = Math.Min(onlineTimes.Count, offlineTimes.Count);
+            for (int i = 0; i < pairCount; i++)
             {
-                for (int i = 0; i < timeList.Count - 1; i += 2)
-                {
-                    DateTime startTime = timeList[i];
-                    DateTime endTime = timeList[i + 1];
+                DateTime onlineTime = onlineTimes[i];
+                DateTime offlineTime = offlineTimes[i];
 
-                    if (endTime > startTime)
-                    {
-                        totalMinutes += (int)(endTime - startTime).TotalMinutes;
-                    }
+                if (offlineTime > onlineTime)
+                {
+                    totalTime += offlineTime - onlineTime;
                 }
             }
 
-            return totalMinutes / 60;
+            return totalTime;
         }
     }
 }

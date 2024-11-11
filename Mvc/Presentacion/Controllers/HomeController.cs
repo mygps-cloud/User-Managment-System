@@ -22,7 +22,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
         [HttpPost("Home/Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            Console.WriteLine($"userId--------,{id}");
+
             if (id <= 0)
             {
                 return BadRequest("Invalid ID provided.");
@@ -39,7 +39,9 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
                 return NotFound(new { message = "User not found or could not be deleted." });
             }
         }
-
+       
+       
+       
         public async Task<IActionResult> ByName(int id)
         {
             var statistic = new UserStatisticServices();
@@ -56,6 +58,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
 
 
+
         public async Task<IActionResult> Index()
         {
             var model = await Dai();
@@ -64,6 +67,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
 
         }
+
 
 
         public async Task<IActionResult> Users()
@@ -91,6 +95,33 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
             return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
         }
+
+
+        // public async Task<IActionResult> Users()
+        // {
+        //     var users = await iservices.GetAllUsers();
+
+        //     var breake = users.Select(p => new GetAllViweModelDto
+        //     {
+        //         Id = p.Id,
+        //         Name = p.Name,
+
+        //         PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
+        //         {
+        //             Id = p.PingLogDtoResponse.Id,
+        //             OnlineTime = p.PingLogDtoResponse.OnlineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
+        //             OflineTime = p.PingLogDtoResponse.OflineTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
+        //         } : null,
+
+        //         WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
+        //         {
+        //             StartTime = p.WorkSchedules.StartTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList(),
+        //             EndTime = p.WorkSchedules.EndTime?.OrderByDescending(param => DateTime.Today).Reverse().ToList()
+        //         } : null
+        //     }).ToList();
+
+        //     return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
+        // }
 
 
 
