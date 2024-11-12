@@ -34,54 +34,58 @@ namespace Background_Infrastructure.Services.UpdateService
 
             try
             {
-        
-                var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-                if (existingLog == null)
+                if (entity.UserId.HasValue)
                 {
-    
-                    var pingLog = new PingLog
+                    // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId.Value);
+                     var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
+                    if (existingLog == null)
                     {
-                        UserId = entity.UserId,
-                        OnlineTime = entity.OnlineTime ?? new List<DateTime>(),
-                        OflineTime = entity.OflineTime ?? new List<DateTime>(),
+
+                        var pingLog = new PingLog
+                        {
+                            UserId = entity.UserId,
+                            OnlineTime = entity.OnlineTime ?? new List<DateTime>(),
+                            OflineTime = entity.OflineTime ?? new List<DateTime>(),
+                        };
+
+                        if (Status)
+                        {
+                            await _pingLogRepository.Create(pingLog);
+                            return true;
+                        }
+
+
+                        return false;
+                    }
+
+
+                    existingLog.OnlineTime ??= new List<DateTime>();
+                    existingLog.OflineTime ??= new List<DateTime>();
+
+                    var ServiceTime = _serviceProvider.GetRequiredService<ITimeControl<PingLogDtoReqvest, CheckInOutServiceResult>>();
+
+                    var pingLogDtoReqvest = new PingLogDtoReqvest
+                    {
+                        UserId = existingLog.UserId,
+                        OnlineTime = existingLog.OnlineTime,
+                        OflineTime = existingLog.OflineTime
                     };
 
-                    if (Status)
+                    var Result = await ServiceTime.TimeControlResult(pingLogDtoReqvest, Status);
+
+                    if (Result != null)
                     {
-                        await _pingLogRepository.Create(pingLog);
-                        return true;
+                        if (existingLog.OnlineTime.Count > 0 &&
+                            !Result.HasOfflineRecordForToday &&
+                            Result.LastTimeIn)
+                        {
+                            existingLog.OflineTime.Add(DateTime.Now);
+                        }
+
+                        return await _pingLogRepository.Save();
                     }
-
-        
-                    return false;
-                }
-
-            
-                existingLog.OnlineTime ??= new List<DateTime>();
-                existingLog.OflineTime ??= new List<DateTime>();
-
-                var ServiceTime = _serviceProvider.GetRequiredService<ITimeControl<PingLogDtoReqvest, CheckInOutServiceResult>>();
-
-                var pingLogDtoReqvest = new PingLogDtoReqvest
-                {
-                    UserId = existingLog.UserId,
-                    OnlineTime = existingLog.OnlineTime,
-                    OflineTime = existingLog.OflineTime
-                };
-
-                var Result = await ServiceTime.TimeControlResult(pingLogDtoReqvest, Status);
-
-                if (Result != null)
-                {
-                    if (existingLog.OnlineTime.Count > 0 &&
-                        !Result.HasOfflineRecordForToday &&
-                        Result.LastTimeIn)
-                    {
-                        existingLog.OflineTime.Add(DateTime.Now);
-                    }
-
-                    return await _pingLogRepository.Save();
                 }
             }
             catch (Exception ex)

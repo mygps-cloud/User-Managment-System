@@ -16,9 +16,6 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
         private readonly IWorkScheduleRepository _workScheduleRepository;
         private readonly IPingLogRepository _pingLogRepository;
         private readonly IServiceProvider _serviceProvider;
-
-
-
         public WorkScheduleService(DbIpCheck context, IWorkScheduleRepository workScheduleRepository,
          IPingLogRepository pingLogRepository, IServiceProvider serviceProvider)
         {
@@ -36,14 +33,18 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 
             try
             {
-                var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-                var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                // var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                // var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
+                var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
+                var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
 
 
                 var ServiceTime = _serviceProvider.GetRequiredService
                 <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
 
-                if (existinworkSchedule != null)
+                if (existinworkSchedule != null && existinworkSchedule.StartTime != null &&
+                    existinworkSchedule.StartTime.Any(day => day.Day == DateTime.Now.Day))
                 {
                     var Dto = new WorkSchedule_ReqvestDto
                     {
@@ -60,20 +61,20 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                     return await _workScheduleRepository.Save();
 
                 }
-               else if (existingLog != null && existingLog.OnlineTime != null && !Status &&
-                       existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
+                else if (existingLog != null && existingLog.OnlineTime != null && !Status &&
+                        existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
                 {
-                    
-                        var workSchedule = new WorkSchedule
-                        {
-                            UserId = entity.UserId,
-                            StartTime = entity.StartTime,
-                            EndTime = entity.EndTime,
-                        };
 
-                        await _workScheduleRepository.addBreakTime(workSchedule);
-                        return true;
-                    
+                    var workSchedule = new WorkSchedule
+                    {
+                        UserId = entity.UserId,
+                        StartTime = entity.StartTime,
+                        EndTime = entity.EndTime,
+                    };
+
+                    await _workScheduleRepository.addBreakTime(workSchedule);
+                    return true;
+
                 }
             }
             catch (Exception ex)
