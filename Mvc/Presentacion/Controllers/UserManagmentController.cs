@@ -41,10 +41,9 @@ namespace ipstatuschecker.Mvc.Presentacion.Kakua
 
 
         //=================================================================//
-        public async Task<IActionResult> CreateNewUser()
-        {
+      public async Task<IActionResult> CreateNewUser()=> await Task.Run(() => View());
 
-            return View();
-        }
+
+
     }
 }

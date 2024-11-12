@@ -108,13 +108,14 @@
                         var devices = user.Devices as List<Ipstatuschecker.Dto.DeviceDto>;
                         if (devices != null && devices.Any())
                         {
-                            foreach (var device in devices)
-                            {
-                                if (selectedDeviceNames.Add(device.DeviceNames))
+                           foreach (var device in devices)
                                 {
-                                    <option value="@device.DeviceNames">@device.DeviceNames</option>
+                                    if (!string.IsNullOrEmpty(device?.DeviceNames) && selectedDeviceNames.Add(device.DeviceNames))
+                                    {
+                                        <option value="@device.DeviceNames">@device.DeviceNames</option>
+                                    }
                                 }
-                            }
+
                         }
                     }
                 </select>

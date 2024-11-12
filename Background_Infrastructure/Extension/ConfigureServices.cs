@@ -25,7 +25,9 @@ namespace Ipstatuschecker.Background_Infrastructure.Extension
 
             services.AddSingleton<PingIpChecker>();
 
-            services.AddScoped<CheckIpStatuses>();
+            services.AddScoped<TimeInTimeOut>();
+            services.AddScoped<BreakeService>();
+            
 
             services.AddScoped<UpdateCheckInOut>();
             services.AddScoped<UpdateBreake>();

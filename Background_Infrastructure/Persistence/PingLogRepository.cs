@@ -30,7 +30,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Persitence
         :throw new Exception
         ("Message PingLogRepository->>>>> not found user ID.");
 
-        public async Task<PingLog> GetByNameAsync(string name)
+        public  Task<PingLog> GetByNameAsync(string name)
         {
 
             throw new NotImplementedException();

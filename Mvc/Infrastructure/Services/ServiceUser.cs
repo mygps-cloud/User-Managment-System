@@ -15,20 +15,19 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
             {
                 Id = userDto.Id,
                 Name = userDto.Name,
-                IpStatuses = userDto.IpStatuses?.Select(ip => new IpStatus
+                IpStatuses = (userDto.IpStatuses ?? new List<IpStatusDto>()).Select(ip => new IpStatus
                 {
                     Id = ip.Id,
-                    IpAddress = ip.IpAddress,
-                    Status = ip.Status,
-
+                    IpAddress = ip.IpAddress ?? string.Empty,
+                    Status = ip.Status ?? string.Empty
                 }).ToList(),
-                Devices = userDto.Devices?.Select(device => new Device
+                Devices = (userDto.Devices ?? new List<DeviceDto>()).Select(device => new Device
                 {
                     Id = device.Id,
-                    DeviceNames = device.DeviceNames,
-
+                    DeviceNames = device.DeviceNames ?? string.Empty
                 }).ToList()
             };
+
 
             try
             {
@@ -40,6 +39,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
                 return false;
             }
         }
+
         public async Task<UserDto> UpdateNewUser(UserDto entity)
         {
 

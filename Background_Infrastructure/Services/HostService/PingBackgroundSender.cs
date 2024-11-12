@@ -22,13 +22,12 @@ namespace Ipstatuschecker.Background_Infrastructure.HostService
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                var checkIpStatuses = scope.ServiceProvider.GetRequiredService<CheckIpStatuses>();
-                
-
+                var timeInTimeOut = scope.ServiceProvider.GetRequiredService<TimeInTimeOut>();
+                var breakeService = scope.ServiceProvider.GetRequiredService<BreakeService>();
                 try
                 {
-                    await checkIpStatuses.CheckIpStatus();
-                    
+                    await timeInTimeOut.AsyncMethodTimeInTimeOut();
+                    await breakeService.AsyncMethodBreakeService(); 
                    
                 }
                 catch (Exception ex)

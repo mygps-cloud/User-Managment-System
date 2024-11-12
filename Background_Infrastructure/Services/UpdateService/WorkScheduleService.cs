@@ -42,7 +42,6 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 
                 var ServiceTime = _serviceProvider.GetRequiredService
                 <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
-                var Result = await ServiceTime.TimeControlResult(entity, Status);
 
                 if (existinworkSchedule != null)
                 {
@@ -56,15 +55,15 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                     if (Result2.LastTimeIn)
                     {
                         existinworkSchedule?.EndTime?.Add(DateTime.Now);
-                       
+
                     }
-                     return await _workScheduleRepository.Save();
+                    return await _workScheduleRepository.Save();
 
                 }
-                else
+               else if (existingLog != null && existingLog.OnlineTime != null && !Status &&
+                       existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
                 {
-                    if (existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day) && !Status)
-                    {
+                    
                         var workSchedule = new WorkSchedule
                         {
                             UserId = entity.UserId,
@@ -74,7 +73,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 
                         await _workScheduleRepository.addBreakTime(workSchedule);
                         return true;
-                    }
+                    
                 }
             }
             catch (Exception ex)

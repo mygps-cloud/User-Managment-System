@@ -13,8 +13,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 {
 
 
-    public class HomeController(IUserservices<UserDto> iservices,
-    IPingLogRepository pingLogRepository) : Controller
+    public class HomeController(IUserservices<UserDto> iservices) : Controller
     {
 
 
@@ -73,32 +72,6 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
 
 
-        // public async Task<IActionResult> Users()
-        // {
-        //     var users = await iservices.GetAllUsers();
-
-        //     var breake = users.Select(p => new GetAllViweModelDto
-        //     {
-        //         Id = p.Id,
-        //         Name = p.Name,
-
-        //         PingLogDtoResponse = p.PingLogDtoResponse != null ? new PingLogDtoResponse
-        //         {
-        //             Id = p.PingLogDtoResponse.Id,
-        //             OnlineTime = p.PingLogDtoResponse.OnlineTime?.ToList(),
-        //             OflineTime = p.PingLogDtoResponse.OflineTime?.ToList()
-        //         } : null,
-
-        //         WorkSchedules = p.WorkSchedules != null ? new WorkSchedule_ResponseDto
-        //         {
-        //             StartTime = p.WorkSchedules.StartTime?.ToList(),
-        //             EndTime = p.WorkSchedules.EndTime?.ToList()
-        //         } : null
-        //     }).ToList();
-
-        //     return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
-        // }
-
 
         public async Task<IActionResult> Users()
         {
@@ -128,13 +101,6 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
 
 
-        // public IActionResult robika()
-        // {
-
-        //     return View();
-        // }
-
-
         [HttpGet("Home/PingIp13/{ipAddress}")]
         public async Task<IActionResult> PingIp13(string ipAddress)
         {
@@ -154,26 +120,37 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
         }
 
 
-        private async Task<IEnumerable<UserDto>> Dai()
+   private async Task<IEnumerable<UserDto>> Dai()
+{
+    var users = await iservices.GetAllUsers();
+
+    if (users == null || !users.Any())
+    {
+        return Enumerable.Empty<UserDto>(); 
+    }
+
+    var tasks = users.Select(async user =>
+    {
+        if (user == null)
         {
-            var users = await iservices.GetAllUsers();
+            return null; 
+        }
 
-            var userDtos = new List<UserDto>();
+        var userDto = new UserDto
+        {
+            Id = user.Id,
+            Name = user.Name ?? string.Empty,
+            IpStatuses = new List<IpStatusDto>(),
+            Devices = new List<DeviceDto>()
+        };
 
-            var tasks = users.Select(async user =>
+        if (user.IpStatuses != null)
+        {
+            foreach (var ipStatus in user.IpStatuses)
             {
-                var userDto = new UserDto
+                if (ipStatus != null)
                 {
-                    Id = user.Id,
-                    Name = user.Name,
-                    IpStatuses = new List<IpStatusDto>(),
-                    Devices = new List<DeviceDto>()
-                };
-
-                foreach (var ipStatus in user.IpStatuses)
-                {
-                    string ipAddress = ipStatus.IpAddress;
-
+                    string ipAddress = ipStatus.IpAddress ?? string.Empty;
 
                     string status = await PingIp(ipAddress) ? "Online" : "Offline";
 
@@ -183,24 +160,32 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
                         Status = status
                     });
                 }
+            }
+        }
 
-
-                foreach (var device in user.Devices)
+        if (user.Devices != null)
+        {
+            foreach (var device in user.Devices)
+            {
+                if (device != null)
                 {
                     userDto.Devices.Add(new DeviceDto
                     {
-                        DeviceNames = device.DeviceNames
+                        DeviceNames = device.DeviceNames ?? string.Empty 
                     });
                 }
-
-                userDtos.Add(userDto);
-            });
-
-
-            await Task.WhenAll(tasks);
-
-            return userDtos;
+            }
         }
+
+        return userDto; 
+    });
+
+    var userDtos = await Task.WhenAll(tasks);
+
+  
+    return userDtos.Where(dto => dto != null)!; 
+}
+
 
         public async Task<bool> PingIp(string ipAddress)
         {

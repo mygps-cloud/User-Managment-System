@@ -20,8 +20,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA
 
             serviceDescriptors.AddDbContext<DbIpCheck>
             (options =>options.UseMySql
-            (dbconnect, ServerVersion.AutoDetect(dbconnect)),
-             ServiceLifetime.Scoped);
+            (dbconnect, ServerVersion.AutoDetect(dbconnect)));
 
 
             serviceDescriptors.AddScoped<IQueryUserRepository<User>, UserQueryRepository>();
