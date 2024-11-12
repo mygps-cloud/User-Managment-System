@@ -31,6 +31,7 @@ namespace Mvc.Infrastructure.Persistence
                 .Include(u => u.IpStatuses)
                 .Include(u => u.workSchedule)
                 .Include(u => u.PingLog)
+                .AsSingleQuery()
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (existingUser == null)
