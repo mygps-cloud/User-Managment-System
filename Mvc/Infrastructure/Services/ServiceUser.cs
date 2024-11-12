@@ -206,7 +206,7 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
                     Id = user.workSchedule.Id,
                     StartTime = user.workSchedule.StartTime,
                     EndTime = user.workSchedule.EndTime,
-                   UserId = user.workSchedule.UserId ?? default(int)
+                    UserId = user.workSchedule.UserId ?? default(int)
 
                 } : null
             };
@@ -245,6 +245,57 @@ namespace Ipstatuschecker.Mvc.Infrastructure.Services
             return userDto;
         }
 
+        public async Task<List<UserDto>> GetUserByIdTolist(int id)
+        {
+            var user = await qeuryIpStatusRepository.GetByIdAsync(id);
 
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+
+
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+
+
+                IpStatuses = user.IpStatuses?.Select(ip => new IpStatusDto
+                {
+                    Id = ip.Id,
+                    IpAddress = ip.IpAddress,
+                    Status = ip.Status
+                }).ToList(),
+
+
+                Devices = user.Devices?.Select(device => new DeviceDto
+                {
+                    Id = device.Id,
+                    DeviceNames = device.DeviceNames
+                }).ToList(),
+
+
+                PingLogDtoResponse = user.PingLog != null ? new PingLogDtoResponse
+                {
+                    Id = user.PingLog.Id,
+                    OnlineTime = user.PingLog.OnlineTime,
+                    OflineTime = user.PingLog.OflineTime
+                } : null,
+
+
+                WorkSchedules = user.workSchedule != null ? new WorkSchedule_ResponseDto
+                {
+                    Id = user.workSchedule.Id,
+                    StartTime = user.workSchedule.StartTime,
+                    EndTime = user.workSchedule.EndTime,
+                    UserId = user.workSchedule.UserId ?? default(int)
+
+                } : null
+            };
+
+            return new List<UserDto> { userDto };
+        }
     }
 }
