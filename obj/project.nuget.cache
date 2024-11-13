@@ -1,8 +1,12 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "sFi7LTH8zbnSlM9IPbUyGLVsAuJehQz8Q7bdt/oMWMjJG2SSSWniflZIWrpxd4hZ+4mEmlnddJTA35m9Uye/xw==",
+=======
+  "dgSpecHash": "U8wRYhHLWCY=",
+>>>>>>> 2a9a7211396dfaa1734f8db7c5737141676fa201
   "success": true,
-  "projectFilePath": "/home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
+  "projectFilePath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
   "expectedPackageFiles": [
     "/home/neo/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/home/neo/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",

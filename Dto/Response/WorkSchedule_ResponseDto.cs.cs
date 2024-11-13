@@ -1,3 +1,6 @@
+using Ipstatuschecker.Abstractions.interfaces.IServices;
+using Ipstatuschecker.DomainEntity;
+
 namespace Ipstatuschecker.Dto
 {
     public class WorkSchedule_ResponseDto
@@ -8,8 +11,9 @@ namespace Ipstatuschecker.Dto
     public List<DateTime>? StartTime { get; set; }
     public List<DateTime>? EndTime { get; set; }
     public int BreakDuration { get; set; } 
+      public int UserId { get; set; }
 
-     public int UserId { get; set; } 
 
+    
     }
 }

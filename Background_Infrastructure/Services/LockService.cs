@@ -1,20 +1,32 @@
+
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
 using Ipstatuschecker.Dto;
 
-public static class SemaphoreService<TEntity, TRepository> where TEntity : class, IUserEntity where TRepository : IPingLogRepository
+public static class LockService<TEntity, TRepository>
+    where TEntity : class, IUserEntity
+    where TRepository : IPingLogRepository
 {
-    private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+    private static readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
-    public async static Task<PingLogDtoResponse?> GetWithLockAsync(TEntity entity, TRepository pingLogRepository)
+    public async static Task<PingLogDtoResponse?> GetWithLockAsync(TEntity entity, TRepository pingLogRepository, bool isWriteOperation = false)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
         if (pingLogRepository == null) throw new ArgumentNullException(nameof(pingLogRepository));
 
-        await _semaphore.WaitAsync();
+        
+        if (isWriteOperation)
+        {
+            _lock.EnterWriteLock();
+        }
+        else
+        {
+            _lock.EnterReadLock();
+        }
+
         try
         {
-#pragma warning disable CS8629 
+#pragma warning disable CS8629
             var existingLog = await pingLogRepository.GetByIdAsync(entity.UserId.Value);
 #pragma warning restore CS8629
 
@@ -27,14 +39,22 @@ public static class SemaphoreService<TEntity, TRepository> where TEntity : class
             {
                 UserId = existingLog.UserId,
                 OnlineTime = existingLog.OnlineTime,
-                OflineTime = existingLog.OflineTime
+                OflineTime = existingLog.OflineTime,
             };
 
             return response;
         }
         finally
         {
-            _semaphore.Release();
+            
+            if (isWriteOperation)
+            {
+                _lock.ExitWriteLock();
+            }
+            else
+            {
+                _lock.ExitReadLock();
+            }
         }
     }
 }
