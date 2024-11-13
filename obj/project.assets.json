@@ -4545,11 +4545,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
+      "projectUniqueName": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
       "projectName": "ipstatuschecker",
-      "projectPath": "/home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
+      "projectPath": "/home/neo/Desktop/C#/Ipstatuschecker/ipstatuschecker.csproj",
       "packagesPath": "/home/neo/.nuget/packages/",
-      "outputPath": "/home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/obj/",
+      "outputPath": "/home/neo/Desktop/C#/Ipstatuschecker/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/neo/.nuget/NuGet/NuGet.Config"
@@ -4570,6 +4570,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4626,7 +4631,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
