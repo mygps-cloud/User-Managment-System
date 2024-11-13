@@ -16,7 +16,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Persistence
         public async Task<List<WorkSchedule>> GetAllBreakTime()
         =>await context.workSchedules.AsNoTracking().ToListAsync();
         public async Task<WorkSchedule> GetBreakTimeById(int id)
-        => id > 0? (await context.workSchedules.FirstOrDefaultAsync(param => param.UserId == id)) 
+        => id > 0? (await context.workSchedules.
+        FirstOrDefaultAsync(param => param.UserId == id)) 
         ?? new WorkSchedule()
         : new WorkSchedule();
 

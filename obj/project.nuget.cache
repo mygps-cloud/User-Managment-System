@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hlBmAHa435EWWh68JTs3LDuz00+RLOoVdqdd5/u82SwgDpQP0Rn5WkPDV/Qlqlt2ZyjCT4fyzTBJhucxshmrSA==",
+  "dgSpecHash": "sFi7LTH8zbnSlM9IPbUyGLVsAuJehQz8Q7bdt/oMWMjJG2SSSWniflZIWrpxd4hZ+4mEmlnddJTA35m9Uye/xw==",
   "success": true,
   "projectFilePath": "/home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/ipstatuschecker.csproj",
   "expectedPackageFiles": [
@@ -17,15 +17,11 @@
     "/home/neo/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.data.sqlclient/5.1.5/microsoft.data.sqlclient.5.1.5.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.data.sqlclient.sni.runtime/5.1.1/microsoft.data.sqlclient.sni.runtime.5.1.1.nupkg.sha512",
-    "/home/neo/.nuget/packages/microsoft.data.sqlite/8.0.10/microsoft.data.sqlite.8.0.10.nupkg.sha512",
-    "/home/neo/.nuget/packages/microsoft.data.sqlite.core/8.0.10/microsoft.data.sqlite.core.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore/8.0.10/microsoft.entityframeworkcore.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore.abstractions/8.0.10/microsoft.entityframeworkcore.abstractions.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore.analyzers/8.0.10/microsoft.entityframeworkcore.analyzers.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore.design/8.0.10/microsoft.entityframeworkcore.design.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore.relational/8.0.10/microsoft.entityframeworkcore.relational.8.0.10.nupkg.sha512",
-    "/home/neo/.nuget/packages/microsoft.entityframeworkcore.sqlite/8.0.10/microsoft.entityframeworkcore.sqlite.8.0.10.nupkg.sha512",
-    "/home/neo/.nuget/packages/microsoft.entityframeworkcore.sqlite.core/8.0.10/microsoft.entityframeworkcore.sqlite.core.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore.sqlserver/8.0.10/microsoft.entityframeworkcore.sqlserver.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.entityframeworkcore.tools/8.0.10/microsoft.entityframeworkcore.tools.8.0.10.nupkg.sha512",
     "/home/neo/.nuget/packages/microsoft.extensions.caching.abstractions/8.0.0/microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
@@ -54,10 +50,6 @@
     "/home/neo/.nuget/packages/mysqlconnector/2.3.5/mysqlconnector.2.3.5.nupkg.sha512",
     "/home/neo/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/home/neo/.nuget/packages/pomelo.entityframeworkcore.mysql/8.0.2/pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
-    "/home/neo/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.6/sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
-    "/home/neo/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
-    "/home/neo/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
-    "/home/neo/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
     "/home/neo/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/home/neo/.nuget/packages/system.collections.immutable/6.0.0/system.collections.immutable.6.0.0.nupkg.sha512",
     "/home/neo/.nuget/packages/system.composition/6.0.0/system.composition.6.0.0.nupkg.sha512",
@@ -93,5 +85,12 @@
     "/home/neo/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "/home/neo/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
