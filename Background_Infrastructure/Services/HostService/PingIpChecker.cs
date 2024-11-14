@@ -1,28 +1,35 @@
 
 using System.Net.NetworkInformation;
 
+
 namespace Ipstatuschecker.Background_Infrastructure.Services.HostService
 {
-    public class PingIpChecker(ILogger<PingIpChecker> logger)
+    public class PingIpChecker
     {
-         public async Task<bool> PingIp(string ipAddress)
-{
-    try
-    {
-        using (var ping = new Ping())
+        private readonly ILogger<PingIpChecker> logger;
+
+        public PingIpChecker(ILogger<PingIpChecker> logger)
         {
-            var reply = await ping.SendPingAsync(ipAddress);
-            logger.LogInformation($"Pinged {ipAddress}, Status: {reply.Status}, Roundtrip Time: {reply.RoundtripTime} ms");
-            
-                return reply.Status == IPStatus.Success? true :false;
-            
+            this.logger = logger;
         }
-    }
-    catch (Exception ex)
-    {
-        logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
-        return false;
-    }
-}
+
+        public async Task<bool> PingIp(string ipAddress)
+        {
+            try
+            {
+                using (var ping = new Ping())
+                {
+                    var reply = await ping.SendPingAsync(ipAddress);
+                    logger.LogInformation($"Pinged {ipAddress}, Status: {reply.Status}, Roundtrip Time: {reply.RoundtripTime} ms");
+
+                    return reply.Status == IPStatus.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Error pinging {ipAddress}: {ex.Message}");
+                return false;
+            }
+        }
     }
 }
