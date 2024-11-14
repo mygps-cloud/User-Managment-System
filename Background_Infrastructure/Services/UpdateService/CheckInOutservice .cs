@@ -1,7 +1,7 @@
 
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
-using Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices;
+
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
@@ -27,75 +27,84 @@ namespace Background_Infrastructure.Services.UpdateService
             _logger = logger;
             _serviceProvider = serviceProvider;
         }
+public async Task<bool> addTimeInService(PingLogDtoReqvest entity, bool Status)
+{
+    if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-        public async Task<bool> addTimeInService(PingLogDtoReqvest entity, bool Status)
+    try
+    {
+        if (entity.UserId.HasValue)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-            try
+            if (existingLog != null)
             {
+                existingLog.OnlineTime ??= new List<DateTime>();
+                existingLog.OflineTime ??= new List<DateTime>();
 
-                if (entity.UserId.HasValue)
+              
+                if (!existingLog.OnlineTime.Any(ot => ot.Date == DateTime.Today) && Status)
                 {
-                    // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId.Value);
-                     var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                    existingLog.OnlineTime.Add(DateTime.Now);
+                    return await _pingLogRepository.Save();
+                }
 
-                    if (existingLog == null)
+                var ServiceTime = _serviceProvider.GetRequiredService<ITimeControl<PingLogDtoReqvest, CheckInOutServiceResult>>();
+                if (ServiceTime == null)
+                {
+                    throw new InvalidOperationException("Time control service is not available.");
+                }
+
+                var pingLogDtoReqvest = new PingLogDtoReqvest
+                {
+                    UserId = existingLog.UserId,
+                    OnlineTime = existingLog.OnlineTime,
+                    OflineTime = existingLog.OflineTime
+                };
+
+                var Result = await ServiceTime.TimeControlResult(pingLogDtoReqvest, Status);
+
+                if (Result != null)
+                {
+                    if (existingLog.OnlineTime.Any(ot => ot.Date == DateTime.Today) && !Status
+                        && (DateTime.Now - existingLog.OnlineTime.Last()).Minutes >= 3 && !Result.HasOfflineRecordForToday)
                     {
-
-                        var pingLog = new PingLog
-                        {
-                            UserId = entity.UserId,
-                            OnlineTime = entity.OnlineTime ?? new List<DateTime>(),
-                            OflineTime = entity.OflineTime ?? new List<DateTime>(),
-                        };
-
-                        if (Status)
-                        {
-                            await _pingLogRepository.Create(pingLog);
-                            return true;
-                        }
-
-
-                        return false;
-                    }
-
-
-                    existingLog.OnlineTime ??= new List<DateTime>();
-                    existingLog.OflineTime ??= new List<DateTime>();
-
-                    var ServiceTime = _serviceProvider.GetRequiredService<ITimeControl<PingLogDtoReqvest, CheckInOutServiceResult>>();
-
-                    var pingLogDtoReqvest = new PingLogDtoReqvest
-                    {
-                        UserId = existingLog.UserId,
-                        OnlineTime = existingLog.OnlineTime,
-                        OflineTime = existingLog.OflineTime
-                    };
-
-                    var Result = await ServiceTime.TimeControlResult(pingLogDtoReqvest, Status);
-
-                    if (Result != null)
-                    {
-                        if (existingLog.OnlineTime.Count > 0 &&
-                            !Result.HasOfflineRecordForToday &&
-                            Result.LastTimeIn)
-                        {
-                            existingLog.OflineTime.Add(DateTime.Now);
-                        }
-
+                        existingLog.OflineTime.Add(DateTime.Now);
                         return await _pingLogRepository.Save();
                     }
+
+                    return await _pingLogRepository.Save();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex, "Database error occurred while saving changes in addTimeInService.");
-                throw new InvalidOperationException("An error occurred while saving changes in addTimeInService.", ex);
-            }
+               
+                if (Status)
+                {
+                    var pingLog = new PingLog
+                    {
+                        UserId = entity.UserId,
+                        OnlineTime = entity.OnlineTime ?? new List<DateTime>(),
+                        OflineTime = entity.OflineTime ?? new List<DateTime>(),
+                    };
 
-            return false;
+                    await _pingLogRepository.Create(pingLog);
+                    return true;
+                }
+
+                return false;
+            }
         }
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Database error occurred while saving changes in addTimeInService.");
+        throw new InvalidOperationException("An error occurred while saving changes in addTimeInService.", ex);
+    }
+
+    return false;
+}
+
 
         public Task<List<PingLogDtoResponse>> GetAll()
         {

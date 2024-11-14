@@ -18,7 +18,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.TimeControlServices
                 HasOfflineRecordForToday = entity?.OflineTime?.Any(time => time.Day == DateTime.Now.Day) ?? false,
                 
                 LastTimeIn = entity?.OnlineTime != null && entity.OnlineTime.Any() && 
-                             !Status && (DateTime.Now - entity.OnlineTime.Last()).Hours >= 3
+                             !Status && (DateTime.Now - entity.OnlineTime.Last()).Minutes >=1
             };
 
             return Task.FromResult(Result);

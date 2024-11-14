@@ -33,11 +33,11 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 
             try
             {
-                // var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-                // var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-                var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
-                var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
+                // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
+                // var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
 
 
                 var ServiceTime = _serviceProvider.GetRequiredService
@@ -58,12 +58,19 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                         existinworkSchedule?.EndTime?.Add(DateTime.Now);
 
                     }
+                   
                     return await _workScheduleRepository.Save();
 
                 }
                 else if (existingLog != null && existingLog.OnlineTime != null && !Status &&
                         existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
                 {
+
+                    if (!Status && entity.StartTime?.Any(time => time.Day == DateTime.Now.Day) == true)
+                    {
+                        existinworkSchedule?.StartTime?.Add(DateTime.Now);
+                        return await _workScheduleRepository.Save();
+                    }
 
                     var workSchedule = new WorkSchedule
                     {
@@ -88,7 +95,6 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 
     }
 }
-
 
 
 

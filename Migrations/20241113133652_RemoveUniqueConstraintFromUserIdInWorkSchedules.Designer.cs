@@ -4,6 +4,7 @@ using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    partial class DbIpCheckModelSnapshot : ModelSnapshot
+    [Migration("20241113133652_RemoveUniqueConstraintFromUserIdInWorkSchedules")]
+    partial class RemoveUniqueConstraintFromUserIdInWorkSchedules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

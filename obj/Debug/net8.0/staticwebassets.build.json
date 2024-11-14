@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+5NcTCWHIu1bVNz4EvGZhynjEwgR6TQ3H7v9PDzklJA=",
+  "Hash": "c7kfkCEz1Ue0CSNz7z2mfWgJWPgqGMRILXlxHlVjKlc=",
   "Source": "ipstatuschecker",
   "BasePath": "_content/ipstatuschecker",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/ipstatuschecker.styles.css",
+      "Identity": "/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/ipstatuschecker.styles.css",
       "SourceId": "ipstatuschecker",
       "SourceType": "Computed",
-      "ContentRoot": "/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/",
+      "ContentRoot": "/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/",
       "BasePath": "_content/ipstatuschecker",
       "RelativePath": "ipstatuschecker.styles.css",
       "AssetKind": "All",
@@ -25,13 +25,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/ipstatuschecker.styles.css"
+      "OriginalItemSpec": "/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/scopedcss/bundle/ipstatuschecker.styles.css"
     },
     {
-      "Identity": "/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/ipstatuschecker.bundle.scp.css",
+      "Identity": "/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/ipstatuschecker.bundle.scp.css",
       "SourceId": "ipstatuschecker",
       "SourceType": "Computed",
-      "ContentRoot": "/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/",
+      "ContentRoot": "/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/",
       "BasePath": "_content/ipstatuschecker",
       "RelativePath": "ipstatuschecker.bundle.scp.css",
       "AssetKind": "All",
@@ -44,7 +44,7 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/neo/Desktop/C#/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/ipstatuschecker.bundle.scp.css"
+      "OriginalItemSpec": "/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/scopedcss/projectbundle/ipstatuschecker.bundle.scp.css"
     }
   ]
 }
