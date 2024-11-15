@@ -13,7 +13,7 @@ namespace Mvc.Infrastructure.Persistence
         Include(param => param.Devices).
         Include(param => param.IpStatuses).
         Include(param => param.workSchedule).
-        Include(param => param.PingLog).ToListAsync()
+        Include(param => param.PingLog).AsSplitQuery().ToListAsync()
         ?? throw new Exception("User is empty");
 
 
@@ -23,7 +23,7 @@ namespace Mvc.Infrastructure.Persistence
         Include(param => param.Devices).
         Include(param => param.IpStatuses).
         Include(param => param.workSchedule).
-        Include(param => param.PingLog).
+        Include(param => param.PingLog).AsSplitQuery().
         FirstOrDefaultAsync(userbyid => userbyid.Id == Id) ??
         throw new Exception("User Id not found");
 
@@ -35,14 +35,14 @@ namespace Mvc.Infrastructure.Persistence
         Include(param => param.workSchedule).
         Include(param => param.PingLog).
         Where(userbyid => userbyid.Id == Id)
-        .ToListAsync() ??throw new Exception("User Id not found");
+        .AsSplitQuery().ToListAsync() ??throw new Exception("User Id not found");
 
         public async Task<User> GetByNameAsync(string name)
         => await context.Users.
         Include(param => param.Devices).
         Include(param => param.workSchedule).
         Include(param => param.IpStatuses).
-        Include(param => param.PingLog).
+        Include(param => param.PingLog).AsSplitQuery().
         FirstOrDefaultAsync(x => x.Name == name)
         ?? throw new Exception("User Name not found");
 

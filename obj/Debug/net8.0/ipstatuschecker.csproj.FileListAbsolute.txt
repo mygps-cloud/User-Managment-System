@@ -515,6 +515,8 @@
 /home/neo/Desktop/C#/LocalbrancheIpstatuschecker/Ipstatuschecker/obj/Debug/net8.0/ref/ipstatuschecker.dll
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/appsettings.Development.json
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/appsettings.json
+/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/package-lock.json
+/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/package.json
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/ipstatuschecker.staticwebassets.runtime.json
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/ipstatuschecker
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/ipstatuschecker.deps.json
@@ -685,5 +687,3 @@
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.pdb
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.genruntimeconfig.cache
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/ref/ipstatuschecker.dll
-/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/package-lock.json
-/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/package.json

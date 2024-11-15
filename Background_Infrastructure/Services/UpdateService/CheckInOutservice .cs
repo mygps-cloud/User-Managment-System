@@ -1,7 +1,6 @@
 
 using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Ipstatuschecker.Abstractions.interfaces.IServices;
-
 using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
@@ -67,7 +66,7 @@ public async Task<bool> addTimeInService(PingLogDtoReqvest entity, bool Status)
                 if (Result != null)
                 {
                     if (existingLog.OnlineTime.Any(ot => ot.Date == DateTime.Today) && !Status
-                        && (DateTime.Now - existingLog.OnlineTime.Last()).Minutes >= 3 && !Result.HasOfflineRecordForToday)
+                        && (DateTime.Now - existingLog.OnlineTime.Last()).Hours >= 3 && !Result.HasOfflineRecordForToday)
                     {
                         existingLog.OflineTime.Add(DateTime.Now);
                         return await _pingLogRepository.Save();
@@ -105,10 +104,5 @@ public async Task<bool> addTimeInService(PingLogDtoReqvest entity, bool Status)
     return false;
 }
 
-
-        public Task<List<PingLogDtoResponse>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

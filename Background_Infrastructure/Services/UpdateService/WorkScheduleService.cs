@@ -28,27 +28,20 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-                // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
-                // var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
+            var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
+            var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
 
+            // var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+            // var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
 
-
-                var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-                var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-
-                var ServiceTime = _serviceProvider.GetRequiredService
-                <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
+            var ServiceTime = _serviceProvider.GetRequiredService
+            <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
             try
             {
-            
-
-
-
-
 
 
                 if (existinworkSchedule != null && existinworkSchedule.StartTime != null &&
-                    existinworkSchedule.StartTime.Any(day => day.Day == DateTime.Now.Day)&&busy&&Status)
+                    existinworkSchedule.StartTime.Any(day => day.Day == DateTime.Now.Day) && busy && Status)
                 {
 
                     existinworkSchedule?.EndTime?.Add(DateTime.Now);
@@ -56,7 +49,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                     return await _workScheduleRepository.Save();
 
                 }
-                else if 
+                else if
                 (existingLog != null && existingLog.OnlineTime != null && !Status &&
                         existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
                 {
@@ -66,9 +59,9 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                     !busy)
                     {
                         existinworkSchedule?.StartTime?.Add(DateTime.Now);
-                         busy = true;
+                        busy = true;
                         return await _workScheduleRepository.Save();
-                       
+
                     }
 
                     var workSchedule = new WorkSchedule
@@ -78,8 +71,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                         EndTime = entity.EndTime,
 
                     };
-                     if (!busy)
-                    await _workScheduleRepository.addBreakTime(workSchedule);
+                    if (!busy)
+                        await _workScheduleRepository.addBreakTime(workSchedule);
 
                     busy = true;
                     return true;
