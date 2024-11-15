@@ -4,19 +4,16 @@ using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ipstatuschecker.Migrations
+namespace ipstatuschecker.Background_Infrastructure.DLA.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    [Migration("20241113131118_InitialMigration")]
-    partial class InitialMigration
+    partial class DbIpCheckModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,14 +125,19 @@ namespace ipstatuschecker.Migrations
                     b.Property<string>("EndTime")
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Notification")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTime?>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
 
                     b.Property<string>("StartTime")
                         .HasColumnType("longtext");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("busy")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

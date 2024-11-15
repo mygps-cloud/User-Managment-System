@@ -21,7 +21,7 @@ namespace Ipstatuschecker.Background_Infrastructure.Extension
         {
             services.AddHostedService<PingBackgroundService>();
             // services.AddScoped(typeof(LockService<>));
-            services.AddScoped<LockService>();
+          
 
             services.AddSingleton<PingIpChecker>();
 

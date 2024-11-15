@@ -685,3 +685,5 @@
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.pdb
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/ipstatuschecker.genruntimeconfig.cache
 /home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/obj/Debug/net8.0/ref/ipstatuschecker.dll
+/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/package-lock.json
+/home/neo/Desktop/C#/FeatureBreanch/Ipstatuschecker/bin/Debug/net8.0/package.json

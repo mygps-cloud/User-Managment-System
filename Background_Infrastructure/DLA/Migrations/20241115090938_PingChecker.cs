@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ipstatuschecker.Migrations
+namespace ipstatuschecker.Background_Infrastructure.DLA.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class PingChecker : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,8 +88,9 @@ namespace ipstatuschecker.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EndTime = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Notification = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    busy = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ipstatuschecker.Migrations
+namespace ipstatuschecker.Background_Infrastructure.DLA.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    [Migration("20241113133652_RemoveUniqueConstraintFromUserIdInWorkSchedules")]
-    partial class RemoveUniqueConstraintFromUserIdInWorkSchedules
+    [Migration("20241115090938_PingChecker")]
+    partial class PingChecker
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,14 +128,19 @@ namespace ipstatuschecker.Migrations
                     b.Property<string>("EndTime")
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Notification")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTime?>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
 
                     b.Property<string>("StartTime")
                         .HasColumnType("longtext");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("busy")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
