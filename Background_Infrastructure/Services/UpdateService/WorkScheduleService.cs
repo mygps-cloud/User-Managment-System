@@ -8,12 +8,13 @@ using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
 namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 {
-   public class WorkScheduleService : IWorkScheduleService<WorkSchedule_ReqvestDto>
+    public class WorkScheduleService : IWorkScheduleService<WorkSchedule_ReqvestDto>
     {
         private readonly DbIpCheck _context;
         private readonly IWorkScheduleRepository _workScheduleRepository;
         private readonly IPingLogRepository _pingLogRepository;
         private readonly IServiceProvider _serviceProvider;
+        private static bool busy = false;
         public WorkScheduleService(DbIpCheck context, IWorkScheduleRepository workScheduleRepository,
          IPingLogRepository pingLogRepository, IServiceProvider serviceProvider)
         {
@@ -26,39 +27,41 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
         public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity, bool Status)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
+            var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
+
+            // var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+            // var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+
+            var ServiceTime = _serviceProvider.GetRequiredService
+            <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
             try
             {
-                var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-                var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-                // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
-                // var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
-                var ServiceTime = _serviceProvider.GetRequiredService
-                <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
-                if (existinworkSchedule != null && existinworkSchedule.StartTime != null &&
-                    existinworkSchedule.StartTime.Any(day => day.Day == DateTime.Now.Day))
-                {
-                    var Dto = new WorkSchedule_ReqvestDto
-                    {
-                        StartTime = existinworkSchedule.StartTime,
-                        EndTime = existinworkSchedule.EndTime
-                    };
-                    var Result2 = await ServiceTime.TimeControlResult(Dto, Status);
 
-                    if (Result2.LastTimeIn)
-                    {
-                        existinworkSchedule?.EndTime?.Add(DateTime.Now);
-                    
-                    }
+
+                if (existinworkSchedule != null && existinworkSchedule.StartTime != null &&
+                    existinworkSchedule.StartTime.Any(day => day.Day == DateTime.Now.Day) && busy && Status)
+                {
+
+                    existinworkSchedule?.EndTime?.Add(DateTime.Now);
+                    busy = false;
                     return await _workScheduleRepository.Save();
+
                 }
-                else if (existingLog != null && existingLog.OnlineTime != null && !Status &&
+                else if
+                (existingLog != null && existingLog.OnlineTime != null && !Status &&
                         existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
                 {
 
-                    if (existinworkSchedule!=null&&!Status && entity.StartTime?.Any(time => time.Day == DateTime.Now.Day) == true)
+                    if (existinworkSchedule != null
+                    && !Status && entity.StartTime?.Any(time => time.Day == DateTime.Now.Day) == true &&
+                    !busy)
                     {
                         existinworkSchedule?.StartTime?.Add(DateTime.Now);
+                        busy = true;
                         return await _workScheduleRepository.Save();
+
                     }
 
                     var workSchedule = new WorkSchedule
@@ -66,9 +69,12 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                         UserId = entity.UserId,
                         StartTime = entity.StartTime,
                         EndTime = entity.EndTime,
-                      
+
                     };
-                    await _workScheduleRepository.addBreakTime(workSchedule);
+                    if (!busy)
+                        await _workScheduleRepository.addBreakTime(workSchedule);
+
+                    busy = true;
                     return true;
                 }
             }

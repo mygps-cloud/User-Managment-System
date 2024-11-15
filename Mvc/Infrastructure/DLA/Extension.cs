@@ -28,9 +28,6 @@ namespace Ipstatuschecker.Mvc.Infrastructure.DLA
             serviceDescriptors.AddScoped<IUserservices<UserDto>, ServiceUser>();
             serviceDescriptors.AddSingleton<UserStatisticServices>();
             serviceDescriptors.AddScoped<IndexService>();
-            
-
-
 
             return serviceDescriptors;
 

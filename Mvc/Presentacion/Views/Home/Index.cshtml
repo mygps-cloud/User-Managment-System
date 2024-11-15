@@ -128,7 +128,7 @@
                             <p class="label">Status:
                                 <span class="status-@ip.Status.ToLower()">@ip.Status</span>
                             </p>
-                           <button onclick="deleteUser('@user.Id')" style="background-color: red; color: white;">Delete</button>
+                           <button onclick="deleteUser('@user.Id')" style="background-color: rgb(250, 4, 238); color: white;">Delete</button>
 
                         </div>
                         <button onclick="pingSelectedDevice('@ip.IpAddress')">PingDevice</button>
@@ -179,7 +179,7 @@
 
             console.error('ipAddress:', ipAddress);
             try {
-                let response = await fetch(`Home/PingIp13/${ipAddress}`, {
+                let response = await fetch(`Home/SelectDevicePingInfo/${ipAddress}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -208,7 +208,7 @@
             }
 
             try {
-                console.error('userId777777777777777777-----:', userId);
+              
                 let response = await fetch(`Home/Delete/${userId}`, {
                     method: 'POST',
                     headers: {

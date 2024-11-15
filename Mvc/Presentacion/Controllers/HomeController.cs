@@ -83,8 +83,8 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
             return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
         }
 
-        [HttpGet("Home/PingIp13/{ipAddress}")]
-        public async Task<IActionResult> PingIp13(string ipAddress)
+        [HttpGet("Home/SelectDevicePingInfo/{ipAddress}")]
+        public async Task<IActionResult> SelectDevicePingInfo(string ipAddress)
         {
 
             var status = await pingIpChecker.PingIp(ipAddress);
@@ -93,13 +93,6 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
             return Json(new { status = status ? "Online" : "Offline" });
 
         }
-
-        // public async Task<IActionResult> GetIpStatus()
-        // {
-        //     var model = await indexService. Dai();
-        //     return Json(model);
-        // }
-
        
 
     }

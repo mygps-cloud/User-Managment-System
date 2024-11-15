@@ -10,7 +10,7 @@ namespace Ipstatuschecker.Dto
 
         public List<DateTime>? StartTime { get; set; }
         public List<DateTime>? EndTime { get; set; }
-        public bool Notification{ get; set; }
+        public bool busy { get; set; }
 
 
         public int UserId { get; set; }

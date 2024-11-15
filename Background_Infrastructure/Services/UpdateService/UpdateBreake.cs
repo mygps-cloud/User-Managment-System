@@ -13,10 +13,8 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
             var WorkSchedule = new WorkSchedule_ReqvestDto
             {
                 UserId = userId,
-                StartTime = pingResponseStatus ? new List<DateTime>() 
-                : new List<DateTime> { DateTime.Now },
-                EndTime = pingResponseStatus ? new List<DateTime> { DateTime.Now } 
-                : new List<DateTime>()
+                StartTime = pingResponseStatus ? new List<DateTime>(): new List<DateTime> { DateTime.Now },
+                EndTime = pingResponseStatus ? new List<DateTime> { DateTime.Now } : new List<DateTime>()
             };
 
             await workScheduleService.addBreakTime(WorkSchedule, pingResponseStatus);
