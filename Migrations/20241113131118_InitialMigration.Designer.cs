@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ipstatuschecker.Migrations
 {
     [DbContext(typeof(DbIpCheck))]
-    [Migration("20241109155944_UserManagment")]
-    partial class UserManagment
+    [Migration("20241113131118_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,6 +128,9 @@ namespace ipstatuschecker.Migrations
                     b.Property<string>("EndTime")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("Notification")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("StartTime")
                         .HasColumnType("longtext");
 
@@ -151,7 +154,7 @@ namespace ipstatuschecker.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("Devices")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("IpStatus");
                 });
@@ -161,7 +164,7 @@ namespace ipstatuschecker.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", null)
                         .WithMany("IpStatuses")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Ipstatuschecker.DomainEntity.PingLog", b =>
@@ -169,7 +172,7 @@ namespace ipstatuschecker.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
                         .WithOne("PingLog")
                         .HasForeignKey("Ipstatuschecker.DomainEntity.PingLog", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -179,7 +182,7 @@ namespace ipstatuschecker.Migrations
                     b.HasOne("Ipstatuschecker.DomainEntity.User", "User")
                         .WithOne("workSchedule")
                         .HasForeignKey("Ipstatuschecker.DomainEntity.WorkSchedule", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });

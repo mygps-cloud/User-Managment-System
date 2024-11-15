@@ -6,11 +6,9 @@ using Ipstatuschecker.DomainEntity;
 using Ipstatuschecker.Dto;
 using Ipstatuschecker.Mvc.Infrastructure.DLA.DbContextSql;
 using Microsoft.EntityFrameworkCore;
-
-
 namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 {
-    public class WorkScheduleService : IWorkScheduleService<WorkSchedule_ReqvestDto>
+   public class WorkScheduleService : IWorkScheduleService<WorkSchedule_ReqvestDto>
     {
         private readonly DbIpCheck _context;
         private readonly IWorkScheduleRepository _workScheduleRepository;
@@ -25,24 +23,17 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
             _serviceProvider = serviceProvider;
 
         }
-
         public async Task<bool> addBreakTime(WorkSchedule_ReqvestDto entity, bool Status)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-
             try
             {
-                // var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-                // var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
-
-                var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
-                var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
-
-
+                var existingLog = await _context.PingLog.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                var existinworkSchedule = await _context.workSchedules.FirstOrDefaultAsync(pl => pl.UserId == entity.UserId);
+                // var existingLog = await _pingLogRepository.GetByIdAsync(entity.UserId);
+                // var existinworkSchedule = await _workScheduleRepository.GetBreakTimeById(entity.UserId);
                 var ServiceTime = _serviceProvider.GetRequiredService
                 <ITimeControl<WorkSchedule_ReqvestDto, WorkScheduleResult>>();
-
                 if (existinworkSchedule != null && existinworkSchedule.StartTime != null &&
                     existinworkSchedule.StartTime.Any(day => day.Day == DateTime.Now.Day))
                 {
@@ -56,25 +47,29 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
                     if (Result2.LastTimeIn)
                     {
                         existinworkSchedule?.EndTime?.Add(DateTime.Now);
-
+                    
                     }
                     return await _workScheduleRepository.Save();
-
                 }
                 else if (existingLog != null && existingLog.OnlineTime != null && !Status &&
                         existingLog.OnlineTime.Any(Dey => Dey.Day == DateTime.Now.Day))
                 {
+
+                    if (existinworkSchedule!=null&&!Status && entity.StartTime?.Any(time => time.Day == DateTime.Now.Day) == true)
+                    {
+                        existinworkSchedule?.StartTime?.Add(DateTime.Now);
+                        return await _workScheduleRepository.Save();
+                    }
 
                     var workSchedule = new WorkSchedule
                     {
                         UserId = entity.UserId,
                         StartTime = entity.StartTime,
                         EndTime = entity.EndTime,
+                      
                     };
-
                     await _workScheduleRepository.addBreakTime(workSchedule);
                     return true;
-
                 }
             }
             catch (Exception ex)
@@ -88,7 +83,6 @@ namespace Ipstatuschecker.Background_Infrastructure.Services.UpdateService
 
     }
 }
-
 
 
 

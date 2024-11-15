@@ -1,22 +1,15 @@
 
 using Microsoft.AspNetCore.Mvc;
-using System.Net.NetworkInformation;
 using Ipstatuschecker.Dto;
-using Ipstatuschecker.Abstractions.interfaces.IRepository;
 using Abstractions.interfaces.Iservices;
 using Ipstatuschecker.Dto.Response;
 using Ipstatuschecker.Mvc.Infrastructure.Services;
-
-
+using Ipstatuschecker.Background_Infrastructure.Services.HostService;
 
 namespace ipstatuschecker.Mvc.Presentacion.Controllers
 {
-
-
-    public class HomeController(IUserservices<UserDto> iservices) : Controller
+    public class HomeController(IUserservices<UserDto> iservices, PingIpChecker pingIpChecker,IndexService indexService) : Controller
     {
-
-
 
         [HttpPost("Home/Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -39,8 +32,6 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
             }
         }
 
-
-
         public async Task<IActionResult> ByName(int id)
         {
             var statistic = new UserStatisticServices();
@@ -51,27 +42,20 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
 
             foreach (var user in users)
             {
-                var timesheetEntry = await statistic.HourStatistic(user);
-                timesheetEntries.Add(timesheetEntry);
+                var timesheetEntry = await statistic.HourStatistics(user);
+                timesheetEntries.AddRange(timesheetEntry);
             }
 
             return View("~/Mvc/Presentacion/Views/Home/ByName.cshtml", timesheetEntries);
         }
 
-
-
-
         public async Task<IActionResult> Index()
         {
-            var model = await Dai();
+            var model = await indexService.Dai();
 
             return View("~/Mvc/Presentacion/Views/Home/Index.cshtml", model);
 
-
         }
-
-
-
 
         public async Task<IActionResult> Users()
         {
@@ -99,110 +83,25 @@ namespace ipstatuschecker.Mvc.Presentacion.Controllers
             return View("~/Mvc/Presentacion/Views/Home/Users.cshtml", breake);
         }
 
-
-
         [HttpGet("Home/PingIp13/{ipAddress}")]
         public async Task<IActionResult> PingIp13(string ipAddress)
         {
 
-
-            var status = await PingIp(ipAddress);
+            var status = await pingIpChecker.PingIp(ipAddress);
             Console.WriteLine($"ipAddress   ,{ipAddress}");
 
             return Json(new { status = status ? "Online" : "Offline" });
 
         }
 
-        public async Task<IActionResult> GetIpStatus()
-        {
-            var model = await Dai();
-            return Json(model);
-        }
+        // public async Task<IActionResult> GetIpStatus()
+        // {
+        //     var model = await indexService. Dai();
+        //     return Json(model);
+        // }
 
+       
 
-   private async Task<IEnumerable<UserDto>> Dai()
-{
-    var users = await iservices.GetAllUsers();
-
-    if (users == null || !users.Any())
-    {
-        return Enumerable.Empty<UserDto>(); 
-    }
-
-    var tasks = users.Select(async user =>
-    {
-        if (user == null)
-        {
-            return null; 
-        }
-
-        var userDto = new UserDto
-        {
-            Id = user.Id,
-            Name = user.Name ?? string.Empty,
-            IpStatuses = new List<IpStatusDto>(),
-            Devices = new List<DeviceDto>()
-        };
-
-        if (user.IpStatuses != null)
-        {
-            foreach (var ipStatus in user.IpStatuses)
-            {
-                if (ipStatus != null)
-                {
-                    string ipAddress = ipStatus.IpAddress ?? string.Empty;
-
-                    string status = await PingIp(ipAddress) ? "Online" : "Offline";
-
-                    userDto.IpStatuses.Add(new IpStatusDto
-                    {
-                        IpAddress = ipAddress,
-                        Status = status
-                    });
-                }
-            }
-        }
-
-        if (user.Devices != null)
-        {
-            foreach (var device in user.Devices)
-            {
-                if (device != null)
-                {
-                    userDto.Devices.Add(new DeviceDto
-                    {
-                        DeviceNames = device.DeviceNames ?? string.Empty 
-                    });
-                }
-            }
-        }
-
-        return userDto; 
-    });
-
-    var userDtos = await Task.WhenAll(tasks);
-
-  
-    return userDtos.Where(dto => dto != null)!; 
-}
-
-
-        public async Task<bool> PingIp(string ipAddress)
-        {
-            try
-            {
-                using (var ping = new Ping())
-                {
-                    var reply = await ping.SendPingAsync(ipAddress);
-                    return reply.Status == IPStatus.Success;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error checking {ipAddress}: {ex.Message}");
-                return false;
-            }
-        }
     }
 }
 

@@ -13,10 +13,6 @@ namespace ipstatuschecker.Mvc.Presentacion.Kakua
     {
 
 
-    
-
-
-
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Create([FromForm] UserDto userDto)
@@ -34,8 +30,7 @@ namespace ipstatuschecker.Mvc.Presentacion.Kakua
                 return StatusCode(500, "Internal server error while creating the user.");
             }
 
-
-            return CreatedAtAction(nameof(Create), new { id = userDto.Id }, userDto);
+              return RedirectToAction("Index", "Home");
         }
 
 
